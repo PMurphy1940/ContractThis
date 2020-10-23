@@ -27,7 +27,7 @@ namespace ContractThis.Models
         public string ProjectDescription { get; set; }
 
         public double Budget { get; set; }
-        public DateTime DateComplete { get; set; }
+        public DateTime? DateComplete { get; set; }
 
         [DataType(DataType.Url)]
         [MaxLength(255)]

@@ -16,7 +16,7 @@ namespace ContractThis.Models
         public string ComponentName { get; set; }
         public string ComponentDescription { get; set; }
         public int SubcontractorId { get; set; }
-        public DateTime DateComplete { get; set; }
+        public DateTime? DateComplete { get; set; }
         public double MaterialCost { get; set; }
         public List<ProjectComponentImages> ComponentImages { get; set; }
     }
