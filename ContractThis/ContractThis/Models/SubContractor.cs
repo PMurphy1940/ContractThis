@@ -14,5 +14,7 @@ namespace ContractThis.Models
         [DataType(DataType.Url)]
         [MaxLength(255)]
         public string SubContractorImageLocation { get; set; }
+        public List<SubContractorType> SubContractorSpecialties { get; set; }
+        public List<ProjectComponent> SubContractorComponents { get; set; }
     }
 }

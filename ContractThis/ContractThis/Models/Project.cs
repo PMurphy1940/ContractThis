@@ -32,5 +32,6 @@ namespace ContractThis.Models
         [DataType(DataType.Url)]
         [MaxLength(255)]
         public string ImageLocation { get; set; }
+        public List<ProjectComponent> Components { get; set; }
     }
 }
