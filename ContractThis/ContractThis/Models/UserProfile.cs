@@ -38,5 +38,7 @@ namespace ContractThis.Models
         [Required]
         public bool IsSubcontractor { get; set; }
 
+        public List<Project> UserProjects { get; set; }
+
     }
 }

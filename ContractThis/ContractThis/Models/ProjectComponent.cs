@@ -18,5 +18,6 @@ namespace ContractThis.Models
         public int SubcontractorId { get; set; }
         public DateTime DateComplete { get; set; }
         public double MaterialCost { get; set; }
+        public List<ProjectComponentImages> ComponentImages { get; set; }
     }
 }
