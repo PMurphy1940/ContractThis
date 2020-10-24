@@ -40,7 +40,7 @@ namespace ContractThis.Utilities
         {
             var project = new Project()
             {
-                Id = DbUtilities.GetInt(reader, "UserId"),
+                Id = DbUtilities.GetInt(reader, "ProjectId"),
                 UserProfileId = DbUtilities.GetInt(reader, "UserProfileId"),
                 ProjectName = DbUtilities.GetString(reader, "ProjectName"),
                 LocationName = DbUtilities.GetString(reader, "LocationName"),
@@ -48,8 +48,9 @@ namespace ContractThis.Utilities
                 ProjectDescription = DbUtilities.GetString(reader, "ProjectDescription"),
                 Budget = DbUtilities.GetInt(reader, "Budget"),
                 DateComplete = DbUtilities.GetNullableDateTime(reader, "DateComplete"),
-                ImageLocation = DbUtilities.GetString(reader, "ImageLocation")
-            };
+                ImageLocation = DbUtilities.GetString(reader, "ProjectImage"),
+                Components = new List<ProjectComponent>()
+        };
 
             return project;
         }
@@ -64,12 +65,12 @@ namespace ContractThis.Utilities
         {
             var projectcomponent = new ProjectComponent()
             {
-                Id = DbUtilities.GetInt(reader, "UserId"),
+                Id = DbUtilities.GetInt(reader, "ProjectComponentId"),
                 ProjectId = DbUtilities.GetInt(reader, "ProjectId"),
-                ComponentName = DbUtilities.GetString(reader, "ComponentName"),
+                ComponentName = DbUtilities.GetString(reader, "ProjectComponentName"),
                 ComponentDescription = DbUtilities.GetString(reader, "ComponentDescription"),
-                SubcontractorId = DbUtilities.GetInt(reader, "SubcontractorId"),
-                DateComplete = DbUtilities.GetNullableDateTime(reader, "ComponentDateComplete"),
+                SubcontractorId = DbUtilities.GetNullableInt(reader, "SubcontractorId"),
+                DateComplete = DbUtilities.GetNullableDateTime(reader, "PCDateComplete"),
                 MaterialCost = DbUtilities.GetInt(reader, "MaterialCost"),
                 
             };
@@ -87,7 +88,7 @@ namespace ContractThis.Utilities
         {
             var subcontractor = new SubContractor()
             {
-                Id = DbUtilities.GetInt(reader, "UserId"),
+                Id = DbUtilities.GetInt(reader, "SubId"),
                 UserProfileId = DbUtilities.GetInt(reader, "UserProfileId"),
                 SubcontractorBusineesName = DbUtilities.GetString(reader, "SubcontractorBusineesName"),
                 SubContractorImageLocation = DbUtilities.GetString(reader, "SubContractorImageLocation"),
@@ -105,7 +106,7 @@ namespace ContractThis.Utilities
         {
             var subContractorBid = new SubContractorBid()
             {
-                Id = DbUtilities.GetInt(reader, "UserId"),
+                Id = DbUtilities.GetInt(reader, "BidId"),
                 ProjectComponentId = DbUtilities.GetInt(reader, "ProjectComponentId"),
                 SubContractorId = DbUtilities.GetInt(reader, "SubContractorId"),
                 UserProfileId = DbUtilities.GetInt(reader, "UserProfileId"),

@@ -77,6 +77,7 @@ namespace ContractThis.Repositories
                                         OUTPUT INSERTED.ID
                                         VALUES (@FirebaseUserId, @FirstName, @LastName, @ScreenName, 
                                                 @Email, @ImageLocation, @IsSubcontractor)";
+
                     DbUtilities.AddParameter(cmd, "@FirstName", userProfile.FirstName);
                     DbUtilities.AddParameter(cmd, "@LastName", userProfile.LastName);
                     DbUtilities.AddParameter(cmd, "@ScreenName", userProfile.ScreenName);
