@@ -52,5 +52,32 @@ namespace ContractThis.Repositories
                 }
             }
         }
+        public ProjectComponent GetSingleComponent (int id)
+        {
+            using( var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = "SELECT "
+                                        + ProjectComponentSqlCommandText +
+                                        @"FROM ProjectComponent pc
+                                        WHERE pc.Id = @Id";
+                    DbUtilities.AddParameter(cmd, "@Id", id);
+
+                    var reader = cmd.ExecuteReader();
+                    
+                    ProjectComponent component = null;
+                    if (reader.Read())
+                    {
+                        component = DbModelBuilder.BuildProjectComponentModel(reader);
+                    }
+
+                    reader.Close();
+                    return component;
+                }
+            }
+        }
+
     }
 }
