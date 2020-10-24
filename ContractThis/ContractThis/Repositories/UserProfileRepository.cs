@@ -15,10 +15,10 @@ namespace ContractThis.Repositories
 
         public UserProfile GetByFirebaseId(string firebaseId)
         {
-            using (var con = Connection)
+            using (var conn = Connection)
             {
-                Connection.Open();
-                using (var cmd = Connection.CreateCommand())
+               conn.Open();
+                using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
                                         SELECT "
