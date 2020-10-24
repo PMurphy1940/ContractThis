@@ -23,8 +23,8 @@ namespace ContractThis.Utilities
                 LastName = DbUtilities.GetString(reader, "LastName"),
                 ScreenName = DbUtilities.GetString(reader, "ScreenName"),
                 Email = DbUtilities.GetString(reader, "Email"),                
-                ImageLocation = DbUtilities.GetString(reader, "FirebaseUserId"),
-                IsSubcontractor = DbUtilities.GetInt(reader, "FirebaseUserId")
+                ImageLocation = DbUtilities.GetString(reader, "ImageLocation"),
+                IsSubcontractor = DbUtilities.GetBit(reader, "IsSubcontractor")
             };
 
             return user;

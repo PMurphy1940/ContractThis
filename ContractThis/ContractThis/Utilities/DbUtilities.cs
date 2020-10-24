@@ -12,7 +12,7 @@ namespace ContractThis.Utilities
         ///  Get a string from a data reader object and gracefully handle NULL values
         /// </summary>
         /// <param name="reader">A SqlDataReader that has not exhausted it's result set.</param>
-        /// <param name="column">The name of the column from the result set refereed to by the reader.</param>
+        /// <param name="column">The name of the column from the result set refered to by the reader.</param>
         /// <returns>The value of the given column or null.</returns>
         public static string GetString(SqlDataReader reader, string column)
         {
@@ -30,7 +30,7 @@ namespace ContractThis.Utilities
         ///  This method assumes the value is not NULL.
         /// </summary>
         /// <param name="reader">A SqlDataReader that has not exhausted it's result set.</param>
-        /// <param name="column">The name of the column from the result set refereed to by the reader.</param>
+        /// <param name="column">The name of the column from the result set refered to by the reader.</param>
         /// <returns>The value of the given column.</returns>
         public static int GetInt(SqlDataReader reader, string column)
         {
@@ -42,7 +42,7 @@ namespace ContractThis.Utilities
         ///  This method assumes the value is not NULL.
         /// </summary>
         /// <param name="reader">A SqlDataReader that has not exhausted it's result set.</param>
-        /// <param name="column">The name of the column from the result set refereed to by the reader.</param>
+        /// <param name="column">The name of the column from the result set refered to by the reader.</param>
         /// <returns>The value of the given column.</returns>
         public static DateTime GetDateTime(SqlDataReader reader, string column)
         {
@@ -53,7 +53,7 @@ namespace ContractThis.Utilities
         ///  Get an int? (nullable int) from a data reader object and gracefully handle NULL values
         /// </summary>
         /// <param name="reader">A SqlDataReader that has not exhausted it's result set.</param>
-        /// <param name="column">The name of the column from the result set refereed to by the reader.</param>
+        /// <param name="column">The name of the column from the result set refered to by the reader.</param>
         /// <returns>The value of the given column or null.</returns>
         public static int? GetNullableInt(SqlDataReader reader, string column)
         {
@@ -70,7 +70,7 @@ namespace ContractThis.Utilities
         ///  Get a DateTime? (nullable DateTime) from a data reader object and gracefully handle NULL values
         /// </summary>
         /// <param name="reader">A SqlDataReader that has not exhausted it's result set.</param>
-        /// <param name="column">The name of the column from the result set refereed to by the reader.</param>
+        /// <param name="column">The name of the column from the result set refered to by the reader.</param>
         /// <returns>The value of the given column or null.</returns>
         public static DateTime? GetNullableDateTime(SqlDataReader reader, string column)
         {
@@ -84,10 +84,22 @@ namespace ContractThis.Utilities
         }
 
         /// <summary>
+        /// Get a boolean? from a data reader object
+        /// </summary>
+        /// <param name="reader">A SqlDataReader that has not exhausted it's result set.</param>
+        /// <param name="column">The name of the column from the result set refered to by the reader.</param>
+        /// <returns>The value of the given column.</returns>
+        public static bool GetBit(SqlDataReader reader, string column)
+        {
+            return reader.GetBoolean(reader.GetOrdinal(column));
+        }
+
+
+        /// <summary>
         ///  Determine if the value a given column is NULL
         /// </summary>
         /// <param name="reader">A SqlDataReader that has not exhausted it's result set.</param>
-        /// <param name="column">The name of the column from the result set refereed to by the reader.</param>
+        /// <param name="column">The name of the column from the result set refered to by the reader.</param>
         /// <returns>true if "column" is NULL in the database otherwise false.</returns>
         public static bool IsDbNull(SqlDataReader reader, string column)
         {
@@ -98,7 +110,7 @@ namespace ContractThis.Utilities
         ///  Determine if the value a given column is not NULL
         /// </summary>
         /// <param name="reader">A SqlDataReader that has not exhausted it's result set.</param>
-        /// <param name="column">The name of the column from the result set refereed to by the reader.</param>
+        /// <param name="column">The name of the column from the result set refered to by the reader.</param>
         /// <returns>true if "column" is not NULL in the database otherwise false.</returns>
         public static bool IsNotDbNull(SqlDataReader reader, string column)
         {

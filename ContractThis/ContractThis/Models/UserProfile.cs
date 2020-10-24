@@ -36,7 +36,7 @@ namespace ContractThis.Models
         public string ImageLocation { get; set; }
 
         [Required]
-        public int IsSubcontractor { get; set; }
+        public bool IsSubcontractor { get; set; }
 
         public List<Project> UserProjects { get; set; }
 

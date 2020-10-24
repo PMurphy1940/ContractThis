@@ -9,16 +9,16 @@ using System.Xml.Linq;
 
 namespace ContractThis.Repositories
 {
-    public class UserProfileRepository : BaseRepository
+    public class UserProfileRepository : BaseRepository, IUserProfileRepository
     {
-        public UserProfileRepository(IConfiguration configuration) :base(configuration) { }
+        public UserProfileRepository(IConfiguration configuration) : base(configuration) { }
 
         public UserProfile GetByFirebaseId(string firebaseId)
         {
-            using(var con = Connection)
+            using (var con = Connection)
             {
                 Connection.Open();
-                using(var cmd = Connection.CreateCommand())
+                using (var cmd = Connection.CreateCommand())
                 {
                     cmd.CommandText = @"
                                         SELECT "
@@ -42,10 +42,10 @@ namespace ContractThis.Repositories
 
         public UserProfile GetById(int id)
         {
-            using(var conn = Connection)
+            using (var conn = Connection)
             {
                 conn.Open();
-                using(var cmd = conn.CreateCommand())
+                using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = "Select"
                                         + UserProfileSqlCommandText +
