@@ -85,14 +85,16 @@ export function ProfileProvider(props) {
   };
 
   const getUserById = (id) => {
-    return getToken().then((token) =>
-      fetch(`${apiUrl}/${id}/details`, {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      }).then((resp) => resp.json())
+    // return getToken().then((token) =>
+      return fetch(`${apiUrl}/details/${id}`
+      // , {
+      //   headers: {
+      //     Authorization: `Bearer ${token}`
+      //   }
+      // }
+      ).then((resp) => resp.json())
         .then(setAUser)
-    )
+    
   };
 
   const updateUser = (user) =>
@@ -108,7 +110,7 @@ export function ProfileProvider(props) {
 
   return (
     <ProfileContext.Provider
-      value={{ isLoggedIn, currentUser, login, logout, register, getToken, getUserById, updateUser, getUserProfile, getCurrentUser }}>
+      value={{ isLoggedIn, currentUser, aUser, login, logout, register, getToken, getUserById, updateUser, getUserProfile, getCurrentUser }}>
       {isFirebaseReady
         ? props.children
         : <Spinner className="app-spinner dark" />}
