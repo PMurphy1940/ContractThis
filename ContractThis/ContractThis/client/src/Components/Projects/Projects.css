@@ -1,14 +1,13 @@
 .top_Space {
     display: flex;
-    justify-content: flex-start;
+    justify-content: center;
     border-bottom: 1px solid lightgray;
     padding-bottom: 4vh;
+
 }
 
 .user_Image {
     max-height: 8vh;
-    position: absolute;
-    right:30%;
     margin-right: 10vw;
     border-radius: 50%;
 }
@@ -21,33 +20,133 @@
 
 .userName {
     font-family: 'Oswald', sans-serif;
-    margin-top: 2vh;
-    margin-left: 25vw;
+    margin-top: 1.2rem;
+    margin-right: 1rem;
     text-align: right;
 }
 
-.project_Dashboard h4 {
+.project_Dashboard > h4 {
     background-color: rgba(211, 211, 211, 0.411);
     font-family: 'Fredericka the Great', cursive;
     font-size: 3rem;
     text-align: center;
     border-bottom: 1px lightgray solid;
 }
+
+
+.project_Dashboard h6 {
+    background-color: rgba(211, 211, 211, 0.411);
+    font-family: 'Fredericka the Great', cursive;
+    font-size: 2rem;
+    /* text-align: center; */
+    border-bottom: 1px lightgray solid;
+}
+
+.big_Project_Window {
+    display: flex;
+    justify-content: space-evenly;
+    min-width: 100%;
+}
 .address {
+    display:flex;
+    flex-direction: column;
     font-family: 'Oswald', sans-serif;
-    font-size: 1.4rem;
+    align-items: flex-start;
+    font-size: 1rem;
     line-height: .5rem;
+}
+
+.project_Link_Button {
+    width:100%;
+    border-style:none;
+    background-color: rgba(211, 211, 211, 0);
+    transition: 300ms;
+}
+
+.project_Link_Button:focus{   
+    border-style:none;
+    transform: scale(1.03);
+    transition: 300ms;
+    background-color: rgba(211, 211, 211, 0.411);
+}
+
+.component_Link_Button {
+    margin-left: .5rem;
+    width:95%;
+    border-style:none;
+    background-color: rgba(211, 211, 211, 0);
+    transition: 300ms;
+}
+
+.component_Link_Button:focus{
+    border-style:none;
+    transform: scale(1.03);
+    transition: 300ms;
+    background-color: rgba(211, 211, 211, 0.411);
+}
+
+
+.inside_Button_Container {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 10vh;
 }
 
 .project_Card {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin: 2vh 5vw 0 5vh;
+    width: 100%;
+    /* margin: 2vh 5vw 0 0; */
     border-bottom: 1px lightgray solid;
 }
 
+.project_Component_Card{
+    border-bottom: 1px lightgray solid;
+}
+
+.find_A_Sub_Link{
+    font-family: 'Oswald', sans-serif;
+    background-color: rgba(211, 211, 211, 0.411);
+    border-radius: 5px;
+    border: 1px lightgray solid;
+    font-size: .9rem;
+    padding: .3rem;
+    /* position: absolute;
+    bottom: .5rem;
+    right: .5rem; */
+}
 .project_Image {
-    margin: 0 5vw 5vw 0;
+    margin: 1rem;
     max-height: 12vh;
+}
+.project_Side_On_Large{
+    background-color: rgba(211, 211, 211, 0.111);
+    width: 30%;
+    height:90vh;
+}
+.component_List_Container{
+    background-color: rgba(211, 211, 211, 0.111);
+    width: 30%;
+    overflow-y: hidden;
+}
+.component_Detail_Container{
+    background-color: rgba(211, 211, 211, 0.111);
+    width: 30%;
+}
+
+.detail_Banner {
+    background-color: rgba(211, 211, 211, 0.211);
+    font-family: 'Oswald', sans-serif;
+    border-bottom: 1px lightgray solid;
+    padding-bottom: 1rem;
+    padding-top: 1rem;
+}
+
+.detail_Description {
+    padding: 1rem;
+    min-height: 10vh;
 }
