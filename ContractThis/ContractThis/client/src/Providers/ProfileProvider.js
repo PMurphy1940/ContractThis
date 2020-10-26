@@ -29,7 +29,7 @@ export function ProfileProvider(props) {
       .then((userProfile) => {
         sessionStorage.setItem("userProfile", JSON.stringify(userProfile));
         setIsLoggedIn(true);
-        history.push("/")
+        history.push("/projects")
       });
   };
 
@@ -85,16 +85,16 @@ export function ProfileProvider(props) {
   };
 
   const getUserById = (id) => {
-    // return getToken().then((token) =>
-      return fetch(`${apiUrl}/details/${id}`
-      // , {
-      //   headers: {
-      //     Authorization: `Bearer ${token}`
-      //   }
-      // }
+    return getToken().then((token) =>
+       fetch(`${apiUrl}/details/${id}`
+      , {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
       ).then((resp) => resp.json())
         .then(setAUser)
-    
+    )
   };
 
   const updateUser = (user) =>

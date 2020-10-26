@@ -9,6 +9,7 @@ import "./Projects.css";
 const ProjectList = () => {
     const [displayProject, setDisplayProject] = useState()
     const [displayComponent, setDisplayComponent] = useState()
+    const [addCompActive, setAddCompActive] = useState(false)
 
     //Monitor screen width for responsive behavior
     const [width, setWidth] = useState(window.innerWidth);
@@ -42,6 +43,7 @@ const ProjectList = () => {
     //Set a selected project into state for display
     const selectDisplay = (id) => {
         setDisplayProject(projects.find((project) => (project.id === id)))
+        setAddCompActive(true)
         setDisplayComponent()
     }
     // set a selected component into state for display
@@ -70,7 +72,9 @@ const ProjectList = () => {
                         <h4>Project Dashboard</h4>
                         <div className="big_Project_Window">
                             <div className="project_Side_On_Large">
-                                <h6>Projects</h6>
+                                    <h6>Projects
+                                    <button className="fas fa-drafting-compass project_Add">+</button>
+                                    </h6>
                                 {projects.map((project) =>
                                     <ProjectCard 
                                         key={project.id}
@@ -81,7 +85,7 @@ const ProjectList = () => {
                                 )}                               
                             </div>
                             <div className="component_List_Container">
-                                <h6>Components</h6>
+                                <h6>Components<button className="fas fa-paint-roller project_Add" disabled={!addCompActive}>+</button></h6>
                                     {(displayProject !== undefined && displayProject.components !== undefined) && displayProject.components.map((component) =>
                                         <ProjectComponentCard 
                                             key={component.id}
