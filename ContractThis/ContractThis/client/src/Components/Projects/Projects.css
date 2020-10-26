@@ -107,7 +107,7 @@
     background-color: rgba(211, 211, 211, 0.411);
 }
 
-.find_A_Sub_Link, .detail_Banner, .detail_Text, .address, .userName {
+.find_A_Sub_Link, .detail_Banner, .detail_Text, .address, .userName, form {
     font-family: 'Oswald', sans-serif;
 }
 
@@ -169,4 +169,16 @@
     flex-direction: column;
     align-items: flex-start;
     font-size: 1rem;
+}
+
+.project_Add_New_Form{
+    width: 62.5%;
+}
+.add_Project_Cancel {
+    display:flex;
+    justify-content: space-between;
+}
+
+.component_Add_New_Form {
+    width:30%;
 }

@@ -3,14 +3,16 @@ import { useHistory, Link } from 'react-router-dom'
 import { ProjectContext } from "../../Providers/ProjectProvider"
 import { ProfileContext } from "../../Providers/ProfileProvider"
 import ProjectCard from "./ProjectCard";
-import ProjectComponentCard from "./ProjectComponentCard"
-import ProjectComponentDetailCard from "./ProjectComponentDetailCard"
+import ProjectForm from "./Forms/ProjectForm"
+import ComponentAndDetails from "./SubViews/ComponentAndDetailsView"
+import FadeIn from "../../Helpers/FadeIn"
 import "./Projects.css";
 
 const ProjectList = () => {
-    const [displayProject, setDisplayProject] = useState()
-    const [displayComponent, setDisplayComponent] = useState()
-    const [addCompActive, setAddCompActive] = useState(false)
+    const [displayProject, setDisplayProject] = useState();
+    const [displayComponent, setDisplayComponent] = useState();
+    const [addCompActive, setAddCompActive] = useState(false);
+    const [showProjectForm, setShowProjectForm] = useState(false);
     const history = useHistory();
 
     //Monitor screen width for responsive behavior
@@ -44,19 +46,63 @@ const ProjectList = () => {
     }, [])
     //Set a selected project into state for display
     const selectDisplay = (id) => {
+        setShowProjectForm(false)
         setDisplayProject(projects.find((project) => (project.id === id)))
         setAddCompActive(true)
         setDisplayComponent()
     }
+
     // set a selected component into state for display
     const selectComponentDisplay = (id) => {
         let components = displayProject.components
         setDisplayComponent(components.find((component) => (component.id === id)))
     }
+    //Form handling
 
-    //Timing delay modifier for gsap effect on component cards
-    let indexDelay = 1
-    //Conditional rendering for large screen size
+    const cancelAdd = () => {
+        setShowProjectForm(false)
+    }
+
+
+//////////////////////////
+///////VIEWS/////////////
+////////////////////////
+
+
+//Select the view to be displayed on the right 2/3 of the page
+    const viewSelector = () => {
+    
+//return this if the Add Project button has not been clicked
+    if(!showProjectForm) {
+        return (
+            <ComponentAndDetails
+            displayProject={displayProject}
+            displayComponent={displayComponent}
+            addCompActive={addCompActive}
+            selectComponentDisplay={selectComponentDisplay} />   
+            )
+        }
+//return this if the Add Project button has been clicked (Show the Add form)
+        else if (showProjectForm) {
+            return (
+                <div className="project_Add_New_Form">
+                    <FadeIn
+                        paused="true"
+                        direction='right'
+                        distance='600'
+                        >
+                            <h6 className="add_Project_Cancel">Add New Project
+                            <button className="fas fa-minus-circle project_Add" onClick={() => setShowProjectForm(true) }/>
+                            </h6>
+                            <ProjectForm
+                                cancelAdd={cancelAdd} />                        
+                    </FadeIn>
+                </div>
+            )
+        }
+    }
+
+//Conditional rendering for larger screen size
     if (width > breakpointWidth){
         return (
             <div className="big_Project_Board">
@@ -75,7 +121,7 @@ const ProjectList = () => {
                         <div className="big_Project_Window">
                             <div className="project_Side_On_Large">
                                     <h6>Projects
-                                    <button className="fas fa-drafting-compass project_Add" onClick={() => { history.push('/projects/projectform') }}>+</button>
+                                    <button className="fas fa-drafting-compass project_Add" onClick={() => setShowProjectForm(true) }>+</button>
                                     </h6>
                                 {projects.map((project) =>
                                     <ProjectCard 
@@ -86,33 +132,9 @@ const ProjectList = () => {
                                     />
                                 )}                               
                             </div>
-                            <div className="component_List_Container">
-                                <h6>Components
-                                    <button className="fas fa-paint-roller project_Add" 
-                                                    disabled={!addCompActive} 
-                                                    onClick={() => { history.push('/projects/componentform') }}
-                                                    >+</button>
-                                </h6>
-                                    {(displayProject !== undefined && displayProject.components !== undefined) && displayProject.components.map((component) =>
-                                        <ProjectComponentCard 
-                                            key={component.id}
-                                            component={component}
-                                            selectComponentDisplay={selectComponentDisplay}
-                                            indexDelay={indexDelay++}
-                                            
-                                        />
-                                    )}
-                            </div>
-                            <div className="component_Detail_Container">
-                                <h6>Details</h6>
-                                    {(displayComponent !== undefined) && 
-                                        <ProjectComponentDetailCard 
-                                            key={displayComponent.id}
-                                            displayComponent={displayComponent}
-                                            
-                                        />
-                                    }
-                            </div>
+
+                            {viewSelector()}
+
                         </div>
                     </div>
                 </div>
@@ -120,7 +142,7 @@ const ProjectList = () => {
          )
     }
 
-    //Conditional return for mobile devices
+//Conditional return for mobile devices
     return (
        <div className="project_List_Container">
            <div className="top_Space">
@@ -145,4 +167,4 @@ const ProjectList = () => {
     )
 }
 
-export default ProjectList
+export default ProjectList;
