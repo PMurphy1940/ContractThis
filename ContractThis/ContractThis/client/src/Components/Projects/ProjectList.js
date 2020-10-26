@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
+import { useHistory, Link } from 'react-router-dom'
 import { ProjectContext } from "../../Providers/ProjectProvider"
 import { ProfileContext } from "../../Providers/ProfileProvider"
 import ProjectCard from "./ProjectCard";
@@ -10,6 +11,7 @@ const ProjectList = () => {
     const [displayProject, setDisplayProject] = useState()
     const [displayComponent, setDisplayComponent] = useState()
     const [addCompActive, setAddCompActive] = useState(false)
+    const history = useHistory();
 
     //Monitor screen width for responsive behavior
     const [width, setWidth] = useState(window.innerWidth);
@@ -73,7 +75,7 @@ const ProjectList = () => {
                         <div className="big_Project_Window">
                             <div className="project_Side_On_Large">
                                     <h6>Projects
-                                    <button className="fas fa-drafting-compass project_Add">+</button>
+                                    <button className="fas fa-drafting-compass project_Add" onClick={() => { history.push('/projects/projectform') }}>+</button>
                                     </h6>
                                 {projects.map((project) =>
                                     <ProjectCard 
@@ -85,7 +87,12 @@ const ProjectList = () => {
                                 )}                               
                             </div>
                             <div className="component_List_Container">
-                                <h6>Components<button className="fas fa-paint-roller project_Add" disabled={!addCompActive}>+</button></h6>
+                                <h6>Components
+                                    <button className="fas fa-paint-roller project_Add" 
+                                                    disabled={!addCompActive} 
+                                                    onClick={() => { history.push('/projects/componentform') }}
+                                                    >+</button>
+                                </h6>
                                     {(displayProject !== undefined && displayProject.components !== undefined) && displayProject.components.map((component) =>
                                         <ProjectComponentCard 
                                             key={component.id}
