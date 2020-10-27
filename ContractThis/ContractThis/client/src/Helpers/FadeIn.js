@@ -17,7 +17,7 @@ const FadeInAnimation = ({
       fadeDirection = { x: -distance };
       break;
     case "right":
-      fadeDirection = { x: distance };
+      fadeDirection = { x: props.distance };
       break;
     case "up":
       fadeDirection = { y: distance };

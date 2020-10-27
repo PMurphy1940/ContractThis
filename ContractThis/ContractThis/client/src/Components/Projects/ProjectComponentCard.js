@@ -8,8 +8,10 @@ const ProjectComponentCard = (props) => {
     return (
         <FadeIn
             paused="true"
-            delay= {(props.indexDelay * .5)}
-            direction='right'>
+            delay= {(props.indexDelay * .3)}
+            direction='right'
+            distance='200'
+            >
                 <div className="project_Component_Card">
                     <button className="component_Link_Button" onClick={ () => props.selectComponentDisplay(props.component.id) }>
                         <div className="inside_Button_Container">

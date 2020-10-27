@@ -10,6 +10,8 @@ const ProjectComponentDetailCard = (props) => {
                     <p className="detail_Description" >{props.displayComponent.componentDescription}</p>
                     <p className="detail_Budget">Cost to date: ${props.displayComponent.materialCost}</p>
                 </div>
+                <button className="far fa-edit delete_Button" onClick={() => props.editComponent(props.displayComponent.id) }/>
+                <button className="far fa-trash-alt delete_Button" onClick={() => props.deleteThisComponent(props.displayComponent.id) }/>
         </div>
     )
 }

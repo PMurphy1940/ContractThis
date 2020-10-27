@@ -2,33 +2,30 @@ import React, { useState, useContext } from 'react';
 import { ProjectContext } from "../../../Providers/ProjectProvider"
 import FadeIn from "../../../Helpers/FadeIn"
 
-const ComponentForm = (props) => {
+const ComponentEditForm = (props) => {
 
     const [saveButton, setSaveButton] = useState(false);
     const [saveButtonClass, setSaveButtonClass] = useState("component_Save")
-    const [componentToAdd, setComponentToAdd] = useState({ 
-                                            componentName: "", 
-                                            componentDescription: "", 
-                                            materialCost: "", 
-                                        })
+    const [componentToEdit, setComponentToEdit] = useState({...props.displayComponent})
 
     const {
         AddNewComponent,
-        displayProject
+        displayProject,
+        UpdateComponent
     } =useContext(ProjectContext)
 
     const handleFieldChange = (event) => {
-        const stateToChange = { ...componentToAdd };
+        const stateToChange = { ...componentToEdit };
         stateToChange[event.target.id] = event.target.value;
-        setComponentToAdd(stateToChange);
+        setComponentToEdit(stateToChange);
         setSaveButtonClass("project_Save_Active")
         setSaveButton(true);
       };
 
-    const SaveNewComponent = () => {
-        componentToAdd.materialCost = parseInt(componentToAdd.materialCost)
-        componentToAdd.projectId = displayProject.id;
-        AddNewComponent(componentToAdd)
+    const SaveComponent = () => {
+        let id = componentToEdit.id
+        componentToEdit.materialCost = parseInt(componentToEdit.materialCost)
+        UpdateComponent(componentToEdit, id)
      };
     return (
             <div className="component_Detail_Container">
@@ -37,20 +34,20 @@ const ComponentForm = (props) => {
                     direction='right'
                     distance='600'
                     >
-                    <h6 className="add_Component_Banner">Add New
+                    <h6 className="add_Component_Banner">Edit
                         <div>
-                            <button id={saveButtonClass} disabled={!saveButton} className="far fa-check-circle" onClick={() => SaveNewComponent() }/>
+                            <button id={saveButtonClass} disabled={!saveButton} className="far fa-check-circle" onClick={() => SaveComponent() }/>
                             <button className="fas fa-minus-circle project_Cancel" onClick={() => props.cancelAdd() }/>
                         </div>
                     </h6>
                     <fieldset className="projectForm form">
-                        <label htmlFor="componentName" className="form_input">New Component Name</label>
+                        <label htmlFor="componentName" className="form_input">Component Name</label>
                         <input
                             id="componentName"
                             className="form_input"
                             innerref="componentName"
                             onChange={ (e) => handleFieldChange(e)}
-                            value={componentToAdd.componentName}
+                            value={componentToEdit.componentName}
                         />
                         <label htmlFor="componentDescription" className="form_input">Description</label>
                         <textarea
@@ -59,7 +56,7 @@ const ComponentForm = (props) => {
                             innerref="componentDescription"
                             rows="4"
                             onChange={ (e) => handleFieldChange(e)}
-                            value={componentToAdd.componentDescription}
+                            value={componentToEdit.componentDescription}
                         />
                         <label htmlFor="materialCost" className="form_input">Material Cost</label>
                         <input
@@ -67,7 +64,7 @@ const ComponentForm = (props) => {
                             className="form_input"
                             innerref="materialCost"
                             onChange={ (e) => handleFieldChange(e)}
-                            value={componentToAdd.materialCost}
+                            value={componentToEdit.materialCost}
                         />
                     </fieldset>
                 </FadeIn>
@@ -75,4 +72,4 @@ const ComponentForm = (props) => {
     )
 }
 
-export default ComponentForm
+export default ComponentEditForm

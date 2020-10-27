@@ -3,7 +3,7 @@ import FadeIn from "../../Helpers/FadeIn"
 
 
 const ProjectCard = (props) => {
-console.log(props)
+
     return (
             <div className="project_Card">
                 <button className="project_Link_Button" onClick={ () => props.selectDisplay(props.project.id) }>
@@ -15,6 +15,7 @@ console.log(props)
                         <img className="project_Image" src={props.project.imageLocation} />
                     </div>
                 </button>
+                <button className="far fa-trash-alt delete_Button" onClick={() => props.deleteThisProject(props.project.id) }/>
             </div>       
     )
 }

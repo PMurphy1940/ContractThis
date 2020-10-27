@@ -50,7 +50,7 @@ namespace ContractThis.Repositories
 
 
         /// <summary>
-        /// Generate the Sql command text to retrieve a Project (p) 
+        /// Generate the Sql command text to retrieve Project (p) 
         /// information keyed in a way to populate the reader build methods.
         /// </summary>
         /// <returns>
@@ -78,7 +78,7 @@ namespace ContractThis.Repositories
 
 
         /// <summary>
-        /// Generate the Sql command text to retrieve a ProjectComponent (pc) 
+        /// Generate the Sql command text to retrieve ProjectComponent (pc) 
         /// information keyed in a way to populate the reader build methods.
         /// </summary>
         /// <returns>
