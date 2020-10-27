@@ -11,7 +11,7 @@ export function ProjectProvider(props) {
 
 
     const GetUsersProjects = (id) => {
-        return fetch(`${apiUrl}/${id}`)
+        return fetch(`${apiUrl}/byowner/${id}`)
         .then((response) => response.json())
         .then(setProjects)
     }
@@ -28,6 +28,7 @@ export function ProjectProvider(props) {
         }))
         .then((response) => {
             if (response.ok) {
+              GetUsersProjects(LocalUserProvider.userId())
               return response.json();
             }
             throw new Error("Unauthorized");
@@ -59,7 +60,7 @@ export function ProjectProvider(props) {
         }
       }))
       .then(() => {
-        GetUsersProjects(LocalUserProvider.userId)
+        GetUsersProjects(LocalUserProvider.userId())
       })
     }
 
