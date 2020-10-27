@@ -92,19 +92,43 @@ export function ProjectProvider(props) {
             if (response.ok) {
               setShowComponentFormActive(false);
               setDisplayProject(GetProjectById(componentObject.projectId));
+              debugger
+              setProjects(UpdateProjects(displayProject, projects))
               return response.json();
             }
             throw new Error("Unauthorized");
           });    
     }
 
+    const DeleteComponent = (id) => {
+      getToken().then((token) => 
+      fetch(`${apiUrl}/component/${id}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }))
+      .then(() => {
+        GetUsersProjects(LocalUserProvider.userId())
+      })
+    }
+
 
     return (
         <ProjectContext.Provider
-          value={{ projects, displayProject, setDisplayProject, showProjectForm, setShowProjectForm, showComponentFormActive, setShowComponentFormActive, GetUsersProjects, AddNewProject, UpdateProject, DeleteProject, AddNewComponent }}>         
+          value={{ projects, displayProject, setDisplayProject, showProjectForm, setShowProjectForm, 
+                    showComponentFormActive, setShowComponentFormActive, GetUsersProjects, AddNewProject, 
+                    UpdateProject, DeleteProject, AddNewComponent, DeleteComponent }}>         
              {props.children}           
         </ProjectContext.Provider>
       );
+}
+// update the users project list when something has been changed, without doing a full GET of all projects
+const UpdateProjects = (updatedProject, projectsState) => {
+  // let projectsStateChange = [...projects]
+  let changedIndex = projectsState.findIndex((project) => project.id === updatedProject.id)
+  projectsState[changedIndex] = updatedProject 
+  return projectsState
 }
 
 
