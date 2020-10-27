@@ -21,7 +21,8 @@ const ComponentAndDetails = (props) => {
     } = useContext(ProfileContext)
 
     const cancelAdd = () => {
-        setShowComponentFormActive(false)
+        setShowComponentFormActive(false);
+        props.setDisplayComponent();
     }
     
 
@@ -64,7 +65,10 @@ const ComponentAndDetails = (props) => {
                     direction='right'
                     distance='600'
                     >
-                        <h6>Add New Project</h6>
+                        <h6 className="add_Component_Banner">Add New
+                        <button className="far fa-check-circle component_Save" onClick={() => cancelAdd() }/>
+                        <button className="fas fa-minus-circle project_Cancel" onClick={() => cancelAdd() }/>
+                        </h6>
                         <ComponentForm
                             cancelAdd={cancelAdd} />                        
                 </FadeIn>

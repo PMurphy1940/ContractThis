@@ -43,14 +43,27 @@ namespace ContractThis.Controllers
             return projects == null ? NotFound() : (IActionResult)Ok(projects);
         }
 
+        [HttpPost]
+        public IActionResult Post(Project project)
+        {
+            var currentUser = GetCurrentUserProfile();
+            project.UserProfileId = currentUser.Id;
+
+            _projectRepository.AddProject(project);
+            return CreatedAtAction("Get", new { id = project.Id }, project);
+        }
+
+        [HttpDelete("{id}")]
+
+        public IActionResult Delete(int id)
+        {
+            _projectRepository.DeleteProject(id);
+            return NoContent();
+        }
+
         private UserProfile GetCurrentUserProfile()
         {
-            if (ClaimsPrincipal.Current == null)
-            {
-                return null;
-            }
             var firebaseUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
-
             return _userProfileRepository.GetByFirebaseId(firebaseUserId);
         }
     }

@@ -78,6 +78,54 @@ namespace ContractThis.Repositories
                 }
             }
         }
+        public void AddProject(Project project)
+        {
+            using( var conn = Connection)
+            {
+                conn.Open();
+                using(var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                                        INSERT INTO Project (UserProfileId, 
+                                                                ProjectName, 
+                                                                LocationName, 
+                                                                LocationAddress, 
+                                                                ProjectDescription,
+                                                                Budget,
+                                                                ImageLocation)
+                                        OUTPUT Inserted.Id
+                                        Values (@UserProfileId, @ProjectName, @LocationName, @LocationAddress, @ProjectDescription, @Budget, @ImageLocation)
+                                        ";
+                    DbUtilities.AddParameter(cmd, "@UserProfileId", project.UserProfileId);
+                    DbUtilities.AddParameter(cmd, "@ProjectName", project.ProjectName);
+                    DbUtilities.AddParameter(cmd, "@LocationName", project.LocationName);
+                    DbUtilities.AddParameter(cmd, "@LocationAddress", project.LocationAddress);
+                    DbUtilities.AddParameter(cmd, "@ProjectDescription", project.ProjectDescription);
+                    DbUtilities.AddParameter(cmd, "@Budget", project.Budget);
+                    DbUtilities.AddParameter(cmd, "@ImageLocation", project.ImageLocation);
 
+                    project.Id = (int)cmd.ExecuteScalar();
+
+                }
+            }
+        }
+
+        public void DeleteProject(int id)
+        {
+            using( var conn = Connection)
+            {
+                conn.Open();
+                using(var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                                        DELETE FROM Project
+                                        WHERE Id = @Id
+                                        ";
+                    DbUtilities.AddParameter(cmd, "@Id", id);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
     }
 }

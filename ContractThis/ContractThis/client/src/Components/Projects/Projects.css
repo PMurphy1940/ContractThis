@@ -94,7 +94,7 @@
 .project_Link_Button, .component_Link_Button {
     background-color: rgba(211, 211, 211, 0);
 }
-.project_Side_On_Large, .component_List_Container, .component_Detail_Container {
+.project_Side_On_Large, .component_List_Container, .component_Detail_Container, .project_Add_New_Form {
     background-color: rgba(211, 211, 211, 0.111);
 }
 
@@ -107,7 +107,7 @@
     background-color: rgba(211, 211, 211, 0.411);
 }
 
-.find_A_Sub_Link, .detail_Banner, .detail_Text, .address, .userName, form {
+.find_A_Sub_Link, .detail_Banner, .detail_Text, .address, .userName, form, .form_input {
     font-family: 'Oswald', sans-serif;
 }
 
@@ -134,7 +134,98 @@
     min-width:6vw;
     border-radius: 5px;
     border: 2px  rgba(211, 211, 211, 0.411) solid;
-    color:  rgb(122, 119, 119);
+    color:  rgb(129, 126, 126);
+}
+
+.project_Cancel {
+    min-width:6vw;
+    border-radius: 5px;
+    border: 2px  rgba(144, 104, 104, 0.39) solid;
+    color:  rgb(144, 104, 104);
+}
+
+.delete_Button{
+    min-width:4vw;
+    border-radius: 5px;
+    border: 2px  rgba(144, 104, 104, 0.39) solid;
+    color:  rgb(144, 104, 104);
+}
+@media screen and (min-width: 600px) {
+    #project_Save {
+        margin-left: 5vw;
+        min-width:6vw;
+        border-radius: 5px;
+        border: 2px  rgba(98, 149, 100, 0.404) solid;
+        color:  rgb(83, 114, 84);
+    }
+    #project_Save_Active {
+        margin-left:5vw;
+        min-width:6vw;
+        border-radius: 5px;
+        border: 2px  rgba(98, 149, 100, 0.404) solid;
+        color:  rgb(98, 149, 100);
+    }
+}
+
+@media screen and (min-width: 1000px) {
+    #project_Save {
+        margin-left: 20vw;
+        min-width:6vw;
+        border-radius: 5px;
+        border: 2px  rgba(98, 149, 100, 0.404) solid;
+        color:  rgb(83, 114, 84);
+    }
+    #project_Save_Active {
+        margin-left:20vw;
+        min-width:6vw;
+        border-radius: 5px;
+        border: 2px  rgba(98, 149, 100, 0.404) solid;
+        color:  rgb(98, 149, 100);
+	    animation: pulse 2s infinite;
+    }
+}
+
+@media screen and (min-width: 1400px){
+    #project_Save {
+        margin-left:25rem;
+        min-width:6vw;
+        border-radius: 5px;
+        border: 2px  rgba(98, 149, 100, 0.404) solid;
+        color:  rgb(83, 114, 84);
+    }
+    #project_Save_Active {
+        margin-left:25rem;
+        min-width:6vw;
+        border-radius: 5px;
+        border: 2px  rgba(98, 149, 100, 0.404) solid;
+        color:  rgb(98, 149, 100);
+        transform: scale(1.2);
+	    animation: pulse 2s infinite;
+    }
+}
+
+@keyframes pulse {
+	0% {
+		transform: scale(1);
+		box-shadow: 0 0 0 0 rgba(165, 79, 79, 0.7);
+	}
+
+	90% {
+		transform: scale(1);
+		box-shadow: 0 0 0 5px rgba(165, 79, 79, 0);
+	}
+
+	100% {
+		transform: scale(1);
+		box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+	}
+}
+
+.component_Save {
+    min-width:6vw;
+    border-radius: 5px;
+    border: 2px  rgba(98, 149, 100, 0.404) solid;
+    color:  rgb(98, 149, 100);
 }
 .component_List_Container {
     width: 30%;
@@ -146,7 +237,7 @@
     justify-content: space-between;
 }
 
-.component_Detail_Container {
+.component_Detail_Container, .component_Add_New_Form {
     width: 30%;
 }
 
@@ -174,11 +265,17 @@
 .project_Add_New_Form{
     width: 62.5%;
 }
-.add_Project_Cancel {
+
+.projectForm {
+    display:flex;
+    flex-direction: column;
+    margin: 0 5vw;
+}
+
+
+.add_Project_Banner, .add_Component_Banner {
     display:flex;
     justify-content: space-between;
 }
 
-.component_Add_New_Form {
-    width:30%;
-}
+

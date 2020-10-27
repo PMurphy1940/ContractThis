@@ -27,7 +27,6 @@ const ComponentForm = (props) => {
                     <Input  id="materialCost" innerRef="materialCost" />
                 </FormGroup>
             </Form>
-            <button onClick={() => {props.cancelAdd()}}>Cancel</button>
         </>
     )
 }

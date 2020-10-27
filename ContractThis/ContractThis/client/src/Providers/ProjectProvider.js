@@ -1,11 +1,14 @@
-import React, { createContext, useState, useEffect } from 'react';
-
+import React, { createContext, useContext, useState, useEffect } from 'react';
+import { ProfileContext } from "./ProfileProvider"
+import LocalUserProvider from "../Helpers/LocalUserGets"
 export const ProjectContext = createContext()
 
 export function ProjectProvider(props) {
     const apiUrl = "/api/project";
+    const { getToken } = useContext(ProfileContext)
+    const [projects, setProjects] = useState([]);
 
-    const [projects, setProjects] = useState([])
+
 
     const GetUsersProjects = (id) => {
         return fetch(`${apiUrl}/${id}`)
@@ -14,13 +17,15 @@ export function ProjectProvider(props) {
     }
 
     const AddNewProject = (projectObject) => {
-        return fetch(`${apiUrl}`), {
+      getToken().then((token) => 
+        fetch(`${apiUrl}`, {
             method: "POST",
             headers: {
+                Authorization: `Bearer ${token}`,
                 "Content-Type": "application/json" 
             },
             body: JSON.stringify(projectObject)
-        }
+        }))
         .then((response) => {
             if (response.ok) {
               return response.json();
@@ -45,10 +50,23 @@ export function ProjectProvider(props) {
           });   
     }
 
+    const DeleteProject = (id) => {
+      getToken().then((token) => 
+      fetch(`${apiUrl}/${id}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }))
+      .then(() => {
+        GetUsersProjects(LocalUserProvider.userId)
+      })
+    }
+
 
     return (
         <ProjectContext.Provider
-          value={{ projects, GetUsersProjects, AddNewProject, UpdateProject }}>         
+          value={{ projects, GetUsersProjects, AddNewProject, UpdateProject, DeleteProject }}>         
              {props.children}           
         </ProjectContext.Provider>
       );

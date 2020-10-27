@@ -32,7 +32,8 @@ const ProjectList = () => {
     //Context imports
     const {
         projects, 
-        GetUsersProjects
+        GetUsersProjects,
+        DeleteProject
     } = useContext(ProjectContext)
 
     const {
@@ -60,9 +61,13 @@ const ProjectList = () => {
     //Form handling
 
     const cancelAdd = () => {
-        setShowProjectForm(false)
+        setShowProjectForm(false);
+        setDisplayProject();
     }
 
+    const deleteThisProject = (id) => {
+        DeleteProject(id)
+    }
 
 //////////////////////////
 ///////VIEWS/////////////
@@ -79,26 +84,16 @@ const ProjectList = () => {
             displayProject={displayProject}
             displayComponent={displayComponent}
             addCompActive={addCompActive}
+            setDisplayComponent={setDisplayComponent}
             selectComponentDisplay={selectComponentDisplay} />   
             )
         }
 //return this if the Add Project button has been clicked (Show the Add form)
         else if (showProjectForm) {
             return (
-                <div className="project_Add_New_Form">
-                    <FadeIn
-                        paused="true"
-                        direction='right'
-                        distance='600'
-                        >
-                            <h6 className="add_Project_Cancel">Add New Project
-                            <button className="fas fa-minus-circle project_Add" onClick={() => setShowProjectForm(true) }/>
-                            </h6>
-                            <ProjectForm
-                                cancelAdd={cancelAdd} />                        
-                    </FadeIn>
-                </div>
-            )
+                    <ProjectForm
+                        cancelAdd={cancelAdd} />                        
+                )
         }
     }
 
@@ -128,7 +123,7 @@ const ProjectList = () => {
                                         key={project.id}
                                         project={project}
                                         selectDisplay={selectDisplay}
-
+                                        deleteThisProject={deleteThisProject}
                                     />
                                 )}                               
                             </div>
