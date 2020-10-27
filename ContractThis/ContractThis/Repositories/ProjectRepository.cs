@@ -12,6 +12,8 @@ namespace ContractThis.Repositories
     {
         public ProjectRepository(IConfiguration configuration) : base(configuration) { }
 
+
+        //This method nests the list of components in the project
         public List<Project> GetOwnerProjects(int id)
         {
             using (var conn = Connection)
@@ -52,7 +54,7 @@ namespace ContractThis.Repositories
                 }
             }
         }
-
+        //This method nests the list of components in the project
         public Project GetSingleProjectById(int id)
         {
             using( var conn = Connection)
@@ -60,17 +62,30 @@ namespace ContractThis.Repositories
                 conn.Open();
                 using( var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = "SELECT "
-                                           + ProjectSqlCommandText +
-                                     @"FROM Project p
-                                       WHERE p.Id = @id";
-                    DbUtilities.AddParameter(cmd, "@id", id);
+                    cmd.CommandText = "Select "
+                                        + ProjectSqlCommandText + ", "
+                                        + ProjectComponentSqlCommandText +
+                                        @" FROM Project p
+                                        LEFT JOIN ProjectComponent pc ON pc.ProjectId = p.Id
+                                        WHERE p.Id = @Id";
+
+                    DbUtilities.AddParameter(cmd, "@Id", id);
 
                     var reader = cmd.ExecuteReader();
+
                     Project aProject = null;
-                    if (reader.Read())
+
+                    while (reader.Read())
                     {
-                        aProject = DbModelBuilder.BuildProjectModel(reader);
+                        if (aProject == null)
+                        {
+                            aProject = DbModelBuilder.BuildProjectModel(reader);
+                        }
+
+                        if (DbUtilities.IsNotDbNull(reader, "ProjectComponentId"))
+                        {
+                            aProject.Components.Add(DbModelBuilder.BuildProjectComponentModel(reader));
+                        }
                     }
 
                     reader.Close();
@@ -157,6 +172,33 @@ namespace ContractThis.Repositories
                     DbUtilities.AddParameter(cmd, "@MaterialCost", component.MaterialCost);
 
                     component.Id = (int)cmd.ExecuteScalar();
+                }
+            }
+        }
+
+        public void UpdateComponent(ProjectComponent component, int id)
+        {
+            using( var conn = Connection)
+            {
+                conn.Open();
+                using( var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                                        UPDATE ProjectComponent 
+                                        SET Name = @Name,
+                                            ComponentDescription = @ComponentDescription,
+                                            ProjectId = @ProjectId,
+                                            MaterialCost = @MaterialCost
+                                        WHERE Id = @id
+                                        ";
+                    DbUtilities.AddParameter(cmd, "@Name", component.ComponentName);
+                    DbUtilities.AddParameter(cmd, "@ComponentDescription", component.ComponentDescription);
+                    DbUtilities.AddParameter(cmd, "@ProjectId", component.ProjectId);
+                    DbUtilities.AddParameter(cmd, "@MaterialCost", component.MaterialCost);
+                    DbUtilities.AddParameter(cmd, "@id", component.Id);
+
+                    cmd.ExecuteNonQuery();
+
                 }
             }
         }

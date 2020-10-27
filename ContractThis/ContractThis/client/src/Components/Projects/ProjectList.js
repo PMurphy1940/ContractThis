@@ -5,7 +5,7 @@ import { ProfileContext } from "../../Providers/ProfileProvider"
 import ProjectCard from "./ProjectCard";
 import ProjectForm from "./Forms/ProjectForm"
 import ComponentAndDetails from "./SubViews/ComponentAndDetailsView"
-import FadeIn from "../../Helpers/FadeIn"
+import LocalUserProvider from "../../Helpers/LocalUserGets"
 import "./Projects.css";
 
 const ProjectList = () => {
@@ -36,7 +36,11 @@ const ProjectList = () => {
         displayProject,
         setDisplayProject,
         GetUsersProjects,
-        DeleteProject
+        DeleteProject,
+        update,
+        updatedProject,
+        setShowComponentFormActive,
+        setEditFormOpen
     } = useContext(ProjectContext)
 
     const {
@@ -45,12 +49,23 @@ const ProjectList = () => {
     } = useContext(ProfileContext)
 
     useEffect(() => {
-        GetUsersProjects(1)
-        getUserById(1)
+        getUserById(LocalUserProvider.userId())
     }, [])
+
+    useEffect(() => {
+        GetUsersProjects(LocalUserProvider.userId())
+    }, [update])
+    
+    useEffect(() => {
+        if(displayProject !== undefined) {
+            setDisplayProject(projects.find((project) => (project.id === displayProject.id)))
+        }
+    },[updatedProject])
     //Set a selected project into state for display
     const selectDisplay = (id) => {
         setShowProjectForm(false)
+        setEditFormOpen(false)
+        setShowComponentFormActive(false);
         setDisplayProject(projects.find((project) => (project.id === id)))
         setAddCompActive(true)
         setDisplayComponent()
@@ -58,12 +73,14 @@ const ProjectList = () => {
 
     // set a selected component into state for display
     const selectComponentDisplay = (id) => {
+        setShowComponentFormActive(false)
         let components = displayProject.components
         setDisplayComponent(components.find((component) => (component.id === id)))
     }
     //Form handling
 
     const cancelAdd = () => {
+        setShowComponentFormActive(false)
         setShowProjectForm(false);
         setDisplayProject();
     }
@@ -80,24 +97,24 @@ const ProjectList = () => {
 //Select the view to be displayed on the right 2/3 of the page
     const viewSelector = () => {
     
-//return this if the Add Project button has not been clicked
-    if(!showProjectForm) {
-        return (
-            <ComponentAndDetails
-            displayProject={displayProject}
-            displayComponent={displayComponent}
-            addCompActive={addCompActive}
-            setDisplayComponent={setDisplayComponent}
-            selectComponentDisplay={selectComponentDisplay} />   
-            )
-        }
-//return this if the Add Project button has been clicked (Show the Add form)
-        else if (showProjectForm) {
+    //return this if the Add Project button has not been clicked
+        if(!showProjectForm) {
             return (
-                    <ProjectForm
-                        cancelAdd={cancelAdd} />                        
+                    <ComponentAndDetails
+                        displayProject={displayProject}
+                        displayComponent={displayComponent}
+                        addCompActive={addCompActive}
+                        setDisplayComponent={setDisplayComponent}
+                        selectComponentDisplay={selectComponentDisplay} />   
                 )
-        }
+            }
+    //return this if the Add Project button has been clicked (Show the Add form)
+            else if (showProjectForm) {
+                return (
+                        <ProjectForm
+                            cancelAdd={cancelAdd} />                        
+                    )
+            }
     }
 
 //Conditional rendering for larger screen size

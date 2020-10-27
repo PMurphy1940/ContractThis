@@ -71,10 +71,9 @@ const ProjectForm = (props) => {
                                     value={projectToAdd.locationAddress}
                                 />
                                 <label htmlFor="projectDescription" className="form_input">Project Description</label>
-                                <input
+                                <textarea
                                     id="projectDescription"
                                     className="form_input"
-                                    type="textarea"
                                     rows="4"
                                     innerref="projectDescription"
                                     onChange={ (e) => handleFieldChange(e)}

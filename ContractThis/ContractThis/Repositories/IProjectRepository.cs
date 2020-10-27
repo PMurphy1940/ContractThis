@@ -12,5 +12,6 @@ namespace ContractThis.Repositories
         List<Project> GetOwnerProjects(int id);
         ProjectComponent GetSingleComponent(int id);
         Project GetSingleProjectById(int id);
+        void UpdateComponent(ProjectComponent component, int id);
     }
 }

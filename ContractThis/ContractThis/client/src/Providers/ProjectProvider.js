@@ -10,12 +10,32 @@ export function ProjectProvider(props) {
     const [displayProject, setDisplayProject] = useState();
     const [showProjectForm, setShowProjectForm] = useState(false);
     const [showComponentFormActive, setShowComponentFormActive] = useState(false)
+    const [update, setUpdate] = useState(false);
+    const [updatedProject, setUpdatedProject] = useState(false)
+    const [editFormOpen,setEditFormOpen] = useState(false)
+
+//     useEffect(() =>{
+//       UpdateProjects(displayProject)
+//     },[displayProject])
+
+// // update the users project list when something has been changed, without doing a full GET of all projects
+//     const UpdateProjects = (updatedProject) => {
+//       // setDisplayProject(updatedProject)
+
+//       let projectsStateChange = [...projects]
+//       let changedIndex = projects.findIndex((project) => project.id === updatedProject.id)
+//       projectsStateChange[changedIndex] = updatedProject
+//       setProjects(projectsStateChange) 
+//       return projectsStateChange
+//     }
 
 
+//Database calls//
     const GetUsersProjects = (id) => {
         return fetch(`${apiUrl}/byowner/${id}`)
         .then((response) => response.json())
         .then(setProjects)
+        setUpdatedProject(!updatedProject)
     }
 
     const GetProjectById = (id) => {
@@ -74,7 +94,8 @@ export function ProjectProvider(props) {
         }
       }))
       .then(() => {
-        GetUsersProjects(LocalUserProvider.userId())
+        // GetUsersProjects(LocalUserProvider.userId())
+        setUpdate(!update)
       })
     }
 
@@ -91,13 +112,34 @@ export function ProjectProvider(props) {
         .then((response) => {
             if (response.ok) {
               setShowComponentFormActive(false);
-              setDisplayProject(GetProjectById(componentObject.projectId));
-              debugger
-              setProjects(UpdateProjects(displayProject, projects))
+              setUpdate(!update)
+              // setDisplayProject(GetProjectById(componentObject.projectId))
+              // GetUsersProjects(LocalUserProvider.userId())
               return response.json();
             }
             throw new Error("Unauthorized");
           });    
+    }
+
+    const UpdateComponent = (updatedComponent, id) => {
+      
+      getToken().then((token) => 
+      fetch(`${apiUrl}/component/${id}`, {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(updatedComponent)
+      }))
+      .then((response) => {
+        if (response.ok) {
+          setShowComponentFormActive(false);
+              setUpdate(!update)
+              return response.json();
+        }
+        throw new Error("Unauthorized");
+      })
     }
 
     const DeleteComponent = (id) => {
@@ -109,7 +151,8 @@ export function ProjectProvider(props) {
         }
       }))
       .then(() => {
-        GetUsersProjects(LocalUserProvider.userId())
+        setUpdate(!update)
+        // GetUsersProjects(LocalUserProvider.userId())
       })
     }
 
@@ -118,18 +161,12 @@ export function ProjectProvider(props) {
         <ProjectContext.Provider
           value={{ projects, displayProject, setDisplayProject, showProjectForm, setShowProjectForm, 
                     showComponentFormActive, setShowComponentFormActive, GetUsersProjects, AddNewProject, 
-                    UpdateProject, DeleteProject, AddNewComponent, DeleteComponent }}>         
+                    UpdateProject, DeleteProject, AddNewComponent, UpdateComponent, DeleteComponent, update, setUpdate, updatedProject, editFormOpen, setEditFormOpen }}>         
              {props.children}           
         </ProjectContext.Provider>
       );
 }
-// update the users project list when something has been changed, without doing a full GET of all projects
-const UpdateProjects = (updatedProject, projectsState) => {
-  // let projectsStateChange = [...projects]
-  let changedIndex = projectsState.findIndex((project) => project.id === updatedProject.id)
-  projectsState[changedIndex] = updatedProject 
-  return projectsState
-}
+
 
 
 

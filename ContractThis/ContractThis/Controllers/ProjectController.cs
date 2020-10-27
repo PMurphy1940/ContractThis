@@ -78,11 +78,36 @@ namespace ContractThis.Controllers
                 return Unauthorized();
         }
 
+        [HttpPut("component/{id}")]
+        public IActionResult PutComponent(ProjectComponent component, int id)
+        {
+            var currentUser = GetCurrentUserProfile();
+            var project = _projectRepository.GetSingleProjectById(component.ProjectId);
+
+            //Verify that the PUT request is coming from either the project owner or the authorized Subcontractor
+            if (currentUser.Id == project.UserProfileId || currentUser.Id == component.SubcontractorId && component.ProjectId == id)
+            {
+                _projectRepository.UpdateComponent(component, id);
+                return Ok(CreatedAtAction("Get", new { id = component.Id }, component));
+            }
+
+            return Unauthorized();
+        }
+
+
         [HttpDelete("{id}")]
 
         public IActionResult Delete(int id)
         {
             _projectRepository.DeleteProject(id);
+            return NoContent();
+        }
+
+        [HttpDelete("component/{id}")]
+
+        public IActionResult DeleteComponent(int id)
+        {
+            _projectRepository.DeleteComponent(id);
             return NoContent();
         }
 
