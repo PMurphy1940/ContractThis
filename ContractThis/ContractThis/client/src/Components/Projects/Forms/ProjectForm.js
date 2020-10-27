@@ -1,5 +1,4 @@
 import React, { useState, useContext } from 'react';
-import { Form, FormGroup, Label, Input, InputGroup, InputGroupAddon, InputGroupText, Alert } from 'reactstrap'
 import { ProjectContext } from "../../../Providers/ProjectProvider"
 import FadeIn from "../../../Helpers/FadeIn"
 
@@ -29,7 +28,7 @@ const ProjectForm = (props) => {
 
     const SaveNewProject = () => {
         projectToAdd.budget = parseInt(projectToAdd.budget)
-          AddNewProject(projectToAdd)
+        AddNewProject(projectToAdd)
      };
 
     return (
@@ -41,8 +40,10 @@ const ProjectForm = (props) => {
                         distance='600'
                             >
                         <h6 className="add_Project_Banner">Add New Project
-                        <button id={saveButtonClass} disabled={!saveButton} className="far fa-check-circle" onClick={() => SaveNewProject() }/>
-                        <button className="fas fa-minus-circle project_Cancel" onClick={() => props.cancelAdd() }/>
+                            <div>
+                                <button id={saveButtonClass} disabled={!saveButton} className="far fa-check-circle" onClick={() => SaveNewProject() }/>
+                                <button className="fas fa-minus-circle project_Cancel" onClick={() => props.cancelAdd() }/>
+                            </div>
                         </h6>
                             <fieldset className="projectForm form">
                                 <label htmlFor="projectName" className="form_input">Project Name</label>

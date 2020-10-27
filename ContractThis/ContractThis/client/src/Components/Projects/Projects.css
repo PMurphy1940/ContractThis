@@ -150,58 +150,37 @@
     border: 2px  rgba(144, 104, 104, 0.39) solid;
     color:  rgb(144, 104, 104);
 }
-@media screen and (min-width: 600px) {
-    #project_Save {
-        margin-left: 5vw;
-        min-width:6vw;
-        border-radius: 5px;
-        border: 2px  rgba(98, 149, 100, 0.404) solid;
-        color:  rgb(83, 114, 84);
-    }
-    #project_Save_Active {
-        margin-left:5vw;
-        min-width:6vw;
-        border-radius: 5px;
-        border: 2px  rgba(98, 149, 100, 0.404) solid;
-        color:  rgb(98, 149, 100);
-    }
+
+#project_Save {
+    margin-right: 1rem;
+    min-width:6vw;
+    border-radius: 5px;
+    border: 2px  rgba(98, 149, 100, 0.404) solid;
+    color:  rgb(83, 114, 84);
+}
+#project_Save_Active {
+    margin-right: 1rem;
+    min-width:6vw;
+    border-radius: 5px;
+    border: 2px  rgba(98, 149, 100, 0.404) solid;
+    color:  rgb(98, 149, 100);
+    transform: scale(1.2);
+    animation: pulse 2s infinite;
 }
 
-@media screen and (min-width: 1000px) {
-    #project_Save {
-        margin-left: 20vw;
-        min-width:6vw;
-        border-radius: 5px;
-        border: 2px  rgba(98, 149, 100, 0.404) solid;
-        color:  rgb(83, 114, 84);
-    }
-    #project_Save_Active {
-        margin-left:20vw;
-        min-width:6vw;
-        border-radius: 5px;
-        border: 2px  rgba(98, 149, 100, 0.404) solid;
-        color:  rgb(98, 149, 100);
-	    animation: pulse 2s infinite;
-    }
+#component_Save {
+    min-width:6vw;
+    border-radius: 5px;
+    border: 2px  rgba(98, 149, 100, 0.404) solid;
+    color:  rgb(83, 114, 84);
 }
-
-@media screen and (min-width: 1400px){
-    #project_Save {
-        margin-left:25rem;
-        min-width:6vw;
-        border-radius: 5px;
-        border: 2px  rgba(98, 149, 100, 0.404) solid;
-        color:  rgb(83, 114, 84);
-    }
-    #project_Save_Active {
-        margin-left:25rem;
-        min-width:6vw;
-        border-radius: 5px;
-        border: 2px  rgba(98, 149, 100, 0.404) solid;
-        color:  rgb(98, 149, 100);
-        transform: scale(1.2);
-	    animation: pulse 2s infinite;
-    }
+#component_Save_Active {
+    min-width:6vw;
+    border-radius: 5px;
+    border: 2px  rgba(98, 149, 100, 0.404) solid;
+    color:  rgb(98, 149, 100);
+    transform: scale(1.2);
+	animation: pulse 2s infinite;
 }
 
 @keyframes pulse {
@@ -221,12 +200,6 @@
 	}
 }
 
-.component_Save {
-    min-width:6vw;
-    border-radius: 5px;
-    border: 2px  rgba(98, 149, 100, 0.404) solid;
-    color:  rgb(98, 149, 100);
-}
 .component_List_Container {
     width: 30%;
     overflow-y: hidden;

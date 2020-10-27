@@ -9,10 +9,9 @@ import FadeIn from "../../Helpers/FadeIn"
 import "./Projects.css";
 
 const ProjectList = () => {
-    const [displayProject, setDisplayProject] = useState();
     const [displayComponent, setDisplayComponent] = useState();
     const [addCompActive, setAddCompActive] = useState(false);
-    const [showProjectForm, setShowProjectForm] = useState(false);
+
     const history = useHistory();
 
     //Monitor screen width for responsive behavior
@@ -32,6 +31,10 @@ const ProjectList = () => {
     //Context imports
     const {
         projects, 
+        showProjectForm,
+        setShowProjectForm,
+        displayProject,
+        setDisplayProject,
         GetUsersProjects,
         DeleteProject
     } = useContext(ProjectContext)

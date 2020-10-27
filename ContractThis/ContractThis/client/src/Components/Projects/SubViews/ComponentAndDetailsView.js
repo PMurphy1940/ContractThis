@@ -4,15 +4,15 @@ import { ProfileContext } from "../../../Providers/ProfileProvider"
 import ProjectComponentCard from "../ProjectComponentCard"
 import ProjectComponentDetailCard from "../ProjectComponentDetailCard"
 import ComponentForm from "../Forms/ComponentForm"
-import FadeIn from "../../../Helpers/FadeIn"
 
 
 const ComponentAndDetails = (props) => {
-    const [showComponentFormActive, setShowComponentFormActive] = useState(false)
 
     const {
         projects, 
-        GetUsersProjects
+        GetUsersProjects,
+        showComponentFormActive,
+        setShowComponentFormActive
     } = useContext(ProjectContext)
 
     const {
@@ -59,20 +59,8 @@ const ComponentAndDetails = (props) => {
                     }
             </div> 
             :
-            <div className="component_Detail_Container">
-                <FadeIn
-                    paused="true"
-                    direction='right'
-                    distance='600'
-                    >
-                        <h6 className="add_Component_Banner">Add New
-                        <button className="far fa-check-circle component_Save" onClick={() => cancelAdd() }/>
-                        <button className="fas fa-minus-circle project_Cancel" onClick={() => cancelAdd() }/>
-                        </h6>
-                        <ComponentForm
-                            cancelAdd={cancelAdd} />                        
-                </FadeIn>
-            </div>
+                <ComponentForm
+                    cancelAdd={cancelAdd} />                                    
             }
         </>     
     )

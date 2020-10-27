@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using ContractThis.Models;
 using ContractThis.Repositories;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ContractThis.Controllers
@@ -59,6 +60,22 @@ namespace ContractThis.Controllers
 
             _projectRepository.AddProject(project);
             return Ok(CreatedAtAction("Get", new { id = project.Id }, project));
+        }
+
+        [HttpPost("component/")]
+        public IActionResult PostComponent(ProjectComponent component)
+        {
+            var currentUser = GetCurrentUserProfile();
+            var project = _projectRepository.GetSingleProjectById(component.ProjectId);
+
+            //Verify that the POST request is coming from either the project owner or the authorized Subcontractor
+            if(currentUser.Id == project.UserProfileId || currentUser.Id == component.SubcontractorId )
+            {
+                _projectRepository.AddComponent(component);
+                return Ok(CreatedAtAction("Get", new { id = component.Id }, component));
+            }
+
+                return Unauthorized();
         }
 
         [HttpDelete("{id}")]

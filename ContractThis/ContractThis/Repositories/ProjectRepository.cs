@@ -136,6 +136,31 @@ namespace ContractThis.Repositories
             }
         }
 
+        public void AddComponent(ProjectComponent component)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using(var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                                        INSERT INTO ProjectComponent (Name, 
+                                                                        ComponentDescription, 
+                                                                        ProjectId, 
+                                                                        MaterialCost)    
+                                        OUTPUT Inserted.Id
+                                        Values (@Name, @ComponentDescription, @ProjectId, @MaterialCost)
+                                        ";
+                    DbUtilities.AddParameter(cmd, "@Name", component.ComponentName);
+                    DbUtilities.AddParameter(cmd, "@ComponentDescription", component.ComponentDescription);
+                    DbUtilities.AddParameter(cmd, "@ProjectId", component.ProjectId);
+                    DbUtilities.AddParameter(cmd, "@MaterialCost", component.MaterialCost);
+
+                    component.Id = (int)cmd.ExecuteScalar();
+                }
+            }
+        }
+
         public void DeleteProject(int id)
         {
             using( var conn = Connection)
@@ -145,6 +170,23 @@ namespace ContractThis.Repositories
                 {
                     cmd.CommandText = @"
                                         DELETE FROM Project
+                                        WHERE Id = @Id
+                                        ";
+                    DbUtilities.AddParameter(cmd, "@Id", id);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+        public void DeleteComponent(int id)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                                        DELETE FROM ProjectComponent
                                         WHERE Id = @Id
                                         ";
                     DbUtilities.AddParameter(cmd, "@Id", id);
