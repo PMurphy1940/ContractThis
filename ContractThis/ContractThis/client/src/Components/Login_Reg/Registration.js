@@ -3,6 +3,8 @@ import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import { useHistory } from "react-router-dom";
 import { ProfileContext } from "../../Providers/ProfileProvider";
 import { LoginContext } from "../../Providers/LoginStateProvider"
+import { SubContractorContext } from "../../Providers/SubContractorProvider"
+import LocalUserProvider from "../../Helpers/LocalUserGets"
 import SubcontractorForm from "./SubcontractorForm"
 
 export default function Register() {
@@ -15,6 +17,7 @@ export default function Register() {
 
     const history = useHistory();
     const { register } = useContext(ProfileContext);
+    const { RegisterSubcontractor } = useContext(SubContractorContext)
 
 
     const registerClick = (e) => {
@@ -23,11 +26,24 @@ export default function Register() {
             alert("Passwords must match");
         } 
         else {
-            const userProfile = { firstName, lastName, screenName, imageLocation, email };
+          
+            const userProfile = { firstName, lastName, screenName, imageLocation, email, isSubcontractor };
             register(userProfile, password)
-                .then(() => history.push("/"));
+                .then(() => registerNewSubcontractor());
             }
     };
+
+    const registerNewSubcontractor = () => {
+      if (isSubcontractor){
+        const subContractorProfile = { subcontractorBusinessName, subcontractorImageUrl };
+        if (subContractorProfile.subcontractorBusinessName === ""){
+          subContractorProfile.subcontractorBusinessName = screenName
+        }
+        subContractorProfile.userProfileId = LocalUserProvider.userId();
+        RegisterSubcontractor(subContractorProfile)
+      }
+      history.push("/projects")
+    }
 
 return (
       <div className="outer_Container_Reg_Form">

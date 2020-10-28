@@ -46,6 +46,7 @@ export function ProjectProvider(props) {
             Authorization: `Bearer ${token}`
           }
         }).then((response) => response.json())
+        .then(setDisplayProject)
         )
     }
 
@@ -165,7 +166,8 @@ export function ProjectProvider(props) {
         <ProjectContext.Provider
           value={{ projects, displayProject, setDisplayProject, showProjectForm, setShowProjectForm, 
                     showComponentFormActive, setShowComponentFormActive, GetUsersProjects, AddNewProject, 
-                    UpdateProject, DeleteProject, AddNewComponent, UpdateComponent, DeleteComponent, update, setUpdate, updatedProject, editFormOpen, setEditFormOpen }}>         
+                    UpdateProject, DeleteProject, AddNewComponent, UpdateComponent, DeleteComponent, update, setUpdate, 
+                    updatedProject, editFormOpen, setEditFormOpen, GetProjectById }}>         
              {props.children}           
         </ProjectContext.Provider>
       );

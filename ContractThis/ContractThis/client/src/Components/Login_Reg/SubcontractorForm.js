@@ -5,7 +5,7 @@ import { LoginContext } from "../../Providers/LoginStateProvider"
 import FadeIn from "../../Helpers/FadeIn"
 const SubcontractorForm = () => {
 
-    const { subcontractorBusinessName, setSubcontractorBusinessName,
+    const { screenName, subcontractorBusinessName, setSubcontractorBusinessName,
             subcontractorImageUrl, setSubcontractorImageUrl} =useContext(LoginContext)
 
     return (
@@ -19,7 +19,7 @@ const SubcontractorForm = () => {
                         <fieldset>
                             <FormGroup>
                                 <Label htmlFor="subcontractorBusinessName">Business Name</Label>
-                                <Input id="subcontractorBusinessName" type="text" onChange={e => setSubcontractorBusinessName(e.target.value)} />
+                                <Input id="subcontractorBusinessName" type="text" placeholder={screenName} onChange={e => setSubcontractorBusinessName(e.target.value)} />
                             </FormGroup>
                             <FormGroup>
                                 <Label htmlFor="subcontractorImageUrl">Logo</Label>

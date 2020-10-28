@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router } from "react-router-dom";
 import { ProfileProvider } from "./Providers/ProfileProvider";
+import { WindowStateProvider } from "./Providers/WindowStateProvider"
 import ApplicationViews from "./Components/ApplicationViews";
 import NavBar from "./Components/NavBar";
 
@@ -8,8 +9,9 @@ function App() {
   return (
     <Router>
       <ProfileProvider>
-        <NavBar />
-        <ApplicationViews />
+        <WindowStateProvider>
+          <ApplicationViews />
+        </WindowStateProvider>
       </ProfileProvider>
     </Router>
   );

@@ -19,7 +19,6 @@ const ProjectComponentCard = (props) => {
                                 <p>{props.component.componentName}</p>
 
                             </div>
-                            <Link to="" className="find_A_Sub_Link" >Find a Sub</Link>
                         </div>
                     </button>
                 </div>

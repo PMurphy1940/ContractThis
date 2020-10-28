@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
+import { useHistory } from 'react-router-dom'
 import { ProjectContext } from "../../../Providers/ProjectProvider"
+import { WindowStateContext } from "../../../Providers/WindowStateProvider"
 import ProjectComponentCard from "../ProjectComponentCard"
 import ProjectComponentDetailCard from "../ProjectComponentDetailCard"
 import ComponentForm from "../Forms/ComponentForm"
@@ -10,16 +12,17 @@ const ComponentAndDetails = (props) => {
 
     const {
         displayProject, 
-        showComponentFormActive,
-        setShowComponentFormActive,
         DeleteComponent,
         update,
-        setDisplayProject,
-        editFormOpen,
-        setEditFormOpen
+        setDisplayProject,       
     } = useContext(ProjectContext)
 
+    const {
+        showComponentFormActive, setShowComponentFormActive,
+        editFormOpen,setEditFormOpen,
+    } = useContext(WindowStateContext)
 
+    const history = useHistory();
     useEffect(() => {
         setDisplayProject(displayProject)
     }, [update])
@@ -38,6 +41,10 @@ const ComponentAndDetails = (props) => {
     const deleteThisComponent = (id) => {
         DeleteComponent(id)
     }
+
+    const bigDetailPage = (id) => {
+        history.push("/components")
+    }
     
     const newOrEditForm = () => {
 
@@ -49,6 +56,7 @@ const ComponentAndDetails = (props) => {
                             <ProjectComponentDetailCard 
                                 key={props.displayComponent.id}
                                 displayComponent={props.displayComponent}
+                                bigDetailPage={bigDetailPage}
                                 deleteThisComponent={deleteThisComponent}
                                 editComponent={editComponent}
                             />
@@ -69,6 +77,7 @@ const ComponentAndDetails = (props) => {
                 <ComponentForm
                     cancelAdd={cancelAdd} />
              )
+            
 
     }
 

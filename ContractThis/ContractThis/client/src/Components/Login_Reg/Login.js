@@ -13,7 +13,7 @@ const Login = () => {
   const loginSubmit = (e) => {
     e.preventDefault();
     login(email, password)
-    //   .catch(() => alert("Invalid email or password"));
+      .catch(() => alert("Invalid email or password"));
   };
 
     return (

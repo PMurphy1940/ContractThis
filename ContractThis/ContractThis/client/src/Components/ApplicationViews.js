@@ -6,6 +6,9 @@ import Register from "./Login_Reg/Registration";
 import ProjectList from "./Projects/ProjectList";
 import ProjectForm from "./Projects/Forms/ProjectForm";
 import ComponentForm from "./Projects/Forms/ComponentForm";
+import ComponentOverview from "./ProjComponent/ComponentOverview"
+import { Logout } from "./Login_Reg/Logout";
+import { SubContractorProvider } from "../Providers/SubContractorProvider";
 import { ProjectProvider } from "../Providers/ProjectProvider";
 import { LoginProvider } from "../Providers/LoginStateProvider";
 
@@ -22,22 +25,30 @@ const ApplicationViews = () => {
 
                 <Route path="/register">
                     <LoginProvider>
-                        <Register />
+                        <SubContractorProvider>
+                            <Register />
+                        </SubContractorProvider>
                     </LoginProvider>
                 </Route>
 
-                <Route exact path="/projects">
+                <Route path="/projects">
                     <ProjectProvider>
-                        <ProjectList />     
+                        <SubContractorProvider>
+                            <ProjectList />     
+                        </SubContractorProvider>
                     </ProjectProvider>
                 </Route>
 
-                <Route path="/projects/projectform">
-                    <ProjectForm />
+                <Route path="/components">
+                    <ProjectProvider>
+                        <SubContractorProvider>
+                            <ComponentOverview/>
+                        </SubContractorProvider>
+                    </ProjectProvider>
                 </Route>
 
-                <Route path="/projects/componentform">
-                    <ComponentForm />
+                <Route path="/logout">
+                    <Logout />
                 </Route>
 
             </Switch>

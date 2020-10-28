@@ -10,7 +10,7 @@ namespace ContractThis.Models
     {
         public int Id { get; set; }
         public int UserProfileId {get; set; }
-        public string SubcontractorBusineesName { get; set; }
+        public string SubcontractorBusinessName { get; set; }
         [DataType(DataType.Url)]
         [MaxLength(255)]
         public string SubContractorImageLocation { get; set; }
