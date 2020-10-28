@@ -103,11 +103,11 @@
 }
 
 .find_A_Sub_Link, .component_Link_Button:focus, .project_Link_Button:focus, 
-.project_Dashboard > h4, .project_Dashboard h6 {
+.project_Dashboard > h4, .project_Dashboard h6, .sub_Side_Popout, .registration_Form {
     background-color: rgba(211, 211, 211, 0.411);
 }
 
-.find_A_Sub_Link, .detail_Banner, .detail_Text, .address, .userName, form, .form_input {
+.find_A_Sub_Link, .detail_Banner, .detail_Text, .address, .userName, form, .form_input, .inner_Form_Box {
     font-family: 'Oswald', sans-serif;
 }
 

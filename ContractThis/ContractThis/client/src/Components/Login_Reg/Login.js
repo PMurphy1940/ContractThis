@@ -1,7 +1,8 @@
 import React, { useState, useContext } from "react";
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import { useHistory, Link } from "react-router-dom";
-import { ProfileContext } from "../Providers/ProfileProvider";
+import { ProfileContext } from "../../Providers/ProfileProvider";
+import "./Login_Reg.css"
 
 const Login = () => {
     const [email, setEmail] = useState();
@@ -30,7 +31,7 @@ const Login = () => {
             <Button>Login</Button>
           </FormGroup>
           <em>
-            New to ContractThis? <Link to="register">Register Here</Link>
+            New to ContractThis? <Link to="/register">Register Here</Link>
           </em>
         </fieldset>
       </Form>
