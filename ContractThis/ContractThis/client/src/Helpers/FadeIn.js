@@ -14,7 +14,7 @@ const FadeInAnimation = ({
   let fadeDirection;
   switch (direction) {
     case "left":
-      fadeDirection = { x: -distance };
+      fadeDirection = { x: -props.distance };
       break;
     case "right":
       fadeDirection = { x: props.distance };

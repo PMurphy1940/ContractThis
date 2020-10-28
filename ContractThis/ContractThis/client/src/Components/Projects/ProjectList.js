@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { useHistory, Link } from 'react-router-dom'
 import { ProjectContext } from "../../Providers/ProjectProvider"
 import { ProfileContext } from "../../Providers/ProfileProvider"
+import { WindowStateContext } from "../../Providers/WindowStateProvider"
 import ProjectCard from "./ProjectCard";
 import ProjectForm from "./Forms/ProjectForm";
 import ProjectEditForm from "./Forms/ProjectEditForm"
@@ -10,9 +11,10 @@ import LocalUserProvider from "../../Helpers/LocalUserGets"
 import "./Projects.css";
 
 const ProjectList = () => {
-    const [displayComponent, setDisplayComponent] = useState();
-    const [addCompActive, setAddCompActive] = useState(false);
-    const [editProjectView, setEditProjectView] = useState(false);
+    const aUser = {
+        screenName: LocalUserProvider.userDisplayName(),
+        imageLocation: LocalUserProvider.userImageLoc()
+    }
 
     const history = useHistory();
 
@@ -33,26 +35,32 @@ const ProjectList = () => {
     //Context imports
     const {
         projects, 
-        showProjectForm,
-        setShowProjectForm,
         displayProject,
         setDisplayProject,
         GetUsersProjects,
         DeleteProject,
         update,
         updatedProject,
-        setShowComponentFormActive,
-        setEditFormOpen
     } = useContext(ProjectContext)
 
     const {
-        getUserById,
-        aUser
+        logout
     } = useContext(ProfileContext)
 
-    useEffect(() => {
-        getUserById(LocalUserProvider.userId())
-    }, [])
+    const {
+        addCompActive, setAddCompActive,
+        editProjectView, setEditProjectView,
+        showProjectForm, setShowProjectForm,
+        setShowComponentFormActive,
+        setEditFormOpen,
+        displayComponent, setDisplayComponent
+    } = useContext(WindowStateContext)
+
+    const LogOutUser = () => {
+        logout()
+        history.push("/logout")
+    }
+
 
     useEffect(() => {
         GetUsersProjects(LocalUserProvider.userId())
@@ -146,7 +154,7 @@ const ProjectList = () => {
                         <img className="user_Image"src={aUser.imageLocation} alt="user"/>
                         </>
                         }
-                        <button className="logout_Button">logout</button>
+                        <button className="logout_Button" onClick={() => LogOutUser()} >logout</button>
                     </div>
                     <div className="project_Dashboard">
                         <h4>Project Dashboard</h4>
