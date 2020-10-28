@@ -151,6 +151,36 @@ namespace ContractThis.Repositories
             }
         }
 
+        public void UpdateProject(Project project)
+        {
+            using( var conn = Connection)
+            {
+                conn.Open();
+                using( var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                                        UPDATE Project
+                                        SET ProjectName = @ProjectName,
+                                            LocationName = @LocationName,
+                                            LocationAddress = @LocationAddress,
+                                            ProjectDescription = @ProjectDescription,
+                                            Budget = @Budget,
+                                            ImageLocation = @ImageLocation
+                                        WHERE Id = @id
+                                        ";
+                    DbUtilities.AddParameter(cmd, "@ProjectName", project.ProjectName);
+                    DbUtilities.AddParameter(cmd, "@LocationName", project.LocationName);
+                    DbUtilities.AddParameter(cmd, "@LocationAddress", project.LocationAddress);
+                    DbUtilities.AddParameter(cmd, "@ProjectDescription", project.ProjectDescription);
+                    DbUtilities.AddParameter(cmd, "@Budget", project.Budget);
+                    DbUtilities.AddParameter(cmd, "@ImageLocation", project.ImageLocation);
+                    DbUtilities.AddParameter(cmd, "@id", project.Id);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
         public void AddComponent(ProjectComponent component)
         {
             using (var conn = Connection)

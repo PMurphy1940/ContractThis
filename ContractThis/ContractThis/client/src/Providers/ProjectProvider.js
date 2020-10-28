@@ -69,16 +69,20 @@ export function ProjectProvider(props) {
           });    
     }
 
-    const UpdateProject = (id, projectObject) => {
-        return fetch(`${apiUrl}/${id}`), {
+    const UpdateProject = (projectObject) => {
+      getToken().then((token) =>      
+        fetch(`${apiUrl}/${projectObject.id}`, {
             method: "PUT",
             headers: {
+                Authorization: `Bearer ${token}`,
                 "Content-Type": "application/json" 
             },
             body: JSON.stringify(projectObject)
-        }
+        }))
         .then((response) => {
             if (response.ok) {
+              setShowProjectForm(false)
+              GetUsersProjects(LocalUserProvider.userId())
               return response.json();
             }
             throw new Error("Unauthorized");
@@ -122,7 +126,7 @@ export function ProjectProvider(props) {
     }
 
     const UpdateComponent = (updatedComponent, id) => {
-      
+
       getToken().then((token) => 
       fetch(`${apiUrl}/component/${id}`, {
         method: "PUT",

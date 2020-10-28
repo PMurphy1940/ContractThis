@@ -3,7 +3,8 @@ import { useHistory, Link } from 'react-router-dom'
 import { ProjectContext } from "../../Providers/ProjectProvider"
 import { ProfileContext } from "../../Providers/ProfileProvider"
 import ProjectCard from "./ProjectCard";
-import ProjectForm from "./Forms/ProjectForm"
+import ProjectForm from "./Forms/ProjectForm";
+import ProjectEditForm from "./Forms/ProjectEditForm"
 import ComponentAndDetails from "./SubViews/ComponentAndDetailsView"
 import LocalUserProvider from "../../Helpers/LocalUserGets"
 import "./Projects.css";
@@ -11,6 +12,7 @@ import "./Projects.css";
 const ProjectList = () => {
     const [displayComponent, setDisplayComponent] = useState();
     const [addCompActive, setAddCompActive] = useState(false);
+    const [editProjectView, setEditProjectView] = useState(false);
 
     const history = useHistory();
 
@@ -61,7 +63,7 @@ const ProjectList = () => {
             setDisplayProject(projects.find((project) => (project.id === displayProject.id)))
         }
     },[updatedProject])
-    //Set a selected project into state for display
+    //Set a selected project into state for display and place window views into their default position
     const selectDisplay = (id) => {
         setShowProjectForm(false)
         setEditFormOpen(false)
@@ -77,9 +79,15 @@ const ProjectList = () => {
         let components = displayProject.components
         setDisplayComponent(components.find((component) => (component.id === id)))
     }
-    //Form handling
+
+    const editProject = (id) => {
+        setDisplayProject(projects.find((project) => (project.id === id)))
+        setEditProjectView(true)
+        setShowProjectForm(true)
+    }
 
     const cancelAdd = () => {
+        setEditProjectView(false)
         setShowComponentFormActive(false)
         setShowProjectForm(false);
         setDisplayProject();
@@ -110,9 +118,18 @@ const ProjectList = () => {
             }
     //return this if the Add Project button has been clicked (Show the Add form)
             else if (showProjectForm) {
-                return (
-                        <ProjectForm
-                            cancelAdd={cancelAdd} />                        
+                return ( 
+                    <>
+                        {editProjectView ? 
+                            <ProjectEditForm
+                            cancelAdd={cancelAdd} 
+                            displayProject={displayProject}
+                            />
+                            :
+                            <ProjectForm
+                                cancelAdd={cancelAdd} />
+                        }
+                    </>                        
                     )
             }
     }
@@ -144,6 +161,7 @@ const ProjectList = () => {
                                         project={project}
                                         selectDisplay={selectDisplay}
                                         deleteThisProject={deleteThisProject}
+                                        editProject={editProject}
                                     />
                                 )}                               
                             </div>

@@ -62,6 +62,21 @@ namespace ContractThis.Controllers
             return Ok(CreatedAtAction("Get", new { id = project.Id }, project));
         }
 
+        [HttpPut("{id}")]
+        public IActionResult PutProject(Project project, int id)
+        {
+            var currentUser = GetCurrentUserProfile();
+
+            //Verify that the PUT request is coming from either the project owner or the authorized Subcontractor
+            if (currentUser.Id == project.UserProfileId && project.Id == id)
+            {
+                _projectRepository.UpdateProject(project);
+                return Ok(CreatedAtAction("Get", new { id = project.Id }, project));
+            }
+
+            return Unauthorized();
+        }
+
         [HttpPost("component/")]
         public IActionResult PostComponent(ProjectComponent component)
         {
