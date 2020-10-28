@@ -13,5 +13,6 @@ namespace ContractThis.Repositories
         ProjectComponent GetSingleComponent(int id);
         Project GetSingleProjectById(int id);
         void UpdateComponent(ProjectComponent component, int id);
+        void UpdateProject(Project project);
     }
 }

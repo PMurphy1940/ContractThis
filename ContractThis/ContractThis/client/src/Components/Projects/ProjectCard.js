@@ -15,6 +15,7 @@ const ProjectCard = (props) => {
                         <img className="project_Image" src={props.project.imageLocation} />
                     </div>
                 </button>
+                <button className="far fa-edit delete_Button" onClick={() => props.editProject(props.project.id) }/>
                 <button className="far fa-trash-alt delete_Button" onClick={() => props.deleteThisProject(props.project.id) }/>
             </div>       
     )
