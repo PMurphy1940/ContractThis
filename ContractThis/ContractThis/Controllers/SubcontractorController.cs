@@ -46,6 +46,13 @@ namespace ContractThis.Controllers
             return result != null ? Ok(result) : (IActionResult)NotFound();
         }
 
+        [HttpGet("find")]
+        public IActionResult GetAllOfType(string q)
+        {
+            var result = _SubcontractorRepository.SearchByMultipleTypes(q);
+
+            return result != null ? Ok(result) : (IActionResult)NotFound();
+        }
         [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {

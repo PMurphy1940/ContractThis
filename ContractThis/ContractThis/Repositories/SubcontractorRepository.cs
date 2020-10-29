@@ -137,5 +137,72 @@ namespace ContractThis.Repositories
                 }
             }
         }
+
+        public List<SubContractor> SearchByMultipleTypes(string find)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    //Make an iterable list of the the requestList string 
+                    string[] searchParams = find.Split(",");
+                    //Build the text of type @ parameters for the Sql 'IN' list using the iterable searchParams string
+                    string findlist = "";
+                    for (int i = 0; i < searchParams.Length; i++)
+                    {
+                        int aSearch;
+                        //Catch any attempt to pass in a non-int
+                        try
+                        {
+                            int.TryParse(searchParams[i], out aSearch);
+                        }
+                        catch
+                        {
+                            return null;
+                        }
+                        //Add the Sql '@' to the 'In' chain for this index of the parameter string 
+                        string findType = "@findType" + i;
+                        findlist += findType;
+                        //Add a comma between the statement if its not the last one in the list
+                        if (i != searchParams.Length - 1)
+                        {
+                            findlist += ", ";
+                        }
+
+                        //Tie this Id value to the command text as it is being built
+                        DbUtilities.AddParameter(cmd, findType, aSearch);
+                    }
+
+                    cmd.CommandText = @"
+                                        SELECT sc.Id AS SubId, sc.SubContractorBusinessName, sc.SubContractorImageUrl
+                                        FROM SubContractor sc
+                                        LEFT JOIN SubContractorJobType jt ON jt.SubContractorId = sc.Id
+                                        LEFT JOIN SubContractorType st ON jt.SubContractorTypeId = st.Id
+                                        WHERE st.Id IN ( "
+                                           + findlist + " )";
+                                        
+
+
+                    var reader = cmd.ExecuteReader();
+                    var subsOfType = new List<SubContractor>();
+
+                    while (reader.Read())
+                    {
+                        var sub = new SubContractor()
+                        {
+                            Id = DbUtilities.GetInt(reader, "SubId"),
+                            SubcontractorBusinessName = DbUtilities.GetString(reader, "SubContractorBusinessName"),
+                            SubContractorImageLocation = DbUtilities.GetString(reader, "SubContractorImageUrl")
+                        };
+                        subsOfType.Add(sub);
+                    }
+                    reader.Close();
+
+                    return subsOfType;
+
+                }
+            }
+        }
     }
 }
