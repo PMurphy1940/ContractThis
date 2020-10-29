@@ -8,6 +8,7 @@ export function SubContractorProvider(props) {
 
     const { getToken } = useContext(ProfileContext)
     const [subContractors, setSubContractors] = useState([])
+    const [subContractorTypes, setSubContractorTypes] = useState([])
 
     const RegisterSubcontractor = (subObject) => {
       debugger
@@ -23,9 +24,9 @@ export function SubContractorProvider(props) {
       .then((response) => response.json())
     }
 
-    const GetSubContractorTypes = (typeId) => {
+    const GetSubContractorsByType = (typeId) => {
         getToken().then((token) => 
-        fetch(`${apiUrl}/${typeId}`, {
+        fetch(`${apiUrl}/types/${typeId}`, {
           method: "GET",
           headers: {
             Authorization: `Bearer ${token}`
@@ -35,9 +36,23 @@ export function SubContractorProvider(props) {
         .then(setSubContractors)
         )
     }
+
+    const GetSubContractorTypes = () => {
+      getToken().then((token) => 
+      fetch(`${apiUrl}/types/`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+      .then((response) => response.json())
+      .then(setSubContractorTypes)
+      )
+    }
+
     return (
         <SubContractorContext.Provider
-          value={{ subContractors, GetSubContractorTypes, RegisterSubcontractor }}>         
+          value={{ subContractors, subContractorTypes, GetSubContractorTypes, RegisterSubcontractor, GetSubContractorsByType }}>         
              {props.children}           
         </SubContractorContext.Provider>
       );

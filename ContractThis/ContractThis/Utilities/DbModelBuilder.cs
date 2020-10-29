@@ -91,7 +91,7 @@ namespace ContractThis.Utilities
             {
                 Id = DbUtilities.GetInt(reader, "SubId"),
                 UserProfileId = DbUtilities.GetInt(reader, "UserProfileId"),
-                SubcontractorBusinessName = DbUtilities.GetString(reader, "SubcontractorBusinessName"),
+                SubcontractorBusinessName = DbUtilities.GetString(reader, "SubContractorBusinessName"),
                 SubContractorImageLocation = DbUtilities.GetString(reader, "SubContractorImageUrl"),
             };
 

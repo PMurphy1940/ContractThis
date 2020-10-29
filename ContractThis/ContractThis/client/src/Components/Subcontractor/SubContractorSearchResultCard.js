@@ -1,14 +1,13 @@
 import React from 'react';
 
 
-const ProjectComponentDetailCard = (props) => {
-
+const SubContractorSearchResultCard = (props) => {
+console.log("Sub props", props)
     return (
         <div className="project_Component_Detail_Card">
-                <h4 className="detail_Banner">{props.displayComponent.componentName}</h4>
+                <h4 className="detail_Banner">{props.sub.subcontractorBusinessName}</h4>
                 <div className="detail_Text">
-                    <p className="detail_Description" >{props.displayComponent.componentDescription}</p>
-                    <p className="detail_Budget">Cost to date: ${props.displayComponent.materialCost}</p>
+                    <p className="detail_Description" >{props.sub.subcontractorBusinessName}</p>
                 </div>
                 <button className="far fa-list-alt delete_Button" onClick={() => props.bigDetailPage(props.displayComponent.id) }/>
                 <button className="far fa-edit delete_Button" onClick={() => props.editComponent(props.displayComponent.id) }/>
@@ -17,4 +16,4 @@ const ProjectComponentDetailCard = (props) => {
     )
 }
 
-export default ProjectComponentDetailCard
+export default SubContractorSearchResultCard

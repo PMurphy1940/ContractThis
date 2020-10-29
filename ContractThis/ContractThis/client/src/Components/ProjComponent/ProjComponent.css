@@ -1,0 +1,56 @@
+.little_Project_Card {
+    display:flex;
+    flex-direction: row;
+    align-items: center;
+    position: absolute;
+    left: 2rem;
+}
+
+.large_Component_Container {
+    width: 45%;
+}
+
+.large_Detail_Container{
+    width: 45%;
+}
+
+.large_Component_List_Container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.project_component_Button_Container {
+    display:flex;
+    justify-content: space-evenly;
+    margin-top: 1rem;
+}
+
+.search_Subs{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.large_Detail_Container {
+
+}
+.large_Component_Description {
+    height: 7rem;
+    padding: 1rem;
+}
+
+.large_Component_Below_Description{
+    height: 30%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.large_Component_Detail_Card {
+    min-height: 20rem;
+    min-width: 15rem;
+    width: 42%;
+    border:lightgray 1px solid;
+    margin: 1rem;
+}

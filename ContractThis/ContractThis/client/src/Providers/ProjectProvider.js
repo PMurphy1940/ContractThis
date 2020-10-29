@@ -139,7 +139,6 @@ export function ProjectProvider(props) {
       }))
       .then((response) => {
         if (response.ok) {
-          setShowComponentFormActive(false);
               setUpdate(!update)
               return response.json();
         }

@@ -84,7 +84,7 @@ const ProjectList = () => {
     // set a selected component into state for display
     const selectComponentDisplay = (id) => {
         setShowComponentFormActive(false)
-        let components = displayProject.components
+        let components = [...displayProject.components]
         setDisplayComponent(components.find((component) => (component.id === id)))
     }
 
@@ -103,6 +103,10 @@ const ProjectList = () => {
 
     const deleteThisProject = (id) => {
         DeleteProject(id)
+    }
+
+    const bigDetailPage = () => {
+        history.push("/components")
     }
 
 //////////////////////////
@@ -170,6 +174,7 @@ const ProjectList = () => {
                                         selectDisplay={selectDisplay}
                                         deleteThisProject={deleteThisProject}
                                         editProject={editProject}
+                                        bigDetailPage={bigDetailPage}
                                     />
                                 )}                               
                             </div>

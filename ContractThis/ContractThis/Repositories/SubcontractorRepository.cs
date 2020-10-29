@@ -76,13 +76,13 @@ namespace ContractThis.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                                        SELECT Id, Speciality
+                                        SELECT Id, Specialty
                                         FROM SubContractorType
                                         ";
 
                     var reader = cmd.ExecuteReader();
 
-                    List<SubContractorType> subtypes = null;
+                    var subtypes = new List<SubContractorType>();
                     while (reader.Read())
                     {
                         var type = new SubContractorType()
@@ -97,6 +97,43 @@ namespace ContractThis.Repositories
                     reader.Close();
 
                     return subtypes;
+                }
+            }
+        }
+
+        public List<SubContractor> SearchByType(int id)
+        {
+            using( var conn = Connection)
+            {
+                conn.Open();
+                using( var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                                        SELECT sc.Id AS SubId, sc.SubContractorBusinessName, sc.SubContractorImageUrl
+                                        FROM SubContractor sc
+                                        LEFT JOIN SubContractorJobType jt ON jt.SubContractorId = sc.Id
+                                        LEFT JOIN SubContractorType st ON jt.SubContractorTypeId = st.Id
+                                        WHERE st.Id = @id
+                                        ";
+                    DbUtilities.AddParameter(cmd, "@id", id);
+
+                    var reader = cmd.ExecuteReader();
+                    var subsOfType = new List<SubContractor>();
+
+                    while (reader.Read())
+                    {
+                        var sub = new SubContractor()
+                        {
+                            Id = DbUtilities.GetInt(reader, "SubId"),
+                            SubcontractorBusinessName = DbUtilities.GetString(reader, "SubContractorBusinessName"),
+                            SubContractorImageLocation = DbUtilities.GetString(reader, "SubContractorImageUrl")
+                        };
+                        subsOfType.Add(sub);
+                    }
+                    reader.Close();
+
+                    return subsOfType;
+ 
                 }
             }
         }
