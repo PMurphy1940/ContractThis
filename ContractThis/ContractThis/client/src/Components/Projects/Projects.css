@@ -146,7 +146,7 @@
     color:  rgb(144, 104, 104);
 }
 
-.delete_Button{
+.delete_Button {
     min-width:4vw;
     border-radius: 5px;
     border: 2px  rgba(144, 104, 104, 0.39) solid;
@@ -207,7 +207,7 @@
     overflow-y: hidden;
 }
 
-.component_List_Container > h6, .large_Component_Container >h6 {
+.component_List_Container > h6, .large_Component_Container >h6, .image_Gallery >h6 {
     display:flex;
     justify-content: space-between;
 }

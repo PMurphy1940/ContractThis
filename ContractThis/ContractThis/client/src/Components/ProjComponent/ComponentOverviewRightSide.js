@@ -1,5 +1,6 @@
-import React from 'react'
-import SearchSubcontractor from "../Subcontractor/SearchSubcontractors"
+import React from 'react';
+import SearchSubcontractor from "../Subcontractor/SearchSubcontractors";
+import SubContractorChat from "./Chats/SubContractorChat";
 
 const ComponentOverviewRightSide = (props) => {
 
@@ -8,6 +9,9 @@ const ComponentOverviewRightSide = (props) => {
             <h6>Details</h6>
             <div className="large_Component_List_Container">
                 <SearchSubcontractor />
+            </div>
+            <div>
+                <SubContractorChat />
             </div>
         </div>
     )

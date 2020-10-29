@@ -5,6 +5,7 @@ import SubContractorSearchResultCard from "./SubContractorSearchResultCard"
 const SearchSubcontractor = () => {
     const [selectedTypes, setSelectedTypes] = useState()
     const [noneSelected, setNoneSelected] = useState(true)
+    const [searchButtonState, setSearchButtonState] = useState("search_Button")
 
     const {
         subContractors, 
@@ -30,6 +31,7 @@ const SearchSubcontractor = () => {
                 q.push(selectedTypes[i].id) 
             }
         }
+        setSearchButtonState("search_Button_Active")
         setNoneSelected(false);
         let tempArray = [...selectedTypes];
         const target = e.target.checked    
@@ -45,6 +47,7 @@ const SearchSubcontractor = () => {
         }
         if (q.length===0){
             setNoneSelected(true)
+            setSearchButtonState("search_Button")
         }
         console.log("qArray", q)
         setSelectedTypes(tempArray) 
@@ -80,6 +83,10 @@ const SearchSubcontractor = () => {
         GetSubContractorsByType(q)
     }
 
+    const openConversation = (id) => {
+        
+    }
+
     
     return (
         <>
@@ -94,7 +101,7 @@ const SearchSubcontractor = () => {
                 )}
         </form>
         <div className="search_Subs">
-            <button className="fas fa-hammer delete_Button" disabled={noneSelected} onClick={() => findSubs() }>Go get 'em</button>
+            <button id={searchButtonState} className="fas fa-hammer delete_Button" disabled={noneSelected} onClick={() => findSubs() }>Go get 'em</button>
         </div>
 
         {subContractors.map((sub) => 
@@ -108,19 +115,3 @@ const SearchSubcontractor = () => {
 }
 
 export default SearchSubcontractor
-
-// const TypeOption = (props) => {
-//     return (
-//     <option value={props.type.id}>{props.type.specialty}</option>
-//     )
-// } 
-
-// <select name="SubTypes" id="SubTypes" onChange={(e) => GetSubContractorsByType(e.target.value) }>
-//         <option>Select a trade</option>
-//             {subContractorTypes.map((type) => 
-//             <TypeOption
-//                 key={type.id}
-//                 type={type} 
-//                 />
-//             )}
-//         </select>

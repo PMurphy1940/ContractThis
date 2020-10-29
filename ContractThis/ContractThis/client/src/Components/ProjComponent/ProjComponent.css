@@ -54,3 +54,24 @@
     border:lightgray 1px solid;
     margin: 1rem;
 }
+
+#contact_Sub {
+    min-width:6vw;
+    border-radius: 5px;
+    border: 2px  rgba(98, 149, 100, 0.404) solid;
+    color:  rgb(98, 149, 100);
+}
+
+#search_Button {
+    min-width:4vw;
+    border-radius: 5px;
+    border: 2px  rgba(144, 104, 104, 0.39) solid;
+    color:  rgb(144, 104, 104);
+}
+
+#search_Button_Active {
+    min-width:4vw;
+    border-radius: 5px;
+    border: 2px  rgba(98, 149, 100, 0.404) solid;
+    color:  rgb(98, 149, 100);
+}

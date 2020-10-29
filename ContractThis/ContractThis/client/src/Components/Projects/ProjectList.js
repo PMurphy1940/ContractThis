@@ -165,7 +165,7 @@ const ProjectList = () => {
                         <div className="big_Project_Window">
                             <div className="project_Side_On_Large">
                                     <h6>Projects
-                                    <button className="fas fa-drafting-compass project_Add" onClick={() => setShowProjectForm(true) }>+</button>
+                                    <button className="fas fa-drafting-compass project_Add" onClick={() => setShowProjectForm(!showProjectForm) }>+</button>
                                     </h6>
                                 {projects.map((project) =>
                                     <ProjectCard 

@@ -8,7 +8,9 @@ export function WindowStateProvider(props) {
     const [editFormOpen, setEditFormOpen] = useState(false);
     const [showComponentFormActive, setShowComponentFormActive] = useState(false);
     const [addCompActive, setAddCompActive] = useState(false);
-    const [editProjectView, setEditProjectView] = useState(false)
+    const [editProjectView, setEditProjectView] = useState(false);
+    const [chatWindow, setChatWindow] = useState(false);
+    const [addImageWindowOpen, setAddImageWindowOpen] = useState(false);
     const [displayComponent, setDisplayComponent] = useState();
 
 
@@ -21,7 +23,9 @@ export function WindowStateProvider(props) {
                 showComponentFormActive, setShowComponentFormActive,
                 addCompActive, setAddCompActive,
                 editProjectView, setEditProjectView,
-                displayComponent, setDisplayComponent
+                displayComponent, setDisplayComponent,
+                chatWindow, setChatWindow,
+                addImageWindowOpen, setAddImageWindowOpen
             }}>
             {props.children}
         </WindowStateContext.Provider>
