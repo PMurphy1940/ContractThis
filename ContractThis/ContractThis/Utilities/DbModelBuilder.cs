@@ -118,5 +118,22 @@ namespace ContractThis.Utilities
 
             return subContractorBid;
         }
+
+        /// <summary>
+        /// Builds an instance of a Component Image from a Sql Data Reader object
+        /// </summary>
+        /// <param name="reader"></param>
+        /// <returns>Instance of a <strong>Component Image</strong></returns>
+        public static ProjectComponentImages BuildComponentImageModel(SqlDataReader reader)
+        {
+            var image = new ProjectComponentImages()
+            {
+                Id = DbUtilities.GetInt(reader, "PCImageId"),
+                ProjectComponentId = DbUtilities.GetInt(reader, "ProjectComponentId"),
+                ImageLocation = DbUtilities.GetString(reader, "ProjectComponentImageUrl"),
+            };
+
+            return image;
+        }
     }
 }
