@@ -1,25 +1,23 @@
 import React, { useState, useContext } from 'react';
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import { ComponentContext } from "../../../Providers/ComponentProvider"
-import { WindowStateContext } from "../../../Providers/WindowStateProvider"
 
 const AddImageForm = () => {
     const [url, setUrl] = useState('')
-
-    const {
-        displayComponent
-    } = useContext(WindowStateContext)
     
     const {
-        AddNewImage
+        AddNewImage,
+        displayComponent
     } = useContext(ComponentContext)
     
-    const SaveImageLink = () => {
+    const SaveImageLink = (e) => {
+        e.preventDefault()
         const imageObject = { 
              ProjectComponentId: displayComponent.id,
              ProjectComponentImageUrl: url
                  }
         AddNewImage(imageObject)
+        // console.log(imageObject)
     } 
 
     return (

@@ -10,7 +10,7 @@ const ImageCard = (props) => {
             delay= {(props.indexDelay * .3)}
             distance='0'
             >
-            <p>pictures</p>
+            <img className="component_Image" src={props.image.projectComponentImageUrl} />
         </FadeIn>
     )
 }

@@ -3,6 +3,7 @@ import { useHistory, Link } from 'react-router-dom'
 import { ProjectContext } from "../../Providers/ProjectProvider"
 import { ProfileContext } from "../../Providers/ProfileProvider"
 import { WindowStateContext } from "../../Providers/WindowStateProvider"
+import { ComponentContext } from "../../Providers/ComponentProvider"
 import ProjectCard from "./ProjectCard";
 import ProjectForm from "./Forms/ProjectForm";
 import ProjectEditForm from "./Forms/ProjectEditForm"
@@ -53,8 +54,11 @@ const ProjectList = () => {
         showProjectForm, setShowProjectForm,
         setShowComponentFormActive,
         setEditFormOpen,
-        displayComponent, setDisplayComponent
     } = useContext(WindowStateContext)
+
+    const {
+        displayComponent, setDisplayComponent
+    } = useContext(ComponentContext)
 
     const LogOutUser = () => {
         logout()

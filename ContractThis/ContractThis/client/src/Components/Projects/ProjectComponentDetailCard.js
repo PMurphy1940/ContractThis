@@ -1,20 +1,26 @@
-import React, { useContext } from 'react';
-import ImageCard from "./DetailComponents/ImageCard"
-import AddImageForm from "./Forms/AddImageForm"
-import { WindowStateContext } from "../../Providers/WindowStateProvider"
+import React, { useContext, useEffect } from 'react';
+import ImageCard from "./DetailComponents/ImageCard";
+import AddImageForm from "./Forms/AddImageForm";
+import { WindowStateContext } from "../../Providers/WindowStateProvider";
+import { ComponentContext } from "../..//Providers/ComponentProvider";
 
 const ProjectComponentDetailCard = (props) => {
 
     const { addImageWindowOpen } = useContext(WindowStateContext);
-
+    const { displayComponent, GetComponentById } = useContext(ComponentContext);
     let indexDelay = 1
+useEffect(()=> {
+    GetComponentById(displayComponent.id)
+}, [])
+
+    console.log("Comp", displayComponent)
 
     return (
         <div className="project_Component_Detail_Card">
-            <h4 className="detail_Banner">{props.displayComponent.componentName}</h4>
+            <h4 className="detail_Banner">{displayComponent.componentName}</h4>
             <div className="detail_Text">
-                <p className="detail_Description" >{props.displayComponent.componentDescription}</p>
-                <p className="detail_Budget">Cost to date: ${props.displayComponent.materialCost}</p>
+                <p className="detail_Description" >{displayComponent.componentDescription}</p>
+                <p className="detail_Budget">Cost to date: ${displayComponent.materialCost}</p>
             </div>
             <div className="project_component_Button_Container">
                 <button className="far fa-list-alt delete_Button" onClick={() => props.bigDetailPage(props.displayComponent.id) }/>
@@ -29,9 +35,15 @@ const ProjectComponentDetailCard = (props) => {
                     {addImageWindowOpen ? 
                         <AddImageForm />
                         :
+                        <>
+                        {(displayComponent !== undefined && displayComponent.componentImages !== null) && displayComponent.componentImages.map((image) =>
                         <ImageCard
+                            image={image}
+                            key={image.id}
                             indexDelay={indexDelay++} 
-                            />  
+                            /> 
+                         )}
+                            </> 
                     }
                 </div>
             </div>

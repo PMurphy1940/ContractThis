@@ -130,7 +130,7 @@ namespace ContractThis.Utilities
             {
                 Id = DbUtilities.GetInt(reader, "PCImageId"),
                 ProjectComponentId = DbUtilities.GetInt(reader, "ProjectComponentId"),
-                ImageLocation = DbUtilities.GetString(reader, "ProjectComponentImageUrl"),
+                ProjectComponentImageUrl = DbUtilities.GetString(reader, "ProjectComponentImageUrl"),
             };
 
             return image;

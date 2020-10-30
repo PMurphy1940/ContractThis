@@ -8,6 +8,7 @@ export const ComponentContext = createContext()
 export function ComponentProvider(props) {
     const apiUrl = "/api/component";
     const [images, setImages] = useState([])
+    const [displayComponent, setDisplayComponent] = useState();
     const [update, setUpdate] = useState(false);
     const { getToken } = useContext(ProfileContext)
     const { setAddImageWindowOpen, setShowComponentFormActive } = useContext(WindowStateContext);
@@ -39,10 +40,22 @@ export function ComponentProvider(props) {
             if (response.ok) {
                 setAddImageWindowOpen(false)
                 GetComponentImages(imageObject.ProjectComponentId)
-                return response.json();
             }
             throw new Error("Unauthorized");
           });  
+    }
+
+    const GetComponentById = (id) => {
+        getToken().then((token)=> 
+        fetch(`${apiUrl}/single/${id}`, {
+            method: "GET",
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+        .then((response) => response.json())
+        .then(setDisplayComponent)
+        )
     }
 
     const AddNewComponent = (componentObject) => {
@@ -101,7 +114,7 @@ export function ComponentProvider(props) {
 
     return (
         <ComponentContext.Provider
-          value={{ images, GetComponentImages, AddNewImage }}>         
+          value={{ images, displayComponent, setDisplayComponent, GetComponentImages, AddNewImage, GetComponentById }}>         
              {props.children}           
         </ComponentContext.Provider>
       );

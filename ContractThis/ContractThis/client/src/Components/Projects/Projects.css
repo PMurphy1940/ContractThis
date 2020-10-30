@@ -123,6 +123,8 @@
     margin: 1rem;
     max-height: 5rem;
 }
+
+
 .project_Side_On_Large {
     width: 30%;
     height:90vh;
@@ -253,4 +255,13 @@
     justify-content: space-between;
 }
 
+.images_Container {
+    display:flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+}
 
+.component_Image {
+    max-width: 13vw;
+}

@@ -109,7 +109,7 @@ namespace ContractThis.Repositories
                         {
                             Id = DbUtilities.GetInt(reader, "Id"),
                             ProjectComponentId = DbUtilities.GetInt(reader, "ProjectComponentId"),
-                            ImageLocation = DbUtilities.GetString(reader, "ProjectComponentImageUrl")
+                            ProjectComponentImageUrl = DbUtilities.GetString(reader, "ProjectComponentImageUrl")
                         };
 
                         images.Add(anImage);
@@ -135,7 +135,7 @@ namespace ContractThis.Repositories
                                         Values (@ProjectComponentId, @ProjectComponentImageUrl)
                                         ";
                     DbUtilities.AddParameter(cmd, "@ProjectComponentId", image.ProjectComponentId);
-                    DbUtilities.AddParameter(cmd, "@ProjectComponentImageUrl", image.ImageLocation);
+                    DbUtilities.AddParameter(cmd, "@ProjectComponentImageUrl", image.ProjectComponentImageUrl);
 
                     image.Id = (int)cmd.ExecuteScalar();
                 }
