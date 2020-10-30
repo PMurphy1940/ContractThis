@@ -1,18 +1,25 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { ProfileContext } from "./ProfileProvider"
 import LocalUserProvider from "../Helpers/LocalUserGets"
+import { WindowStateContext } from "../Providers/WindowStateProvider"
+
 export const ProjectContext = createContext()
 
 export function ProjectProvider(props) {
     const apiUrl = "/api/project";
     const { getToken } = useContext(ProfileContext)
+    const { editFormOpen,setEditFormOpen,
+            showComponentFormActive, setShowComponentFormActive,
+            showProjectForm, setShowProjectForm
+          } = useContext(WindowStateContext);
+
     const [projects, setProjects] = useState([]);
     const [displayProject, setDisplayProject] = useState();
-    const [showProjectForm, setShowProjectForm] = useState(false);
-    const [showComponentFormActive, setShowComponentFormActive] = useState(false)
+    // const [showProjectForm, setShowProjectForm] = useState(false);
+    // const [showComponentFormActive, setShowComponentFormActive] = useState(false)
     const [update, setUpdate] = useState(false);
     const [updatedProject, setUpdatedProject] = useState(false)
-    const [editFormOpen,setEditFormOpen] = useState(false)
+    // const [editFormOpen,setEditFormOpen] = useState(false)
 
 //     useEffect(() =>{
 //       UpdateProjects(displayProject)
@@ -163,10 +170,10 @@ export function ProjectProvider(props) {
 
     return (
         <ProjectContext.Provider
-          value={{ projects, displayProject, setDisplayProject, showProjectForm, setShowProjectForm, 
-                    showComponentFormActive, setShowComponentFormActive, GetUsersProjects, AddNewProject, 
-                    UpdateProject, DeleteProject, AddNewComponent, UpdateComponent, DeleteComponent, update, setUpdate, 
-                    updatedProject, editFormOpen, setEditFormOpen, GetProjectById }}>         
+          value={{ projects, displayProject, setDisplayProject,
+                    GetUsersProjects, AddNewProject, update, setUpdate,
+                    UpdateProject, DeleteProject, AddNewComponent, UpdateComponent,   
+                    DeleteComponent, updatedProject, GetProjectById }}>         
              {props.children}           
         </ProjectContext.Provider>
       );

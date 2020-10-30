@@ -77,40 +77,41 @@ const ProjectList = () => {
     },[updatedProject])
     //Set a selected project into state for display and place window views into their default position
     const selectDisplay = (id) => {
-        setShowProjectForm(false)
-        setEditFormOpen(false)
+        setShowProjectForm(false);
+        setEditFormOpen(false);
+        setEditProjectView(false);
         setShowComponentFormActive(false);
-        setDisplayProject(projects.find((project) => (project.id === id)))
-        setAddCompActive(true)
-        setDisplayComponent()
+        setDisplayProject(projects.find((project) => (project.id === id)));
+        setAddCompActive(true);
+        setDisplayComponent();
     }
 
     // set a selected component into state for display
     const selectComponentDisplay = (id) => {
         setShowComponentFormActive(false)
         let components = [...displayProject.components]
-        setDisplayComponent(components.find((component) => (component.id === id)))
+        setDisplayComponent(components.find((component) => (component.id === id)));
     }
 
     const editProject = (id) => {
-        setDisplayProject(projects.find((project) => (project.id === id)))
-        setEditProjectView(true)
-        setShowProjectForm(true)
+        setDisplayProject(projects.find((project) => (project.id === id)));
+        setEditProjectView(true);
+        setShowProjectForm(true);
     }
 
     const cancelAdd = () => {
-        setEditProjectView(false)
-        setShowComponentFormActive(false)
+        setEditProjectView(false);
+        setShowComponentFormActive(false);
         setShowProjectForm(false);
         setDisplayProject();
     }
 
     const deleteThisProject = (id) => {
-        DeleteProject(id)
+        DeleteProject(id);
     }
 
     const bigDetailPage = () => {
-        history.push("/components")
+        history.push("/components");
     }
 
 //////////////////////////
