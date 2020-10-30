@@ -122,6 +122,25 @@ namespace ContractThis.Repositories
             }
         }
 
+        public void AddCompleteDateToComponent(ProjectComponent component)
+        {
+            using( var conn = Connection)
+            {
+                conn.Open();
+                using( var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                                        UPDATE ProjectComponent 
+                                        SET DateComplete = @DateComplete
+                                        WHERE Id = @id
+                                        ";
+                    DbUtilities.AddParameter(cmd, "@DateComplete", component.DateComplete);
+                    DbUtilities.AddParameter(cmd, "@id", component.Id);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
         public void AddComponentImage(ProjectComponentImages image)
         {
             using (var conn = Connection)

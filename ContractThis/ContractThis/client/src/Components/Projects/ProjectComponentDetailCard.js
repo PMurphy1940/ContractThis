@@ -7,17 +7,27 @@ import { ComponentContext } from "../..//Providers/ComponentProvider";
 const ProjectComponentDetailCard = (props) => {
 
     const { addImageWindowOpen } = useContext(WindowStateContext);
-    const { displayComponent, GetComponentById } = useContext(ComponentContext);
+    const { displayComponent, GetComponentById, 
+            AddCompletedDateToComponent } = useContext(ComponentContext);
+
     let indexDelay = 1
+
 useEffect(()=> {
     GetComponentById(displayComponent.id)
 }, [])
 
-    console.log("Comp", displayComponent)
-
+const MarkComponentComplete = () => {
+    AddCompletedDateToComponent(displayComponent);
+}
     return (
         <div className="project_Component_Detail_Card">
-            <h4 className="detail_Banner">{displayComponent.componentName}</h4>
+            <h4 className="detail_Banner_With_Button">{displayComponent.componentName}
+                <button className="fas fa-flag-checkered complete_Button" onClick={() => MarkComponentComplete() }>
+                <div>
+                    Complete
+                </div>
+                </button>
+            </h4>
             <div className="detail_Text">
                 <p className="detail_Description" >{displayComponent.componentDescription}</p>
                 <p className="detail_Budget">Cost to date: ${displayComponent.materialCost}</p>

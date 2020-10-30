@@ -60,7 +60,7 @@ export function ComponentProvider(props) {
 
     const AddNewComponent = (componentObject) => {
       getToken().then((token) => 
-        fetch(`${apiUrl}/component`, {
+        fetch(`${apiUrl}`, {
             method: "POST",
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -81,7 +81,7 @@ export function ComponentProvider(props) {
     const UpdateComponent = (updatedComponent, id) => {
 
       getToken().then((token) => 
-      fetch(`${apiUrl}/component/${id}`, {
+      fetch(`${apiUrl}/${id}`, {
         method: "PUT",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -100,7 +100,7 @@ export function ComponentProvider(props) {
 
     const DeleteComponent = (id) => {
       getToken().then((token) => 
-      fetch(`${apiUrl}/component/${id}`, {
+      fetch(`${apiUrl}/${id}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`
@@ -111,10 +111,29 @@ export function ComponentProvider(props) {
       })
     }
 
+    const AddCompletedDateToComponent = (completeComponent) =>{
+        getToken().then((token) =>
+        fetch(`${apiUrl}/completed/${displayComponent.id}`, {
+            method: "PUT",
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(completeComponent)
+        }))
+        .then((response) => {
+            if (response.ok) {
+                  setUpdate(!update)
+            }
+            throw new Error("Unauthorized");
+          })
+    }
+
 
     return (
         <ComponentContext.Provider
-          value={{ images, displayComponent, setDisplayComponent, GetComponentImages, AddNewImage, GetComponentById }}>         
+          value={{ images, displayComponent, setDisplayComponent, GetComponentImages,
+                     AddNewImage, GetComponentById, AddCompletedDateToComponent }}>         
              {props.children}           
         </ComponentContext.Provider>
       );
