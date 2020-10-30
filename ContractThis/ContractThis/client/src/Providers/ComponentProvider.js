@@ -40,8 +40,9 @@ export function ComponentProvider(props) {
             if (response.ok) {
                 setAddImageWindowOpen(false)
                 GetComponentImages(imageObject.ProjectComponentId)
+                return;
             }
-            throw new Error("Unauthorized");
+            window.alert(new Error("Unable to complete request"));
           });  
     }
 
@@ -74,7 +75,7 @@ export function ComponentProvider(props) {
               setUpdate(!update)
               return response.json();
             }
-            throw new Error("Unauthorized");
+            window.alert(new Error("Unable to complete request"));
           });    
     }
 
@@ -94,7 +95,7 @@ export function ComponentProvider(props) {
               setUpdate(!update)
               return response.json();
         }
-        throw new Error("Unauthorized");
+        window.alert(new Error("Unable to complete request"));
       })
     }
 
@@ -124,8 +125,9 @@ export function ComponentProvider(props) {
         .then((response) => {
             if (response.ok) {
                   setUpdate(!update)
+                   ;
             }
-            throw new Error("Unauthorized");
+            window.alert(new Error("Unable to complete request"));
           })
     }
 

@@ -129,7 +129,7 @@ export function ProjectProvider(props) {
               // GetUsersProjects(LocalUserProvider.userId())
               return response.json();
             }
-            throw new Error("Unauthorized");
+            window.alert(new Error("Unable to complete request"));
           });    
     }
 
@@ -149,7 +149,7 @@ export function ProjectProvider(props) {
               setUpdate(!update)
               return response.json();
         }
-        throw new Error("Unauthorized");
+        window.alert(new Error("Unable to complete request"));
       })
     }
 
