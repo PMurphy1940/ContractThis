@@ -40,8 +40,9 @@ export function ComponentProvider(props) {
             if (response.ok) {
                 setAddImageWindowOpen(false)
                 GetComponentImages(imageObject.ProjectComponentId)
+                return;
             }
-            throw new Error("Unauthorized");
+            window.alert(new Error("Unable to complete request"));
           });  
     }
 
@@ -60,7 +61,7 @@ export function ComponentProvider(props) {
 
     const AddNewComponent = (componentObject) => {
       getToken().then((token) => 
-        fetch(`${apiUrl}/component`, {
+        fetch(`${apiUrl}`, {
             method: "POST",
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -74,14 +75,14 @@ export function ComponentProvider(props) {
               setUpdate(!update)
               return response.json();
             }
-            throw new Error("Unauthorized");
+            window.alert(new Error("Unable to complete request"));
           });    
     }
 
     const UpdateComponent = (updatedComponent, id) => {
 
       getToken().then((token) => 
-      fetch(`${apiUrl}/component/${id}`, {
+      fetch(`${apiUrl}/${id}`, {
         method: "PUT",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -94,13 +95,13 @@ export function ComponentProvider(props) {
               setUpdate(!update)
               return response.json();
         }
-        throw new Error("Unauthorized");
+        window.alert(new Error("Unable to complete request"));
       })
     }
 
     const DeleteComponent = (id) => {
       getToken().then((token) => 
-      fetch(`${apiUrl}/component/${id}`, {
+      fetch(`${apiUrl}/${id}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`
@@ -111,10 +112,30 @@ export function ComponentProvider(props) {
       })
     }
 
+    const AddCompletedDateToComponent = (completeComponent) =>{
+        getToken().then((token) =>
+        fetch(`${apiUrl}/completed/${displayComponent.id}`, {
+            method: "PUT",
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(completeComponent)
+        }))
+        .then((response) => {
+            if (response.ok) {
+                  setUpdate(!update)
+                   ;
+            }
+            window.alert(new Error("Unable to complete request"));
+          })
+    }
+
 
     return (
         <ComponentContext.Provider
-          value={{ images, displayComponent, setDisplayComponent, GetComponentImages, AddNewImage, GetComponentById }}>         
+          value={{ images, displayComponent, setDisplayComponent, GetComponentImages,
+                     AddNewImage, GetComponentById, AddCompletedDateToComponent }}>         
              {props.children}           
         </ComponentContext.Provider>
       );

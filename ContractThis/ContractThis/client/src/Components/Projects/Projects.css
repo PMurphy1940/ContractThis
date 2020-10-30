@@ -87,7 +87,7 @@
 }
 
 .project_Component_Card, .project_Card, .detail_Banner, .project_Dashboard h6,
-.project_Dashboard > h4, .top_Space, .project_With_Add_Button >button, .large_Detail_Banner {
+.project_Dashboard > h4, .top_Space, .project_With_Add_Button >button, .large_Detail_Banner, .detail_Banner_With_Button {
     border-bottom: 1px lightgray solid;
 }
 
@@ -99,7 +99,7 @@
     background-color: rgba(211, 211, 211, 0.111);
 }
 
-.detail_Banner, .detail_Budget, .large_Detail_Banner {
+.detail_Banner, .detail_Budget, .large_Detail_Banner, .detail_Banner_With_Button {
     background-color: rgba(211, 211, 211, 0.211);
 }
 
@@ -109,7 +109,7 @@
 }
 
 .find_A_Sub_Link, .detail_Banner, .detail_Text, .address, .userName, form, .form_input,
- .inner_Form_Box, .logout_Button, .large_Detail_Banner, .detail_Budget {
+ .inner_Form_Box, .logout_Button, .large_Detail_Banner, .detail_Budget, .complete_Button > div, .detail_Banner_With_Button {
     font-family: 'Oswald', sans-serif;
 }
 
@@ -124,11 +124,11 @@
     max-height: 5rem;
 }
 
-
 .project_Side_On_Large {
     width: 30%;
     height:90vh;
 }
+
 .project_Side_On_Large > h6 {
     display:flex;
     justify-content: space-between;
@@ -162,6 +162,7 @@
     border: 2px  rgba(98, 149, 100, 0.404) solid;
     color:  rgb(83, 114, 84);
 }
+
 #project_Save_Active {
     margin-right: 1rem;
     min-width:6vw;
@@ -178,6 +179,7 @@
     border: 2px  rgba(98, 149, 100, 0.404) solid;
     color:  rgb(83, 114, 84);
 }
+
 #component_Save_Active {
     min-width:6vw;
     border-radius: 5px;
@@ -209,7 +211,8 @@
     overflow-y: hidden;
 }
 
-.component_List_Container > h6, .large_Component_Container >h6, .image_Gallery >h6 {
+.component_List_Container > h6, .large_Component_Container >h6, .image_Gallery >h6, .detail_Banner_With_Button,
+.add_Project_Banner, .add_Component_Banner {
     display:flex;
     justify-content: space-between;
 }
@@ -218,9 +221,9 @@
     width: 30%;
 }
 
-.detail_Banner {
+/* .detail_Banner {
     padding: 1rem 0 0 1rem  ;
-}
+} */
 
 .detail_Description {
     padding: 1rem;
@@ -249,12 +252,6 @@
     margin: 0 5vw;
 }
 
-
-.add_Project_Banner, .add_Component_Banner {
-    display:flex;
-    justify-content: space-between;
-}
-
 .images_Container {
     display:flex;
     flex-direction: row;
@@ -264,4 +261,21 @@
 
 .component_Image {
     max-width: 13vw;
+}
+.detail_Banner_With_Button {
+    padding: .5rem;
+}
+
+.complete_Button {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    min-width:6vw;
+    border-radius: 5px;
+    border: 2px  rgba(98, 149, 100, 0.404) solid;
+    color:  rgb(98, 149, 100);
+}
+
+.complete_Button > div {
+    font-size: .8rem;
 }

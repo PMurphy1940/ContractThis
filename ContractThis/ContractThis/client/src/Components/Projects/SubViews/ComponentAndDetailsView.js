@@ -6,9 +6,11 @@ import ProjectComponentCard from "../ProjectComponentCard"
 import ProjectComponentDetailCard from "../ProjectComponentDetailCard"
 import ComponentForm from "../Forms/ComponentForm"
 import ComponentEditForm from "../Forms/ComponentEditForm"
+import { tsNullKeyword } from '@babel/types';
 
 
 const ComponentAndDetails = (props) => {
+    const [activeComponents, setActiveComponents] = useState([])
 
     const {
         displayProject, 
@@ -23,9 +25,21 @@ const ComponentAndDetails = (props) => {
     } = useContext(WindowStateContext)
 
     const history = useHistory();
+
+    useEffect(() => {
+        if(displayProject !== undefined && displayProject.components !== undefined){
+            readActiveComponents()
+        }
+    }, [displayProject])
+
     useEffect(() => {
         setDisplayProject(displayProject)
     }, [update])
+
+    const readActiveComponents = () => {
+        setActiveComponents(displayProject.components.filter((component) => (component.dateComplete === null)))        
+        console.log("Active", activeComponents)
+    }
 
     const cancelAdd = () => {
         setShowComponentFormActive(false);
@@ -98,7 +112,7 @@ const ComponentAndDetails = (props) => {
                         onClick={() => {setShowComponentFormActive(!showComponentFormActive)}}
                 >+</button>
             </h6>
-                {(displayProject !== undefined && displayProject.components !== undefined) && displayProject.components.map((component) =>
+                {(displayProject !== undefined && displayProject.components !== undefined) && activeComponents.map((component) =>
                     <ProjectComponentCard 
                         key={component.id}
                         component={component}

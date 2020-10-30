@@ -2,6 +2,7 @@
 using ContractThis.Models;
 using ContractThis.Repositories;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.VisualBasic;
 
 namespace ContractThis.Controllers
 {
@@ -77,6 +78,23 @@ namespace ContractThis.Controllers
 
         }
 
+        [HttpPut("completed/{id}")]
+        public IActionResult MarkComponentAsComplete(ProjectComponent component, int id)
+        {
+            //Ensure that the project for which the complete is being submitted belongs to the current user
+            //OR an authorized subcontractor
+            var currentUser = GetCurrentUserProfile();
+            var project = _projectRepository.GetSingleProjectById(component.ProjectId);
+
+            if (currentUser.Id == project.UserProfileId || currentUser.Id == component.SubcontractorId)
+            {
+                component.DateComplete =  DateAndTime.Now;
+                _componentRepository.AddCompleteDateToComponent(component);
+                return Ok();
+            }
+
+            return Unauthorized();
+        }
         private UserProfile GetCurrentUserProfile()
         {
             var firebaseUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
