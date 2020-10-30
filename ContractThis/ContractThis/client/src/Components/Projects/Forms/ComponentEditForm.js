@@ -1,6 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { ProjectContext } from "../../../Providers/ProjectProvider"
 import FadeIn from "../../../Helpers/FadeIn"
+import { WindowStateContext } from "../../../Providers/WindowStateProvider"
 
 const ComponentEditForm = (props) => {
 
@@ -8,6 +9,11 @@ const ComponentEditForm = (props) => {
     const [saveButtonClass, setSaveButtonClass] = useState("component_Save")
     const [componentToEdit, setComponentToEdit] = useState({...props.displayComponent})
 
+    const {
+        showComponentFormActive, setShowComponentFormActive,
+        editFormOpen,setEditFormOpen,
+    } = useContext(WindowStateContext)
+    
     const {
         AddNewComponent,
         displayProject,
@@ -26,6 +32,7 @@ const ComponentEditForm = (props) => {
         let id = componentToEdit.id
         componentToEdit.materialCost = parseInt(componentToEdit.materialCost)
         UpdateComponent(componentToEdit, id)
+        setShowComponentFormActive(false);
      };
     return (
             <div className="component_Detail_Container">

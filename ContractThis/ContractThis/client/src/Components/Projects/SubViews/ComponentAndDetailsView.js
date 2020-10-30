@@ -14,12 +14,12 @@ const ComponentAndDetails = (props) => {
         displayProject, 
         DeleteComponent,
         update,
-        setDisplayProject,       
+        setDisplayProject    
     } = useContext(ProjectContext)
 
     const {
         showComponentFormActive, setShowComponentFormActive,
-        editFormOpen,setEditFormOpen,
+        editFormOpen,setEditFormOpen, addImageWindowOpen, setAddImageWindowOpen
     } = useContext(WindowStateContext)
 
     const history = useHistory();
@@ -45,6 +45,10 @@ const ComponentAndDetails = (props) => {
     const bigDetailPage = (id) => {
         history.push("/components")
     }
+
+    const addImage = () => {
+        setAddImageWindowOpen(!addImageWindowOpen)
+    }
     
     const newOrEditForm = () => {
 
@@ -59,6 +63,7 @@ const ComponentAndDetails = (props) => {
                                 bigDetailPage={bigDetailPage}
                                 deleteThisComponent={deleteThisComponent}
                                 editComponent={editComponent}
+                                addImage={addImage}
                             />
                         }
                 </div> 
@@ -90,7 +95,7 @@ const ComponentAndDetails = (props) => {
             <h6>Components
                 <button className="fas fa-paint-roller project_Add" 
                         disabled={!props.addCompActive} 
-                        onClick={() => {setShowComponentFormActive(true)}}
+                        onClick={() => {setShowComponentFormActive(!showComponentFormActive)}}
                 >+</button>
             </h6>
                 {(displayProject !== undefined && displayProject.components !== undefined) && displayProject.components.map((component) =>

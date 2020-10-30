@@ -27,7 +27,7 @@ namespace ContractThis.Controllers
             return Ok(CreatedAtAction("Get", new { id = subContractor.Id }, subContractor));
         }
 
-        [HttpGet]
+        [HttpGet("types/")]
         public IActionResult GetSubTypes()
         {
             var types = _SubcontractorRepository.GetSubContractorTypes();
@@ -38,6 +38,21 @@ namespace ContractThis.Controllers
             return NotFound();
         }
 
+        [HttpGet("types/{id}")]
+        public IActionResult GetAllOfType(int id)
+        {
+            var result = _SubcontractorRepository.SearchByType(id);
+
+            return result != null ? Ok(result) : (IActionResult)NotFound();
+        }
+
+        [HttpGet("find")]
+        public IActionResult GetAllOfType(string q)
+        {
+            var result = _SubcontractorRepository.SearchByMultipleTypes(q);
+
+            return result != null ? Ok(result) : (IActionResult)NotFound();
+        }
         [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {

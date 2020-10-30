@@ -3,6 +3,7 @@ import { useHistory, Link } from 'react-router-dom'
 import { ProjectContext } from "../../Providers/ProjectProvider"
 import { ProfileContext } from "../../Providers/ProfileProvider"
 import { WindowStateContext } from "../../Providers/WindowStateProvider"
+import { ComponentContext } from "../../Providers/ComponentProvider"
 import ProjectCard from "./ProjectCard";
 import ProjectForm from "./Forms/ProjectForm";
 import ProjectEditForm from "./Forms/ProjectEditForm"
@@ -53,8 +54,11 @@ const ProjectList = () => {
         showProjectForm, setShowProjectForm,
         setShowComponentFormActive,
         setEditFormOpen,
-        displayComponent, setDisplayComponent
     } = useContext(WindowStateContext)
+
+    const {
+        displayComponent, setDisplayComponent
+    } = useContext(ComponentContext)
 
     const LogOutUser = () => {
         logout()
@@ -73,36 +77,41 @@ const ProjectList = () => {
     },[updatedProject])
     //Set a selected project into state for display and place window views into their default position
     const selectDisplay = (id) => {
-        setShowProjectForm(false)
-        setEditFormOpen(false)
+        setShowProjectForm(false);
+        setEditFormOpen(false);
+        setEditProjectView(false);
         setShowComponentFormActive(false);
-        setDisplayProject(projects.find((project) => (project.id === id)))
-        setAddCompActive(true)
-        setDisplayComponent()
+        setDisplayProject(projects.find((project) => (project.id === id)));
+        setAddCompActive(true);
+        setDisplayComponent();
     }
 
     // set a selected component into state for display
     const selectComponentDisplay = (id) => {
         setShowComponentFormActive(false)
-        let components = displayProject.components
-        setDisplayComponent(components.find((component) => (component.id === id)))
+        let components = [...displayProject.components]
+        setDisplayComponent(components.find((component) => (component.id === id)));
     }
 
     const editProject = (id) => {
-        setDisplayProject(projects.find((project) => (project.id === id)))
-        setEditProjectView(true)
-        setShowProjectForm(true)
+        setDisplayProject(projects.find((project) => (project.id === id)));
+        setEditProjectView(true);
+        setShowProjectForm(true);
     }
 
     const cancelAdd = () => {
-        setEditProjectView(false)
-        setShowComponentFormActive(false)
+        setEditProjectView(false);
+        setShowComponentFormActive(false);
         setShowProjectForm(false);
         setDisplayProject();
     }
 
     const deleteThisProject = (id) => {
-        DeleteProject(id)
+        DeleteProject(id);
+    }
+
+    const bigDetailPage = () => {
+        history.push("/components");
     }
 
 //////////////////////////
@@ -161,7 +170,7 @@ const ProjectList = () => {
                         <div className="big_Project_Window">
                             <div className="project_Side_On_Large">
                                     <h6>Projects
-                                    <button className="fas fa-drafting-compass project_Add" onClick={() => setShowProjectForm(true) }>+</button>
+                                    <button className="fas fa-drafting-compass project_Add" onClick={() => setShowProjectForm(!showProjectForm) }>+</button>
                                     </h6>
                                 {projects.map((project) =>
                                     <ProjectCard 
@@ -170,6 +179,7 @@ const ProjectList = () => {
                                         selectDisplay={selectDisplay}
                                         deleteThisProject={deleteThisProject}
                                         editProject={editProject}
+                                        bigDetailPage={bigDetailPage}
                                     />
                                 )}                               
                             </div>

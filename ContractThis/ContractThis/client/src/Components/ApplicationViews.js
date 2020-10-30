@@ -4,9 +4,8 @@ import { ProfileContext } from "../Providers/ProfileProvider";
 import Login from "./Login_Reg/Login";
 import Register from "./Login_Reg/Registration";
 import ProjectList from "./Projects/ProjectList";
-import ProjectForm from "./Projects/Forms/ProjectForm";
-import ComponentForm from "./Projects/Forms/ComponentForm";
 import ComponentOverview from "./ProjComponent/ComponentOverview"
+import { ComponentProvider } from "../Providers/ComponentProvider"
 import { Logout } from "./Login_Reg/Logout";
 import { SubContractorProvider } from "../Providers/SubContractorProvider";
 import { ProjectProvider } from "../Providers/ProjectProvider";
@@ -33,9 +32,11 @@ const ApplicationViews = () => {
 
                 <Route path="/projects">
                     <ProjectProvider>
-                        <SubContractorProvider>
-                            <ProjectList />     
-                        </SubContractorProvider>
+                        <ComponentProvider>
+                            <SubContractorProvider>
+                                <ProjectList />     
+                            </SubContractorProvider>
+                        </ComponentProvider>
                     </ProjectProvider>
                 </Route>
 
