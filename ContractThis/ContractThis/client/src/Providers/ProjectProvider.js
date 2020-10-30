@@ -38,9 +38,22 @@ export function ProjectProvider(props) {
 
 
 //Database calls//
+    // const GetUsersProjects = (id) => {
+    //     return fetch(`${apiUrl}/byowner/${id}`)
+    //     .then((response) => response.json())
+    //     .then(setProjects)
+    //     setUpdatedProject(!updatedProject)
+    // }
+
     const GetUsersProjects = (id) => {
-        return fetch(`${apiUrl}/byowner/${id}`)
-        .then((response) => response.json())
+      getToken().then((token) =>
+      fetch(`${apiUrl}/byowner/${id}`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }))
+      .then((response) => response.json())
         .then(setProjects)
         setUpdatedProject(!updatedProject)
     }
@@ -134,7 +147,6 @@ export function ProjectProvider(props) {
     }
 
     const UpdateComponent = (updatedComponent, id) => {
-
       getToken().then((token) => 
       fetch(`${apiUrl}/component/${id}`, {
         method: "PUT",

@@ -10,7 +10,7 @@ const SubContractorSearchResultCard = (props) => {
                     <p className="detail_Description" >{props.sub.subcontractorBusinessName} s;ldhg</p>
                 </div>
                 <div className="search_Subs">
-                    <button id="contact_Sub"className="far fa-comments " onClick={() => props.openConversation(props.sub.id) }/>
+                    <button id="contact_Sub"className="far fa-comments " onClick={() => props.firstConversation(props.sub.id) }/>
                 </div>
         </div>
     )

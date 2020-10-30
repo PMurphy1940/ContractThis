@@ -5,12 +5,14 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using ContractThis.Models;
 using ContractThis.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ContractThis.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ProjectController : ControllerBase

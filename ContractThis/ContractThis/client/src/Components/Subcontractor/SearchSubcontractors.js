@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react'
 import { SubContractorContext } from "../../Providers/SubContractorProvider"
 import SubContractorSearchResultCard from "./SubContractorSearchResultCard"
 
-const SearchSubcontractor = () => {
+const SearchSubcontractor = (props) => {
     const [selectedTypes, setSelectedTypes] = useState()
     const [noneSelected, setNoneSelected] = useState(true)
     const [searchButtonState, setSearchButtonState] = useState("search_Button")
@@ -82,11 +82,6 @@ const SearchSubcontractor = () => {
         q = q.toString(",")
         GetSubContractorsByType(q)
     }
-
-    const openConversation = (id) => {
-        
-    }
-
     
     return (
         <>
@@ -107,6 +102,7 @@ const SearchSubcontractor = () => {
         {subContractors.map((sub) => 
             <SubContractorSearchResultCard 
                 key={sub.id}
+                firstConversation={props.firstConversation}
                 sub={sub}
                 />
             )}

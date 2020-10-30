@@ -13,17 +13,17 @@ import LocalUserProvider from "../../Helpers/LocalUserGets"
 
 const ComponentOverview = (props) => {
 
+    const history = useHistory()
+    const aUser = {
+        screenName: LocalUserProvider.userDisplayName(),
+        imageLocation: LocalUserProvider.userImageLoc()
+    }
 
     const {
         showComponentFormActive, setShowComponentFormActive,
         editFormOpen,setEditFormOpen,
     } = useContext(WindowStateContext)
 
-    const history = useHistory()
-    const aUser = {
-        screenName: LocalUserProvider.userDisplayName(),
-        imageLocation: LocalUserProvider.userImageLoc()
-    }
     const {
         displayProject, setDisplayProject,
         GetProjectById,
@@ -39,8 +39,6 @@ const ComponentOverview = (props) => {
         history.push("/logout")
     }
 
-
-
      //Monitor screen width for responsive behavior
      const [width, setWidth] = useState(window.innerWidth);
      const breakpointWidth = 700;
@@ -54,7 +52,7 @@ const ComponentOverview = (props) => {
          window.removeEventListener("resize", handleResizeWindow);
        };
      }, []);
-
+     
     return (
         <div className="big_Project_Board">
             <div className="project_List_Container">

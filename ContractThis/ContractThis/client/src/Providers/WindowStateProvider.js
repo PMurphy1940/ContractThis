@@ -10,6 +10,7 @@ export function WindowStateProvider(props) {
     const [addCompActive, setAddCompActive] = useState(false);
     const [editProjectView, setEditProjectView] = useState(false);
     const [chatWindow, setChatWindow] = useState(false);
+    const [initialChatFormActive, setInitialChatFormActive] =useState(false)
     const [addImageWindowOpen, setAddImageWindowOpen] = useState(false);
 
 
@@ -24,6 +25,7 @@ export function WindowStateProvider(props) {
                 addCompActive, setAddCompActive,
                 editProjectView, setEditProjectView,
                 chatWindow, setChatWindow,
+                initialChatFormActive, setInitialChatFormActive,
                 addImageWindowOpen, setAddImageWindowOpen
             }}>
             {props.children}

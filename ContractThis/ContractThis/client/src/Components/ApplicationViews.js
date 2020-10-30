@@ -10,6 +10,7 @@ import { Logout } from "./Login_Reg/Logout";
 import { SubContractorProvider } from "../Providers/SubContractorProvider";
 import { ProjectProvider } from "../Providers/ProjectProvider";
 import { LoginProvider } from "../Providers/LoginStateProvider";
+import { ChatProvider } from "../Providers/ChatProvider";
 
 const ApplicationViews = () => {
     const { isLoggedIn } = useContext(ProfileContext);
@@ -43,7 +44,11 @@ const ApplicationViews = () => {
                 <Route path="/components">
                     <ProjectProvider>
                         <SubContractorProvider>
-                            <ComponentOverview/>
+                            <ComponentProvider>
+                                <ChatProvider>
+                                    <ComponentOverview/>    
+                                </ChatProvider>
+                            </ComponentProvider>
                         </SubContractorProvider>
                     </ProjectProvider>
                 </Route>

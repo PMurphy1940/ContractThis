@@ -1,6 +1,7 @@
 ﻿using System.Security.Claims;
 using ContractThis.Models;
 using ContractThis.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ContractThis.Controllers
@@ -26,7 +27,7 @@ namespace ContractThis.Controllers
             _SubcontractorRepository.AddSubcontractor(subContractor);
             return Ok(CreatedAtAction("Get", new { id = subContractor.Id }, subContractor));
         }
-
+        [Authorize]
         [HttpGet("types/")]
         public IActionResult GetSubTypes()
         {
@@ -38,6 +39,7 @@ namespace ContractThis.Controllers
             return NotFound();
         }
 
+        [Authorize]
         [HttpGet("types/{id}")]
         public IActionResult GetAllOfType(int id)
         {
@@ -46,6 +48,7 @@ namespace ContractThis.Controllers
             return result != null ? Ok(result) : (IActionResult)NotFound();
         }
 
+        [Authorize]
         [HttpGet("find")]
         public IActionResult GetAllOfType(string q)
         {
@@ -53,6 +56,8 @@ namespace ContractThis.Controllers
 
             return result != null ? Ok(result) : (IActionResult)NotFound();
         }
+
+        [Authorize]
         [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {
