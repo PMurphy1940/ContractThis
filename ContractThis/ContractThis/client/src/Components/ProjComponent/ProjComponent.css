@@ -7,7 +7,18 @@
 }
 
 .large_Component_Container {
-    width: 45%;
+    width: 18%;
+    overflow: hidden;
+    padding-right:1vw;
+}
+
+.details_Container{
+    width: 100%;
+}
+
+
+.component_Card {
+    min-width: 100%;
 }
 
 .large_Detail_Container{
@@ -34,7 +45,13 @@
 }
 
 .large_Detail_Container {
+    width: 90%;
+    padding-left: 1rem;
+    height:75vh;
+}
 
+.flippedy_Do_Da {
+    min-width: 11rem;
 }
 .large_Component_Description {
     height: 7rem;
@@ -55,6 +72,25 @@
     margin: 1rem;
 }
 
+.Description_Banner {
+    text-align: left;
+}
+
+.component_Budget {
+    line-height: .5rem;
+    text-align: left;
+}
+
+.component_Total {
+   
+    text-align: left;
+}
+.totals_Div{
+    border-bottom: 1px lightgray solid;
+    border-top: 1px lightgray solid;
+    display: flex;
+    justify-content: space-between;
+}
 #contact_Sub {
     min-width:6vw;
     border-radius: 5px;
@@ -74,4 +110,24 @@
     border-radius: 5px;
     border: 2px  rgba(98, 149, 100, 0.404) solid;
     color:  rgb(98, 149, 100);
+}
+
+.component_Inactive_Flip{
+    border-radius: 5px;
+    border: 2px  rgba(211, 211, 211, 0.411) solid;
+    color:  rgb(129, 126, 126);
+}
+/* .component_Headline{
+    display:flex;
+    justify-content:space-evenly;
+}
+
+.component_Headline_Left_and_Center{
+    display:flex;
+    justify-content:space-between;
+} */
+
+.left_Anchor {
+    position: absolute;
+    left: 1rem;
 }

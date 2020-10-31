@@ -87,7 +87,8 @@
 }
 
 .project_Component_Card, .project_Card, .detail_Banner, .project_Dashboard h6,
-.project_Dashboard > h4, .top_Space, .project_With_Add_Button >button, .large_Detail_Banner, .detail_Banner_With_Button {
+.project_Dashboard > h4, .top_Space, .project_With_Add_Button >button, .large_Detail_Banner,
+.detail_Banner_With_Button, .Description_Banner {
     border-bottom: 1px lightgray solid;
 }
 
@@ -95,11 +96,11 @@
     background-color: rgba(211, 211, 211, 0);
 }
 .project_Side_On_Large, .component_List_Container, .component_Detail_Container, 
-.project_Add_New_Form, .large_Component_List_Container {
+.project_Add_New_Form, .large_Component_List_Container, .large_Component_Container {
     background-color: rgba(211, 211, 211, 0.111);
 }
 
-.detail_Banner, .detail_Budget, .large_Detail_Banner, .detail_Banner_With_Button {
+.detail_Banner, .detail_Budget, .large_Detail_Banner, .detail_Banner_With_Button, .Description_Banner {
     background-color: rgba(211, 211, 211, 0.211);
 }
 
@@ -109,7 +110,8 @@
 }
 
 .find_A_Sub_Link, .detail_Banner, .detail_Text, .address, .userName, form, .form_input,
- .inner_Form_Box, .logout_Button, .large_Detail_Banner, .detail_Budget, .complete_Button > div, .detail_Banner_With_Button {
+ .inner_Form_Box, .logout_Button, .large_Detail_Banner, .detail_Budget, .complete_Button > div,
+  .detail_Banner_With_Button, .Description_Banner, .component_Budget, .totals_Div {
     font-family: 'Oswald', sans-serif;
 }
 
@@ -270,6 +272,7 @@
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
+    /* justify-content: center; */
     min-width:6vw;
     border-radius: 5px;
     border: 2px  rgba(98, 149, 100, 0.404) solid;

@@ -1,7 +1,11 @@
-﻿using System.Security.Claims;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
 using ContractThis.Models;
 using ContractThis.Repositories;
-using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ContractThis.Controllers
@@ -20,14 +24,13 @@ namespace ContractThis.Controllers
         [HttpGet("{id}")]
         public IActionResult GetChatByComponentId(int id)
         {
-            var currentUser = GetCurrentUserProfile();
-
-            //Verify that the POST request is coming from= the project owner
-            if (currentUser.Id == id)
+            var chat = _chatRepository.GetChat(id);
+            if(chat != null)
             {
-                return Ok(_chatRepository.GetChat(id));
+                return Ok(chat);
             }
-            return Unauthorized();
+            return NotFound();
+
         }
         [HttpPost("begin/")]
         public IActionResult BidRequest(SubContractorBid bid)
