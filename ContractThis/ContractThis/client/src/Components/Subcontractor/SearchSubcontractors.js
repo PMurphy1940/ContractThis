@@ -1,11 +1,15 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { SubContractorContext } from "../../Providers/SubContractorProvider"
+import { WindowStateContext } from "../../Providers/WindowStateProvider"
 import SubContractorSearchResultCard from "./SubContractorSearchResultCard"
+import FadeIn from "../../Helpers/FadeIn"
+
 
 const SearchSubcontractor = (props) => {
     const [selectedTypes, setSelectedTypes] = useState()
     const [noneSelected, setNoneSelected] = useState(true)
     const [searchButtonState, setSearchButtonState] = useState("search_Button")
+    
 
     const {
         subContractors, 
@@ -14,6 +18,8 @@ const SearchSubcontractor = (props) => {
         GetSubContractorsByType
     } = useContext(SubContractorContext)
 
+    const { setShowSearchSubs, setShowImages, showSearchSubs } = useContext(WindowStateContext)
+
     const addIsSelected = () => {
         let tempArray = subContractorTypes.map((type) => {
                 type.isSelected = false
@@ -21,8 +27,6 @@ const SearchSubcontractor = (props) => {
         })
         setSelectedTypes(tempArray);
     }
-
-    
 
     const handleFieldChange = (e) => {
         let q = []
@@ -49,7 +53,6 @@ const SearchSubcontractor = (props) => {
             setNoneSelected(true)
             setSearchButtonState("search_Button")
         }
-        console.log("qArray", q)
         setSelectedTypes(tempArray) 
     }
 
@@ -82,31 +85,47 @@ const SearchSubcontractor = (props) => {
         q = q.toString(",")
         GetSubContractorsByType(q)
     }
+  
     
     return (
-        <>
-        <p>SearchSubcontractor</p>
-        <form>
-            {subContractorTypes.map((type) => 
-                <SubCheckboxElement
-                    key={type.id}
-                    type={type}
-                    handleFieldChange={handleFieldChange} 
-                    />
-                )}
-        </form>
-        <div className="search_Subs">
-            <button id={searchButtonState} className="fas fa-hammer delete_Button" disabled={noneSelected} onClick={() => findSubs() }>Go get 'em</button>
-        </div>
-
-        {subContractors.map((sub) => 
-            <SubContractorSearchResultCard 
-                key={sub.id}
-                firstConversation={props.firstConversation}
-                sub={sub}
-                />
-            )}
-        </>
+        <FadeIn
+            paused="true"
+            direction='up'
+            distance='1000'
+            >
+            <div className="large_Component_Detail_Images_Card">
+                <h4 className="Images_Banner">Search for Subcontractors
+                    <button className="fas fa-minus-circle project_Cancel" onClick={() => props.cancelSearch() }/>
+                </h4>
+                <div className="images_Container_Large">
+                    <div>
+                        <div className="search_Top">
+                            <form>
+                                {subContractorTypes.map((type) => 
+                                    <SubCheckboxElement
+                                    key={type.id}
+                                    type={type}
+                                    handleFieldChange={handleFieldChange} 
+                                    />
+                                    )}
+                            </form>
+                            <div className="search_Subs_Button">
+                                <button id={searchButtonState} className="fas fa-hammer delete_Button" disabled={noneSelected} onClick={() => findSubs() }>Go get 'em</button>
+                            </div>
+                        </div>
+                        <div className="search_Results">
+                            {subContractors.map((sub) => 
+                                <SubContractorSearchResultCard 
+                                key={sub.id}
+                                firstConversation={props.firstConversation}
+                                sub={sub}
+                                />
+                                )}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </FadeIn>
     )
 }
 

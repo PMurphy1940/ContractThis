@@ -1,5 +1,8 @@
 import React, { createContext, useState, useContext } from 'react';
-import { ProfileContext } from "./ProfileProvider"
+import { ProfileContext } from "./ProfileProvider";
+import { WindowStateContext } from "./WindowStateProvider"
+
+
 
 export const SubContractorContext = createContext()
 
@@ -9,6 +12,11 @@ export function SubContractorProvider(props) {
     const { getToken } = useContext(ProfileContext)
     const [subContractors, setSubContractors] = useState([])
     const [subContractorTypes, setSubContractorTypes] = useState([])
+    const [singleSubContractor, setSingleSubContractor] = useState([])
+
+    const { setShowSearchSubs, showSearchSubs, initialBidFormActive, setInitialBidFormActive, } = useContext(WindowStateContext)
+
+
 
     const RegisterSubcontractor = (subObject) => {
       debugger
@@ -24,18 +32,18 @@ export function SubContractorProvider(props) {
       .then((response) => response.json())
     }
 //GET just a single type
-    // const GetSubContractorsByType = (typeId) => {
-    //     getToken().then((token) => 
-    //     fetch(`${apiUrl}/types/${typeId}`, {
-    //       method: "GET",
-    //       headers: {
-    //         Authorization: `Bearer ${token}`
-    //       }
-    //     })
-    //     .then((response) => response.json())
-    //     .then(setSubContractors)
-    //     )
-    // }
+    const GetSubContractorsById = (Id) => {
+        getToken().then((token) => 
+        fetch(`${apiUrl}/${Id}`, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        })
+        .then((response) => response.json())
+        .then(setSingleSubContractor)
+        )
+    }
 
     //GET search of multuple selected types
     const GetSubContractorsByType = (searchString) => {
@@ -66,7 +74,8 @@ export function SubContractorProvider(props) {
 
     return (
         <SubContractorContext.Provider
-          value={{ subContractors, subContractorTypes, GetSubContractorTypes, RegisterSubcontractor, GetSubContractorsByType }}>         
+          value={{ subContractors, subContractorTypes, singleSubContractor, GetSubContractorTypes, RegisterSubcontractor,
+          GetSubContractorsByType, GetSubContractorsById }}>         
              {props.children}           
         </SubContractorContext.Provider>
       );

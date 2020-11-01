@@ -33,6 +33,7 @@ namespace ContractThis
             services.AddTransient<ISubcontractorRepository, SubcontractorRepository>();
             services.AddTransient<IComponentRepository, ComponentRepository>();
             services.AddTransient<IChatRepository, ChatRepository>();
+            services.AddTransient<IBidRepository, BidRepository>();
 
             var firebaseProjectId = Configuration.GetValue<string>("FirebaseProjectId");
             var googleTokenUrl = $"https://securetoken.google.com/{firebaseProjectId}";

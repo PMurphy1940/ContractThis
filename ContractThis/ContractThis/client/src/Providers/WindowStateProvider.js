@@ -9,9 +9,12 @@ export function WindowStateProvider(props) {
     const [showComponentFormActive, setShowComponentFormActive] = useState(false);
     const [addCompActive, setAddCompActive] = useState(false);
     const [editProjectView, setEditProjectView] = useState(false);
-    const [chatWindow, setChatWindow] = useState(false);
-    const [initialChatFormActive, setInitialChatFormActive] =useState(false)
+    const [bidWindow, setBidWindow] = useState(false);
+    const [initialBidFormActive, setInitialBidFormActive] =useState(false)
     const [addImageWindowOpen, setAddImageWindowOpen] = useState(false);
+    const [showImages, setShowImages] = useState(true);
+    const [viewShoppingList, setViewShoppingList] = useState(true);
+    const [showBigShoppingList, setShowBigShoppingList] = useState(false);
 
 
 
@@ -24,9 +27,12 @@ export function WindowStateProvider(props) {
                 showComponentFormActive, setShowComponentFormActive,
                 addCompActive, setAddCompActive,
                 editProjectView, setEditProjectView,
-                chatWindow, setChatWindow,
-                initialChatFormActive, setInitialChatFormActive,
-                addImageWindowOpen, setAddImageWindowOpen
+                bidWindow, setBidWindow,
+                initialBidFormActive, setInitialBidFormActive,
+                addImageWindowOpen, setAddImageWindowOpen,
+                showImages, setShowImages,
+                viewShoppingList, setViewShoppingList,
+                showBigShoppingList, setShowBigShoppingList
             }}>
             {props.children}
         </WindowStateContext.Provider>

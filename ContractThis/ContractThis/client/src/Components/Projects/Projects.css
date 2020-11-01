@@ -88,7 +88,7 @@
 
 .project_Component_Card, .project_Card, .detail_Banner, .project_Dashboard h6,
 .project_Dashboard > h4, .top_Space, .project_With_Add_Button >button, .large_Detail_Banner,
-.detail_Banner_With_Button, .Description_Banner {
+.detail_Banner_With_Button, .Description_Banner, .Images_Banner, .shopping_List_Banner {
     border-bottom: 1px lightgray solid;
 }
 
@@ -100,7 +100,8 @@
     background-color: rgba(211, 211, 211, 0.111);
 }
 
-.detail_Banner, .detail_Budget, .large_Detail_Banner, .detail_Banner_With_Button, .Description_Banner {
+.detail_Banner, .detail_Budget, .large_Detail_Banner, .detail_Banner_With_Button,
+.Description_Banner, .Images_Banner, .images_Container_Large, .shopping_List_Banner {
     background-color: rgba(211, 211, 211, 0.211);
 }
 
@@ -110,8 +111,9 @@
 }
 
 .find_A_Sub_Link, .detail_Banner, .detail_Text, .address, .userName, form, .form_input,
- .inner_Form_Box, .logout_Button, .large_Detail_Banner, .detail_Budget, .complete_Button > div,
-  .detail_Banner_With_Button, .Description_Banner, .component_Budget, .totals_Div {
+.inner_Form_Box, .logout_Button, .large_Detail_Banner, .detail_Budget, .complete_Button > div,
+.detail_Banner_With_Button, .Description_Banner, .component_Budget, .totals_Div, 
+.materials_button, .Images_Banner, .shopping_List_Banner {
     font-family: 'Oswald', sans-serif;
 }
 
@@ -262,7 +264,9 @@
 }
 
 .component_Image {
-    max-width: 13vw;
+    max-width: 11vw;
+    min-width: 7rem;
+    margin: .5rem;
 }
 .detail_Banner_With_Button {
     padding: .5rem;

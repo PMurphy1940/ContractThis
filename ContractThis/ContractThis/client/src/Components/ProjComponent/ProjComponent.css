@@ -7,7 +7,7 @@
 }
 
 .large_Component_Container {
-    width: 18%;
+    min-width: 13rem;
     overflow: hidden;
     padding-right:1vw;
 }
@@ -16,13 +16,8 @@
     width: 100%;
 }
 
-
 .component_Card {
     min-width: 100%;
-}
-
-.large_Detail_Container{
-    width: 45%;
 }
 
 .large_Component_List_Container {
@@ -43,18 +38,28 @@
     justify-content: center;
     align-items: center;
 }
+.search_Results {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+
+.initialChat_Form{
+    display: flex;
+    flex-direction: column;
+}
 
 .large_Detail_Container {
-    width: 90%;
+    width: 85%;
     padding-left: 1rem;
     height:75vh;
 }
 
 .flippedy_Do_Da {
-    min-width: 11rem;
+    min-width: 13rem;
 }
 .large_Component_Description {
-    height: 7rem;
+    height: 4rem;
     padding: 1rem;
 }
 
@@ -65,14 +70,53 @@
     justify-content: space-between;
 }
 .large_Component_Detail_Card {
-    min-height: 20rem;
-    min-width: 13rem;
+    min-height: 30rem;
+    min-width: 20rem;
+    
     width: 42%;
     border:lightgray 1px solid;
-    margin: 1rem;
+    margin-right: 1rem;
+}
+
+.large_Component_Detail_Images_Card {
+    min-height: 30rem;
+    min-width: 20rem;
+    width: 45%;
+    border:lightgray 1px solid;
+    margin-right: 1rem;
+}
+.details_Rightside_Whole_Container {
+    display: flex;
+    flex-direction: row;
+}
+
+.rightside_Detail_Elements {
+    display: flex;
+    flex-direction: row;
+    width: 80%;
+}
+
+.images_Container_Large {
+    display: flex;
+    justify-content:space-evenly;
+    min-height: 60vh;
+}
+
+.Images_Banner {
+    display:flex;
+    justify-content: space-between;
+    text-align: left;
 }
 
 .Description_Banner {
+    display:flex;
+    justify-content: space-between;
+    text-align: left;
+}
+
+.shopping_List_Banner{
+    display:flex;
+    justify-content: space-between;
     text-align: left;
 }
 
@@ -81,8 +125,28 @@
     text-align: left;
 }
 
+#building_Materials_Image {
+    max-height: 5rem;  
+}
+
+.materials_button{
+    margin-right: 1rem;
+    margin-bottom: .6rem;
+}
+
+.budget_Materials {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.shopping_List{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
 .component_Total {
-   
     text-align: left;
 }
 .totals_Div{
@@ -112,20 +176,15 @@
     color:  rgb(98, 149, 100);
 }
 
+.search_Div{
+    width:50%;
+}
+
 .component_Inactive_Flip{
     border-radius: 5px;
     border: 2px  rgba(211, 211, 211, 0.411) solid;
     color:  rgb(129, 126, 126);
 }
-/* .component_Headline{
-    display:flex;
-    justify-content:space-evenly;
-}
-
-.component_Headline_Left_and_Center{
-    display:flex;
-    justify-content:space-between;
-} */
 
 .left_Anchor {
     position: absolute;

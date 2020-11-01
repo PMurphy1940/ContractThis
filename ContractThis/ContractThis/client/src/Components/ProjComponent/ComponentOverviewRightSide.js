@@ -1,42 +1,30 @@
 import React, { useContext } from 'react';
-import SearchSubcontractor from "../Subcontractor/SearchSubcontractors";
 import SubContractorChat from "./Chats/SubContractorChat";
 import { WindowStateContext } from "../../Providers/WindowStateProvider";
 import { ComponentContext } from "../../Providers/ComponentProvider"
-import { ChatContext } from "../../Providers/ChatProvider";
-import InitialChatForm from "./Chats/InitialChatForm"
+import { BidContext } from "../../Providers/BidProvider";
+import { SubContractorContext } from "../../Providers/SubContractorProvider";
+import InitialBidForm from "./Chats/InitialBidForm"
 import DetailedComponentCard from "./DetailedComponentCard"
 
 
 const ComponentOverviewRightSide = (props) => {
-    const { initialChatFormActive, setInitialChatFormActive, chatWindow, setChatWindow} = useContext(WindowStateContext)
+    const { initialBidFormActive, setInitialBidFormActive, bidWindow, setBidWindow, 
+            showSearchSubs, setShowSearchSubs} = useContext(WindowStateContext);
+
+    const { GetSubContractorsById, singleSubContractor } = useContext(SubContractorContext);      
     const {
         displayComponent, setDisplayComponent
-    } = useContext(ComponentContext)
+    } = useContext(ComponentContext);
 
-    const firstConversation = (id) => {
-        setInitialChatFormActive(true);
-    }
-    console.log("comp", displayComponent)
 
-    const subcontractorChat = () => {
-        if (initialChatFormActive) {
-            return (
-                <InitialChatForm />
-            )
-        }
-        else {
-            return (
-                <SubContractorChat />
-            )
-        }
-    }
     return (
         <div className="com_Detail_Container">
             <h6>Details---
             {(displayComponent!==undefined) && displayComponent.componentName}</h6>
             {(displayComponent!==undefined) && 
                 <DetailedComponentCard
+                    singleSubContractor={singleSubContractor}
                     displayComponent={displayComponent} />   
             }
         </div>
@@ -44,10 +32,3 @@ const ComponentOverviewRightSide = (props) => {
 }
 
 export default ComponentOverviewRightSide
-{/* <div className="large_Component_List_Container">
-                <SearchSubcontractor
-                    firstConversation={firstConversation} />
-            </div>
-            <div>
-                {subcontractorChat()}
-            </div> */}

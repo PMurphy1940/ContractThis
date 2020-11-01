@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Switch, Route, Redirect, useParams } from "react-router-dom";
+import { Switch, Route } from "react-router-dom";
 import { ProfileContext } from "../Providers/ProfileProvider";
 import Login from "./Login_Reg/Login";
 import Register from "./Login_Reg/Registration";
@@ -10,7 +10,7 @@ import { Logout } from "./Login_Reg/Logout";
 import { SubContractorProvider } from "../Providers/SubContractorProvider";
 import { ProjectProvider } from "../Providers/ProjectProvider";
 import { LoginProvider } from "../Providers/LoginStateProvider";
-import { ChatProvider } from "../Providers/ChatProvider";
+import { BidProvider } from "../Providers/BidProvider";
 
 const ApplicationViews = () => {
     const { isLoggedIn } = useContext(ProfileContext);
@@ -45,9 +45,9 @@ const ApplicationViews = () => {
                     <ProjectProvider>
                         <SubContractorProvider>
                             <ComponentProvider>
-                                <ChatProvider>
+                                <BidProvider>
                                     <ComponentOverview/>    
-                                </ChatProvider>
+                                </BidProvider>
                             </ComponentProvider>
                         </SubContractorProvider>
                     </ProjectProvider>

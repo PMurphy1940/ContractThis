@@ -21,30 +21,7 @@ namespace ContractThis.Controllers
             _chatRepository = chatRepository;
             _userProfileRepository = userProfileRepository;
         }
-        [HttpGet("{id}")]
-        public IActionResult GetChatByComponentId(int id)
-        {
-            var chat = _chatRepository.GetChat(id);
-            if(chat != null)
-            {
-                return Ok(chat);
-            }
-            return NotFound();
-
-        }
-        [HttpPost("begin/")]
-        public IActionResult BidRequest(SubContractorBid bid)
-        {
-            var currentUser = GetCurrentUserProfile();
-
-            //Verify that the POST request is coming from= the project owner
-            if (currentUser.Id == bid.UserProfileId)
-            {
-                _chatRepository.StartBid(bid);
-                return Ok();
-            }
-            return Unauthorized();
-        }
+        
 
         private UserProfile GetCurrentUserProfile()
         {

@@ -24,8 +24,8 @@ const ComponentOverview = (props) => {
     }
 
     const {
-        showComponentFormActive, setShowComponentFormActive,
-        editFormOpen,setEditFormOpen,
+        showComponentFormActive, setShowComponentFormActive, setShowImages,
+        editFormOpen, setEditFormOpen, setShowSearchSubs, setShowBigShoppingList
     } = useContext(WindowStateContext)
 
     const {
@@ -35,7 +35,7 @@ const ComponentOverview = (props) => {
     } = useContext(ProjectContext)
 
     const {
-        displayComponent, setDisplayComponent
+        displayComponent, GetComponentById
     } = useContext(ComponentContext)
 
     const {
@@ -63,9 +63,13 @@ const ComponentOverview = (props) => {
 
     // set a selected component into state for display
     const selectComponentDisplay = (id) => {
+        setShowBigShoppingList(false);
+        setShowSearchSubs(false)
+        setShowImages(true)
         setShowComponentFormActive(false)
-        let components = [...displayProject.components]
-        setDisplayComponent(components.find((component) => (component.id === id)));
+        GetComponentById(id)
+        // let components = [...displayProject.components]
+        // setDisplayComponent(components.find((component) => (component.id === id)));
     }
 
      //Monitor screen width for responsive behavior
@@ -116,7 +120,7 @@ const ComponentOverview = (props) => {
                     </h4>
                     <div className="big_Project_Window">
                         <div className="large_Component_Container">
-                            {(inactive) ? 
+                            {(!inactive) ? 
                             <>
                             <h6 className="flippedy_Do_Da">
                             Active
@@ -136,7 +140,7 @@ const ComponentOverview = (props) => {
                         :
                         <>
                             <h6 className="flippedy_Do_Da">
-                            Inactive
+                            Complete
                             <button className="fas fa-sync-alt component_Inactive_Flip" onClick={() => setInactive(!inactive)}/>
                         </h6>
                         <div className="component_Details">
