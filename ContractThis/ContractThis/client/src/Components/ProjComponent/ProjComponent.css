@@ -8,7 +8,8 @@
 
 .large_Component_Container {
     min-width: 13rem;
-    overflow: hidden;
+    overflow-y: hidden;
+    /* margin-left: 1rem; */
     padding-right:1vw;
 }
 
@@ -56,12 +57,14 @@
 }
 
 .flippedy_Do_Da {
-    min-width: 13rem;
+    min-width: 11rem;
+    margin-left: 1rem;
 }
 .large_Component_Description {
     height: 4rem;
     padding: 1rem;
 }
+
 
 .large_Component_Below_Description{
     height: 30%;
@@ -75,12 +78,13 @@
     width: 33%;
     border:lightgray 1px solid;
     margin-right: 1rem;
+    overflow: hidden;
 }
 
 .large_Component_Detail_Images_Card {
     min-height: 30rem;
     min-width: 23rem;
-    width: 5%;
+    width: 33%;
     border:lightgray 1px solid;
     margin-right: 1rem;
 }
@@ -184,6 +188,7 @@
     border: 2px  rgba(211, 211, 211, 0.411) solid;
     color:  rgb(129, 126, 126);
 }
+
 
 .left_Anchor {
     position: absolute;

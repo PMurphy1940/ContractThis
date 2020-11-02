@@ -1,11 +1,5 @@
 main {
-    overflow-y: scroll;
-    scrollbar-width: none; /* Firefox */
-    -ms-overflow-style: none;  /* Internet Explorer 10+ */
-}
-main::-webkit-scrollbar { /* WebKit */
-    width: 0;
-    height: 0;
+    min-height: 55rem;
 }
 
 
@@ -66,10 +60,6 @@ main::-webkit-scrollbar { /* WebKit */
     border-style:none;
     transform: scale(1.03);
     transition: 300ms;
-}
-
-.business_Link_Button{
-    
 }
 
 .component_Link_Button {
@@ -240,10 +230,6 @@ main::-webkit-scrollbar { /* WebKit */
     width: 30%;
 }
 
-/* .detail_Banner {
-    padding: 1rem 0 0 1rem  ;
-} */
-
 .detail_Description {
     padding: 1rem;
     min-height: 10vh;
@@ -291,7 +277,6 @@ main::-webkit-scrollbar { /* WebKit */
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
-    /* justify-content: center; */
     min-width:6vw;
     border-radius: 5px;
     border: 2px  rgba(98, 149, 100, 0.404) solid;
@@ -305,8 +290,4 @@ main::-webkit-scrollbar { /* WebKit */
 .business_Project_Banner_Container {
     display: flex;
     flex-direction: row;
-}
-
-.business_Project_Banner {
-
 }

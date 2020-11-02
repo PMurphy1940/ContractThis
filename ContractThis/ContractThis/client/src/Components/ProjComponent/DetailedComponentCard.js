@@ -75,6 +75,8 @@ const DetailedComponentCard = (props) => {
     const { displayComponent, GetComponentById, 
         AddCompletedDateToComponent } = useContext(ComponentContext);
 
+//Make a short list of materials that will fit comfortably in the detail card. 
+//Full list in expanded Shopping list
     useEffect(()=> {
         const shortlist = () => { 
             let list = []
@@ -87,20 +89,29 @@ const DetailedComponentCard = (props) => {
         }
         setMaterialShortList(shortlist);
     }, [])
-
+//Refresh this component
     useEffect(()=> {
         GetBidByComponentId(displayComponent.id)
     }, [displayComponent.id])
-    
 
-
+//Date simplifier
+    const dateConverter = (suppliedDate) =>{
+        let date = suppliedDate.toString()
+        date = date.slice(0,10)
+        date = date.split("-")
+        return date = `${date[1]}-${date[2]}-${date[0]}`
+    }
+//Calculate the various expeditures to be shown in the detail card
     const totalExpeditures = () => {
-        if(displayComponent !== undefined && bid !== undefined && bid.fee !== undefined) {
-            labor = bid.fee
-            return displayComponent.materialCost + bid.fee
-        }
-        else {
-            return displayComponent.materialCost
+        if(displayComponent !== undefined && bid !== undefined){
+            if (bid.subAccepted !== undefined)
+                {
+                    labor = bid.fee
+                    return displayComponent.materialCost + bid.fee
+                }
+            else {
+                    return displayComponent.materialCost
+            }
         }
     }
     total = totalExpeditures();
@@ -111,6 +122,7 @@ const DetailedComponentCard = (props) => {
     }
     percent = budgetPercent();
 
+//Window states
     const SearchSubs = () => {
         setShowBigShoppingList(false);
         setShowImages(true);
@@ -146,20 +158,10 @@ const DetailedComponentCard = (props) => {
         setShowSearchSubs(false)
     }
 
-    const subcontractorChat = () => {
-        if (initialBidFormActive) {
-            return (
-                <InitialBidForm />
-            )
-        }
-        // else {
-        //     return (
-        //         <SubContractorChat />
-        //     )
-        // }
-    }
+//gsap effect index
     let indexDelay = 1
 
+//This determines the cards to the right of the 'Description' card => Images, Subcontractor or Expanded shopping list
     const rightsideElements = () => {
         if (showImages){
             return (
@@ -247,7 +249,7 @@ const DetailedComponentCard = (props) => {
             )
         }
     }
-
+//This determines the type of contractor card to be shown => Search or Bid request
     const contractorSide = () => {
         if(!initialBidFormActive){
             return (
@@ -262,6 +264,48 @@ const DetailedComponentCard = (props) => {
                 <InitialBidForm 
                     cancelAdd={cancelAdd}
                     />
+            )
+        }
+    }
+
+    //This determines whether to display Outstanding Bid or Accepted bid
+
+console.log(bid)
+
+
+
+    const isBidOutstanding = () => {
+        if (bid !== undefined) {
+            if (bid.subAccepted !== null && bid.subAccepted !== undefined){
+                return (
+                    <>
+                        <h4 className="Description_Banner">Accepted bid</h4>
+                        <div className="large_Component_Below_Description">
+                            <div className="budget_Materials">
+                                <p className="component_Budget">Bid Ammount: ${bid.fee}</p>
+                            </div>
+                            <div className="budget_Labor">
+                                <p className="component_Budget">Accepted on {dateConverter(bid.subAccepted)}</p>
+                            </div>
+                        </div>
+                    </>
+                )
+            }
+            else if (bid.subAccepted === null){
+                return (
+                    <> 
+                        <h4 className="Description_Banner">Oustanding bid</h4>
+                        <div className="large_Component_Below_Description">
+                            <div className="budget_Materials">
+                            <p className="component_Budget">Bid Ammount: ${bid.fee}</p>
+                            </div>
+                        </div> 
+                    </>
+            )}
+            else return (
+                <div className="search_Subs">
+                    <button className="fas fa-hammer delete_Button" onClick={() => SearchSubs(displayComponent.id) }>Find A Subcontractor</button>
+                </div>
             )
         }
     }
@@ -326,8 +370,10 @@ const DetailedComponentCard = (props) => {
                     </div>
                 </div>
             </div>
-            <div className="search_Subs">
-                <button className="fas fa-hammer delete_Button" onClick={() => SearchSubs(displayComponent.id) }>Find A Subcontractor</button>
+            <div className="subcontractor_And_Bid_Container">
+                {isBidOutstanding()}
+                
+
             </div>
         </div>
         <div className="rightside_Detail_Elements">
