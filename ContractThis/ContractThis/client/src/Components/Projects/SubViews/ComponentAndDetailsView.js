@@ -6,7 +6,6 @@ import ProjectComponentCard from "../ProjectComponentCard"
 import ProjectComponentDetailCard from "../ProjectComponentDetailCard"
 import ComponentForm from "../Forms/ComponentForm"
 import ComponentEditForm from "../Forms/ComponentEditForm"
-import { tsNullKeyword } from '@babel/types';
 
 
 const ComponentAndDetails = (props) => {
@@ -38,7 +37,6 @@ const ComponentAndDetails = (props) => {
 
     const readActiveComponents = () => {
         setActiveComponents(displayProject.components.filter((component) => (component.dateComplete === null)))        
-        console.log("Active", activeComponents)
     }
 
     const cancelAdd = () => {

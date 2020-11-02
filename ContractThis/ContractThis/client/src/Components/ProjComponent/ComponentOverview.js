@@ -3,32 +3,40 @@ import { useHistory } from 'react-router-dom'
 import { ProjectContext } from "../../Providers/ProjectProvider"
 import { ProfileContext } from "../../Providers/ProfileProvider"
 import { WindowStateContext } from "../../Providers/WindowStateProvider"
-import DetailedComponentCard from "./DetailedComponentCard"
+import { ComponentContext } from "../../Providers/ComponentProvider"
 import ComponentForm from "../Projects/Forms/ComponentForm"
 import ComponentEditForm from "../Projects/Forms/ComponentEditForm" 
 import ComponentOverviewRightSide from "./ComponentOverviewRightSide"
 import "./ProjComponent.css"
 import LocalUserProvider from "../../Helpers/LocalUserGets"
-
+import ProjectComponentCard from "../Projects/ProjectComponentCard"
 
 const ComponentOverview = (props) => {
+    const [inactive, setInactive] = useState(false);
+    const [activeComponents, setActiveComponents] = useState([]);
+    const [inactiveComponents, setInactiveComponents] = useState([]);
 
-
-    const {
-        showComponentFormActive, setShowComponentFormActive,
-        editFormOpen,setEditFormOpen,
-    } = useContext(WindowStateContext)
 
     const history = useHistory()
     const aUser = {
         screenName: LocalUserProvider.userDisplayName(),
         imageLocation: LocalUserProvider.userImageLoc()
     }
+
+    const {
+        showComponentFormActive, setShowComponentFormActive, setShowImages,
+        editFormOpen, setEditFormOpen, setShowSearchSubs, setShowBigShoppingList
+    } = useContext(WindowStateContext)
+
     const {
         displayProject, setDisplayProject,
         GetProjectById,
         DeleteProject,
     } = useContext(ProjectContext)
+
+    const {
+        displayComponent, GetComponentById
+    } = useContext(ComponentContext)
 
     const {
         logout
@@ -39,7 +47,30 @@ const ComponentOverview = (props) => {
         history.push("/logout")
     }
 
+    const readActiveComponents = () => {
+        setActiveComponents(displayProject.components.filter((component) => (component.dateComplete === null)))        
+    }
 
+    const readInactiveComponents = () => {
+        setInactiveComponents(displayProject.components.filter((component) => (component.dateComplete !== null)))        
+    }
+    useEffect(() => {
+        if(displayProject !== undefined && displayProject.components !== undefined){
+            readActiveComponents();
+            readInactiveComponents();
+        }
+    }, [displayProject])
+
+    // set a selected component into state for display
+    const selectComponentDisplay = (id) => {
+        setShowBigShoppingList(false);
+        setShowSearchSubs(false)
+        setShowImages(true)
+        setShowComponentFormActive(false)
+        GetComponentById(id)
+        // let components = [...displayProject.components]
+        // setDisplayComponent(components.find((component) => (component.id === id)));
+    }
 
      //Monitor screen width for responsive behavior
      const [width, setWidth] = useState(window.innerWidth);
@@ -47,7 +78,7 @@ const ComponentOverview = (props) => {
  
      useEffect(() => {
       const handleResizeWindow = () => setWidth(window.innerWidth);
-       // subscribe to window resize event "onComponentDidMount"
+       // subscribe to window resize event
        window.addEventListener("resize", handleResizeWindow);
        return () => {
          // unsubscribe "onComponentDestroy"
@@ -55,9 +86,11 @@ const ComponentOverview = (props) => {
        };
      }, []);
 
+     let indexDelay = 1
+     
     return (
         <div className="big_Project_Board">
-            <div className="project_List_Container">
+            
                 <div className="top_Space">
                     <div className="little_Project_Card">
                         {(displayProject === undefined) ? history.push("/projects")
@@ -78,30 +111,57 @@ const ComponentOverview = (props) => {
                     <button className="logout_Button" onClick={() => LogOutUser()} >logout</button>
                 </div>
                 <div className="project_Dashboard">
-                    <h4>Project Overview</h4>
-                    <div className="big_Project_Window">
-                        <div className="large_Component_Container">
-                            <h6>Components
-                            <button className="fas fa-paint-roller project_Add" 
+                    <h4 className="component_Headline">
+                            <button className="fas fa-paint-roller project_Add left_Anchor" 
                                         onClick={() => {setShowComponentFormActive(true)}}
                             >+</button>
-                            </h6>
-                            <div className="large_Component_List_Container">
-                                {(displayProject !== undefined && displayProject.components !== undefined) && displayProject.components.map((component) =>
-                                    <DetailedComponentCard 
-                                        key={component.id}
-                                        component={component}
-                                        selectComponentDisplay={props.selectComponentDisplay}
-                                    />
-                                    )}
-                            </div>
+                        Project:{(displayProject !== undefined) && displayProject.projectName}
+
+                    </h4>
+                    <div className="big_Project_Window">
+                        <div className="large_Component_Container">
+                            {(!inactive) ? 
+                            <>
+                            <h6 className="flippedy_Do_Da">
+                            Active
+                            <button className="fas fa-sync-alt component_Inactive_Flip" onClick={() => setInactive(!inactive)}/>
+                        </h6>
+                        <div className="component_Details">
+                            {(displayProject !== undefined && displayProject.components !== undefined) && activeComponents.map((component) =>
+                                <ProjectComponentCard 
+                                    key={component.id}
+                                    indexDelay={indexDelay++}
+                                    component={component}
+                                    selectComponentDisplay={selectComponentDisplay}
+                                />
+                                )}
+                        </div>
+                        </>
+                        :
+                        <>
+                            <h6 className="flippedy_Do_Da">
+                            Complete
+                            <button className="fas fa-sync-alt component_Inactive_Flip" onClick={() => setInactive(!inactive)}/>
+                        </h6>
+                        <div className="component_Details">
+                            {(displayProject !== undefined && displayProject.components !== undefined) && inactiveComponents.map((component) =>
+                                <ProjectComponentCard 
+                                    key={component.id}
+                                    indexDelay={indexDelay++}
+                                    component={component}
+                                    selectComponentDisplay={selectComponentDisplay}
+                                />
+                                )}
+                        </div>
+                        </>
+                        }
                         </div>
                         <div className="large_Detail_Container">
                             <ComponentOverviewRightSide />
                         </div>
                     </div>
                 </div>
-            </div>
+           
         </div>
     )
 }

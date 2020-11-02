@@ -40,5 +40,7 @@ namespace ContractThis.Models
 
         public List<Project> UserProjects { get; set; }
 
+        public SubContractor contractor { get; set; }
+
     }
 }

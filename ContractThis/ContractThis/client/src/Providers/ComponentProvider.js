@@ -80,7 +80,6 @@ export function ComponentProvider(props) {
     }
 
     const UpdateComponent = (updatedComponent, id) => {
-
       getToken().then((token) => 
       fetch(`${apiUrl}/${id}`, {
         method: "PUT",

@@ -7,11 +7,18 @@
 }
 
 .large_Component_Container {
-    width: 45%;
+    min-width: 13rem;
+    overflow-y: hidden;
+    /* margin-left: 1rem; */
+    padding-right:1vw;
 }
 
-.large_Detail_Container{
-    width: 45%;
+.details_Container{
+    width: 100%;
+}
+
+.component_Card {
+    min-width: 100%;
 }
 
 .large_Component_List_Container {
@@ -32,14 +39,32 @@
     justify-content: center;
     align-items: center;
 }
+.search_Results {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+
+.initialChat_Form{
+    display: flex;
+    flex-direction: column;
+}
 
 .large_Detail_Container {
+    width: 85%;
+    padding-left: 1rem;
+    height:75vh;
+}
 
+.flippedy_Do_Da {
+    min-width: 11rem;
+    margin-left: 1rem;
 }
 .large_Component_Description {
-    height: 7rem;
+    height: 4rem;
     padding: 1rem;
 }
+
 
 .large_Component_Below_Description{
     height: 30%;
@@ -48,13 +73,91 @@
     justify-content: space-between;
 }
 .large_Component_Detail_Card {
-    min-height: 20rem;
-    min-width: 13rem;
-    width: 42%;
+    min-height: 30rem;
+    min-width: 23rem;
+    width: 33%;
     border:lightgray 1px solid;
-    margin: 1rem;
+    margin-right: 1rem;
+    overflow: hidden;
 }
 
+.large_Component_Detail_Images_Card {
+    min-height: 30rem;
+    min-width: 23rem;
+    width: 33%;
+    border:lightgray 1px solid;
+    margin-right: 1rem;
+}
+.details_Rightside_Whole_Container {
+    display: flex;
+    flex-direction: row;
+}
+
+.rightside_Detail_Elements {
+    display: flex;
+    flex-direction: row;
+    width: 80%;
+}
+
+.images_Container_Large {
+    display: flex;
+    justify-content:space-evenly;
+    min-height: 60vh;
+}
+
+.Images_Banner {
+    display:flex;
+    justify-content: space-between;
+    text-align: left;
+}
+
+.Description_Banner {
+    display:flex;
+    justify-content: space-between;
+    text-align: left;
+}
+
+.shopping_List_Banner{
+    display:flex;
+    justify-content: space-between;
+    text-align: left;
+}
+
+.component_Budget {
+    line-height: .5rem;
+    text-align: left;
+}
+
+#building_Materials_Image {
+    max-height: 5rem;  
+}
+
+.materials_button{
+    margin-right: 1rem;
+    margin-bottom: .6rem;
+}
+
+.budget_Materials {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.shopping_List{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.component_Total {
+    text-align: left;
+}
+.totals_Div{
+    border-bottom: 1px lightgray solid;
+    border-top: 1px lightgray solid;
+    display: flex;
+    justify-content: space-between;
+}
 #contact_Sub {
     min-width:6vw;
     border-radius: 5px;
@@ -74,4 +177,20 @@
     border-radius: 5px;
     border: 2px  rgba(98, 149, 100, 0.404) solid;
     color:  rgb(98, 149, 100);
+}
+
+.search_Div{
+    width:50%;
+}
+
+.component_Inactive_Flip{
+    border-radius: 5px;
+    border: 2px  rgba(211, 211, 211, 0.411) solid;
+    color:  rgb(129, 126, 126);
+}
+
+
+.left_Anchor {
+    position: absolute;
+    left: 1rem;
 }

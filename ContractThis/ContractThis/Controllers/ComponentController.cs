@@ -1,11 +1,13 @@
 ﻿using System.Security.Claims;
 using ContractThis.Models;
 using ContractThis.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualBasic;
 
 namespace ContractThis.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ComponentController : ControllerBase

@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from "react";
 import { gsap } from "gsap";
 
-const FadeInAnimation = ({
+const MoveWithoutFade = ({
   children,
   wrapperElement = "div",
   direction = null,
@@ -32,7 +32,7 @@ const FadeInAnimation = ({
   useEffect(() => {
     gsap.from(compRef.current, 1, {
       ...fadeDirection,
-      opacity: 0,
+      opacity: 1,
       delay
     });
   }, []);
@@ -43,4 +43,4 @@ const FadeInAnimation = ({
   );
 };
 
-export default FadeInAnimation;
+export default MoveWithoutFade;
