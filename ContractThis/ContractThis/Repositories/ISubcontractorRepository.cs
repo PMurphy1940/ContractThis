@@ -7,6 +7,7 @@ namespace ContractThis.Repositories
     {
         void AddSubcontractor(SubContractor subContractor);
         SubContractor GetById(int id);
+        List<SubContractorJob> GetSubContractorJobs(int id);
         List<SubContractorType> GetSubContractorTypes();
         List<SubContractor> SearchByMultipleTypes(string requestList);
         List<SubContractor> SearchByType(int id);

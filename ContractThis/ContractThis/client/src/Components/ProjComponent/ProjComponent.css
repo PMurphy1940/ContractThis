@@ -71,17 +71,16 @@
 }
 .large_Component_Detail_Card {
     min-height: 30rem;
-    min-width: 20rem;
-    
-    width: 42%;
+    min-width: 23rem;
+    width: 33%;
     border:lightgray 1px solid;
     margin-right: 1rem;
 }
 
 .large_Component_Detail_Images_Card {
     min-height: 30rem;
-    min-width: 20rem;
-    width: 45%;
+    min-width: 23rem;
+    width: 5%;
     border:lightgray 1px solid;
     margin-right: 1rem;
 }

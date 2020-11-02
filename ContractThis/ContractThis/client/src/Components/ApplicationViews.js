@@ -35,7 +35,9 @@ const ApplicationViews = () => {
                     <ProjectProvider>
                         <ComponentProvider>
                             <SubContractorProvider>
-                                <ProjectList />     
+                                <BidProvider>
+                                    <ProjectList />  
+=                                </BidProvider>   
                             </SubContractorProvider>
                         </ComponentProvider>
                     </ProjectProvider>

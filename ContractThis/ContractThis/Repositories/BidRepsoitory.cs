@@ -14,7 +14,7 @@ namespace ContractThis.Repositories
         public BidRepository(IConfiguration configuration) : base(configuration) { }
 
 
-        public SubContractorBid GetBid(int id)
+        public SubContractorBid GetBidByComponent(int id)
         {
             using (var conn = Connection)
             {
@@ -44,6 +44,38 @@ namespace ContractThis.Repositories
             }
         }
 
+        public List<SubContractorBid> GetBidBySubcontractor(int id)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                                        SELECT Id AS BidId, ProjectComponentId, SubContractorId, UserProfileId, Fee, SubAccepted, OwnerComment
+                                        FROM SubContractorBid
+                                        WHERE SubContractorId = @Id
+                                        ";
+                    DbUtilities.AddParameter(cmd, "@Id", id);
+
+                    var reader = cmd.ExecuteReader();
+
+                    var bids = new List<SubContractorBid>();
+
+                    while (reader.Read())
+                    {
+                        var aBid = DbModelBuilder.BuildSubContractorBidModel(reader);
+                        bids.Add(aBid);
+
+                    }
+
+                    reader.Close();
+
+                    return bids;
+                }
+            }
+        }
+
         public void StartBid(SubContractorBid bid)
         {
             using (var conn = Connection)
@@ -63,6 +95,26 @@ namespace ContractThis.Repositories
                     DbUtilities.AddParameter(cmd, "@OwnerComment", bid.OwnerComment);
 
                     bid.Id = (int)cmd.ExecuteScalar();
+                }
+            }
+        }
+
+        public void AcceptBid(SubContractorBid bid)
+        {
+            using( var conn = Connection)
+            {
+                conn.Open();
+                using( var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                                        UPDATE SubContractorBid
+                                        SET SubAccepted = @SubAccepted
+                                        WHERE Id = @id
+                                        ";
+                    DbUtilities.AddParameter(cmd, "@SubAccepted", bid.SubAccepted);
+                    DbUtilities.AddParameter(cmd, "@id", bid.Id);
+
+                    cmd.ExecuteNonQuery();
                 }
             }
         }

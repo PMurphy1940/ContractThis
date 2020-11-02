@@ -95,7 +95,7 @@ namespace ContractThis.Repositories
                                                              pc.Name AS ProjectComponentName,
                                                              pc.ComponentDescription,
                                                              pc.ProjectId,
-                                                             pc.SubcontractorId,
+                                                             pc.SubContractorId,
                                                              pc.DateComplete AS PCDateComplete,
                                                              pc.MaterialCost
                                                             ";

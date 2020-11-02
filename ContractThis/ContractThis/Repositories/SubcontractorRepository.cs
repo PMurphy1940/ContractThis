@@ -204,5 +204,48 @@ namespace ContractThis.Repositories
                 }
             }
         }
+
+        public List<SubContractorJob> GetSubContractorJobs(int id)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"SELECT 
+                                          pci.ProjectComponentImageUrl, pci.Id AS PCImageId, p.LocationName, p.LocationAddress,
+                                          p.ProjectName, up.ScreenName, up.ImageLocation, scb.Fee, "
+                                        + ProjectComponentSqlCommandText +
+                                        @" FROM ProjectComponent pc
+                                        LEFT JOIN ProjectComponentImages pci ON pci.ProjectComponentId = pc.Id
+                                        LEFT JOIN Project p ON p.Id = pc.ProjectId
+                                        LEFT JOIN UserProfile up on p.UserProfileId = up.Id
+                                        LEFT JOIN SubContractorBid scb on scb.ProjectComponentId = pc.Id
+                                        WHERE pc.SubContractorId = @id AND scb.SubContractorId = @id";
+                    DbUtilities.AddParameter(cmd, "@id", id);
+
+                    var jobs = new List<SubContractorJob>();
+                    var reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        var componentId = DbUtilities.GetInt(reader, "ProjectComponentId");
+                        var existingJob = jobs.FirstOrDefault(j => j.Id == componentId);
+                        if (existingJob == null)
+                        {
+                            existingJob = DbModelBuilder.BuildSubcontractorJobModel(reader);
+                            existingJob.ComponentImages = new List<ProjectComponentImages>();
+                            jobs.Add(existingJob);
+                        }
+                        if (DbUtilities.IsNotDbNull(reader, "PCImageId"))
+                        {
+                            existingJob.ComponentImages.Add(DbModelBuilder.BuildComponentImageModel(reader));
+                        }
+                        
+                    }
+                    reader.Close();
+                    return jobs;
+                }
+            }
+        }
     }
 }

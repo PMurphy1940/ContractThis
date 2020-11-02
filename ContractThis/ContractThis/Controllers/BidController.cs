@@ -21,17 +21,31 @@ namespace ContractThis.Controllers
             _bidRepository = bidRepository;
             _userProfileRepository = userProfileRepository;
         }
-        [HttpGet("{id}")]
+        [HttpGet("component/{id}")]
         public IActionResult GetBidByComponentId(int id)
         {
-            var chat = _bidRepository.GetBid(id);
-            if (chat != null)
+            var bid = _bidRepository.GetBidByComponent(id);
+            if (bid != null)
             {
-                return Ok(chat);
+                return Ok(bid);
             }
             return NotFound();
 
         }
+
+        [HttpGet("subcontractor/{id}")]
+        public IActionResult GetBidBySubcontractorId(int id)
+        {
+            var bids = _bidRepository.GetBidBySubcontractor(id);
+            if (bids != null)
+            {
+                return Ok(bids);
+            }
+            return NotFound();
+
+        }
+
+
         [HttpPost]
         public IActionResult BidRequest(SubContractorBid bid)
         {
@@ -41,6 +55,21 @@ namespace ContractThis.Controllers
             if (currentUser.Id == bid.UserProfileId)
             {
                 _bidRepository.StartBid(bid);
+                return Ok(CreatedAtAction("Get", new { id = bid.Id }, bid));
+            }
+            return Unauthorized();
+        }
+
+        [HttpPut("accept/{id}")]
+        public IActionResult AcceptBid(SubContractorBid bid)
+        {
+            var currentUser = GetCurrentUserProfile();
+
+            //Verify that the POST request is coming from= the project owner
+            if (currentUser.contractor.Id == bid.SubContractorId)
+            {
+                bid.SubAccepted = DateTime.Now;
+                _bidRepository.AcceptBid(bid);
                 return Ok(CreatedAtAction("Get", new { id = bid.Id }, bid));
             }
             return Unauthorized();

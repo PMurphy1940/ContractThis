@@ -1,3 +1,14 @@
+main {
+    overflow-y: scroll;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none;  /* Internet Explorer 10+ */
+}
+main::-webkit-scrollbar { /* WebKit */
+    width: 0;
+    height: 0;
+}
+
+
 .top_Space {
     display: flex;
     justify-content: center;
@@ -45,16 +56,20 @@
     line-height: .5rem;
 }
 
-.project_Link_Button {
+.project_Link_Button, .business_Link_Button {
     width:100%;
     border-style:none;
     transition: 300ms;
 }
 
-.project_Link_Button:focus {   
+.project_Link_Button:focus, .business_Link_Button {   
     border-style:none;
     transform: scale(1.03);
     transition: 300ms;
+}
+
+.business_Link_Button{
+    
 }
 
 .component_Link_Button {
@@ -92,7 +107,7 @@
     border-bottom: 1px lightgray solid;
 }
 
-.project_Link_Button, .component_Link_Button {
+.project_Link_Button, .component_Link_Button, .business_Link_Button {
     background-color: rgba(211, 211, 211, 0);
 }
 .project_Side_On_Large, .component_List_Container, .component_Detail_Container, 
@@ -101,12 +116,12 @@
 }
 
 .detail_Banner, .detail_Budget, .large_Detail_Banner, .detail_Banner_With_Button,
-.Description_Banner, .Images_Banner, .images_Container_Large, .shopping_List_Banner {
+.Description_Banner, .Images_Banner, .images_Container_Large, .shopping_List_Banner, .business_Link_Button {
     background-color: rgba(211, 211, 211, 0.211);
 }
 
 .find_A_Sub_Link, .component_Link_Button:focus, .project_Link_Button:focus, 
-.project_Dashboard > h4, .project_Dashboard h6, .sub_Side_Popout, .registration_Form {
+.project_Dashboard > h4, .project_Dashboard h6, .sub_Side_Popout, .registration_Form, .business_Link_Button {
     background-color: rgba(211, 211, 211, 0.411);
 }
 
@@ -285,4 +300,13 @@
 
 .complete_Button > div {
     font-size: .8rem;
+}
+
+.business_Project_Banner_Container {
+    display: flex;
+    flex-direction: row;
+}
+
+.business_Project_Banner {
+
 }

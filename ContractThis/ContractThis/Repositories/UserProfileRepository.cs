@@ -21,9 +21,10 @@ namespace ContractThis.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                                        SELECT "
+                                        SELECT sc.SubContractorBusinessName, sc.SubContractorImageUrl, sc.Id AS SubContractorId, "
                                             + UserProfileSqlCommandText +
                                       @"FROM UserProfile up
+                                        LEFT JOIN SubContractor sc ON sc.UserProfileId = up.Id
                                         WHERE up.FirebaseUserId = @FirebaseUserId
                                         ";
                     DbUtilities.AddParameter(cmd, "@FirebaseUserId", firebaseId);
@@ -33,6 +34,20 @@ namespace ContractThis.Repositories
                     if (reader.Read())
                     {
                         aUser = DbModelBuilder.BuildUserProfileModel(reader);
+                        //If the user is a registered Subcontractor, get that info.
+                        if (aUser.IsSubcontractor)
+                        {
+                            aUser.contractor = new SubContractor();
+                            aUser.contractor.Id = DbUtilities.GetInt(reader, "SubContractorId");
+                            if (DbUtilities.IsNotDbNull(reader, "SubContractorBusinessName"))
+                            {
+                                aUser.contractor.SubcontractorBusinessName = DbUtilities.GetString(reader, "SubContractorBusinessName");
+                            }
+                            if (DbUtilities.IsNotDbNull(reader, "SubContractorImageUrl"))
+                            {
+                                aUser.contractor.SubContractorImageLocation = DbUtilities.GetString(reader, "SubContractorImageUrl");
+                            }
+                        }
                     }
                     reader.Close();
                     return aUser;

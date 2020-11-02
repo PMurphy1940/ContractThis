@@ -115,7 +115,7 @@ const ComponentOverview = (props) => {
                             <button className="fas fa-paint-roller project_Add left_Anchor" 
                                         onClick={() => {setShowComponentFormActive(true)}}
                             >+</button>
-                            {(displayProject !== undefined) && displayProject.projectName}
+                        Project:{(displayProject !== undefined) && displayProject.projectName}
 
                     </h4>
                     <div className="big_Project_Window">

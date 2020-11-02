@@ -1,20 +1,26 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { useHistory, Link } from 'react-router-dom'
-import { ProjectContext } from "../../Providers/ProjectProvider"
-import { ProfileContext } from "../../Providers/ProfileProvider"
-import { WindowStateContext } from "../../Providers/WindowStateProvider"
-import { ComponentContext } from "../../Providers/ComponentProvider"
+import { useHistory } from 'react-router-dom';
+import { ProjectContext } from "../../Providers/ProjectProvider";
+import { ProfileContext } from "../../Providers/ProfileProvider";
+import { WindowStateContext } from "../../Providers/WindowStateProvider";
+import { ComponentContext } from "../../Providers/ComponentProvider";
+import { BidContext } from "../../Providers/BidProvider";
+import { SubContractorContext } from "../../Providers/SubContractorProvider"
 import ProjectCard from "./ProjectCard";
 import ProjectForm from "./Forms/ProjectForm";
-import ProjectEditForm from "./Forms/ProjectEditForm"
-import ComponentAndDetails from "./SubViews/ComponentAndDetailsView"
-import LocalUserProvider from "../../Helpers/LocalUserGets"
+import ProjectEditForm from "./Forms/ProjectEditForm";
+import ComponentAndDetails from "./SubViews/ComponentAndDetailsView";
+import LocalUserProvider from "../../Helpers/LocalUserGets";
+import SubContractorRequest from "../Subcontractor/SubContractorRequests"
 import "./Projects.css";
 
 const ProjectList = () => {
     const aUser = {
+        id: LocalUserProvider.userId(),
         screenName: LocalUserProvider.userDisplayName(),
-        imageLocation: LocalUserProvider.userImageLoc()
+        imageLocation: LocalUserProvider.userImageLoc(),
+        isSubcontractor: LocalUserProvider.isSubcontractor()
+
     }
 
     const history = useHistory();
@@ -60,11 +66,25 @@ const ProjectList = () => {
         displayComponent, setDisplayComponent
     } = useContext(ComponentContext)
 
+    const {
+        bidRequests, GetBidsBySubContractorId
+    } = useContext(BidContext)
+
+    const { GetSubContractorJobs, subContractorJobs } = useContext(SubContractorContext);
+
     const LogOutUser = () => {
         logout()
         history.push("/logout")
     }
 
+//If the user is a subcontractor, check to see if anyone has contacted them about doing work
+    useEffect(() => {
+        if(aUser.isSubcontractor){
+            aUser.subcontractorId = LocalUserProvider.subcontractorId();
+            GetBidsBySubContractorId(aUser.subcontractorId)
+            GetSubContractorJobs(aUser.subcontractorId)
+        }
+    }, [])
 
     useEffect(() => {
         GetUsersProjects(LocalUserProvider.userId())
@@ -151,6 +171,8 @@ const ProjectList = () => {
             }
     }
 
+    console.log("bids", bidRequests)
+
 //Conditional rendering for larger screen size
     if (width > breakpointWidth){
         return (
@@ -166,13 +188,44 @@ const ProjectList = () => {
                         <button className="logout_Button" onClick={() => LogOutUser()} >logout</button>
                     </div>
                     <div className="project_Dashboard">
+                        {(aUser.isSubcontractor === true) ?
+                        <> 
+                        <h4>
+                            <div className="business_Project_Banner_Container">
+                                <button className="business_Link_Button business_Project_Banner" onClick={ () => selectDisplay() }>
+                                    Personal
+                                </button>
+                                <button className="business_Link_Button business_Project_Banner" onClick={ () => selectDisplay() }>
+                                    {aUser.screenName}
+                                </button>
+                            </div>
+                            </h4>
+                        <div className="big_Project_Window">
+                            <div className="project_Side_On_Large">
+                                    <h6>Projects
+                                        <button className="fas fa-drafting-compass project_Add" onClick={() => setShowProjectForm(!showProjectForm) }>+</button>
+                                    </h6>
+                                {(bidRequests !== undefined) && bidRequests.map((bid) =>
+                                    <SubContractorRequest
+                                        key={bid.id}
+                                        bid={bid}
+                                        />
+                                )}                                    
+                            </div>
+
+                            {viewSelector()}
+
+                        </div>
+                        </>
+                        :
+                        <> 
                         <h4>Project Dashboard</h4>
                         <div className="big_Project_Window">
                             <div className="project_Side_On_Large">
                                     <h6>Projects
                                     <button className="fas fa-drafting-compass project_Add" onClick={() => setShowProjectForm(!showProjectForm) }>+</button>
                                     </h6>
-                                {projects.map((project) =>
+                                    {projects.map((project) =>
                                     <ProjectCard 
                                         key={project.id}
                                         project={project}
@@ -187,6 +240,8 @@ const ProjectList = () => {
                             {viewSelector()}
 
                         </div>
+                        </>
+                        }
                     </div>
                 </div>
             </div>

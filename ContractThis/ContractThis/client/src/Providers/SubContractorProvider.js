@@ -13,8 +13,9 @@ export function SubContractorProvider(props) {
     const [subContractors, setSubContractors] = useState([])
     const [subContractorTypes, setSubContractorTypes] = useState([])
     const [singleSubContractor, setSingleSubContractor] = useState([])
+    const [subContractorJobs, setSubContractorJobs] = useState([])
 
-    const { setShowSearchSubs, showSearchSubs, initialBidFormActive, setInitialBidFormActive, } = useContext(WindowStateContext)
+    const { setShowSearchSubs, showSearchSubs, initialBidFormActive, setInitialBidFormActive } = useContext(WindowStateContext)
 
 
 
@@ -72,10 +73,23 @@ export function SubContractorProvider(props) {
       )
     }
 
+    const GetSubContractorJobs = (id) => {
+      getToken().then((token) => 
+      fetch(`${apiUrl}/jobs/${id}`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }))
+      .then((response) => response.json()
+      .then(setSubContractorJobs))
+    }
+
     return (
         <SubContractorContext.Provider
-          value={{ subContractors, subContractorTypes, singleSubContractor, GetSubContractorTypes, RegisterSubcontractor,
-          GetSubContractorsByType, GetSubContractorsById }}>         
+          value={{ subContractors, subContractorTypes, singleSubContractor, subContractorJobs, 
+                  GetSubContractorTypes, RegisterSubcontractor, GetSubContractorJobs,
+                  GetSubContractorsByType, GetSubContractorsById }}>         
              {props.children}           
         </SubContractorContext.Provider>
       );

@@ -167,7 +167,7 @@ const DetailedComponentCard = (props) => {
                 {showSearchSubs ? 
                 <MoveWithoutFade
                     direction='left'
-                    distance='304'
+                    distance='330'
                 >
                 <div className="large_Component_Detail_Images_Card">
                     <h4 className="Images_Banner">Images
