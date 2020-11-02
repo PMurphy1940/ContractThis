@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using ContractThis.Models;
+﻿using ContractThis.Models;
 using ContractThis.Repositories;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace ContractThis.Controllers
 {
@@ -25,18 +19,18 @@ namespace ContractThis.Controllers
             _userProfileRepository = userProfileRepository;
         }
 
-        [HttpGet("byowner/{id}")]
-        public IActionResult GetUserProjects(int id)
+        [HttpGet("byowner")]
+        public IActionResult GetUserProjects()
         {
-            //Verify that the GET request is coming from this {id} active user
-            //      !!Off for development!!     //
-/*           var activeUser = GetCurrentUserProfile();
-            if (activeUser == null || activeUser.Id != id)
+          var activeUser = GetCurrentUserProfile();
+            if (activeUser != null)
             {
-                return Unauthorized();
-            }*/
-            var projects = _projectRepository.GetOwnerProjects(id);
-            return projects == null ? NotFound() : (IActionResult)Ok(projects);
+                var projects = _projectRepository.GetOwnerProjects(activeUser.Id);
+                return Ok(projects);
+            }
+
+            return Unauthorized();
+            
         }
 
         [HttpGet("{id}")]
@@ -44,7 +38,6 @@ namespace ContractThis.Controllers
         {
             var singleProject = _projectRepository.GetSingleProjectById(id);
             return singleProject == null ? NotFound() : (IActionResult)Ok(singleProject);
-
         }
 
         [HttpGet("component/{id}")]
@@ -116,6 +109,7 @@ namespace ContractThis.Controllers
 
         public IActionResult Delete(int id)
         {
+
             _projectRepository.DeleteProject(id);
             return NoContent();
         }

@@ -7,19 +7,20 @@ import materials from "../../Images/materials.png";
 import MaterialCard from "./Cards/MaterialCard";
 import MaterialCardExpanded from "./Cards/MaterialCardExpanded";
 import InitialBidForm from "./Chats/InitialBidForm"
-
 import ImageCard from "../Projects/DetailComponents/ImageCard";
 import SearchSubcontractor from "../Subcontractor/SearchSubcontractors";
 import AddImageForm from "../Projects/Forms/AddImageForm";
+import DeleteComponentModal from "../Modals/DeleteComponentModal"
 import { Table } from "reactstrap";
 import FadeIn from "../../Helpers/FadeIn"
 import MoveWithoutFade from "../../Helpers/MoveWithoutFade"
 
 
 
+
 const DetailedComponentCard = (props) => {
     const { displayProject } = useContext(ProjectContext);
-    const [materialShortList, setMaterialShortList] = useState([])
+    const [materialShortList, setMaterialShortList] = useState([]);
     
     //Future//For adding multiple contractors to the same component
     // const [componentContractors, setComponentContractors] = useState([])
@@ -68,7 +69,8 @@ const DetailedComponentCard = (props) => {
 /////////////////////////////
     const { setShowSearchSubs, addImageWindowOpen, setAddImageWindowOpen, 
             showImages, setShowImages, showSearchSubs, viewShoppingList, setViewShoppingList,
-            showBigShoppingList, setShowBigShoppingList, setInitialBidFormActive, initialBidFormActive } = useContext(WindowStateContext)
+            showBigShoppingList, setShowBigShoppingList, setInitialBidFormActive, initialBidFormActive,
+            openDeleteModal, setOpenDeleteModal } = useContext(WindowStateContext)
     
     const { bid, GetBidByComponentId } = useContext(BidContext);
 
@@ -156,6 +158,23 @@ const DetailedComponentCard = (props) => {
     const cancelAdd = () => {
         setInitialBidFormActive(false);
         setShowSearchSubs(false)
+    }
+
+    const deleteThisComponent = (id) => {
+        console.log("hello")
+        setOpenDeleteModal(true)
+    }
+
+    const completeDelete = () => {
+        setOpenDeleteModal(false)
+    }
+
+    const cancelDelete = () => {
+        setOpenDeleteModal(false)
+    }
+
+    const editComponent = (id) => {
+        
     }
 
 //gsap effect index
@@ -270,10 +289,6 @@ const DetailedComponentCard = (props) => {
 
     //This determines whether to display Outstanding Bid or Accepted bid
 
-console.log(bid)
-
-
-
     const isBidOutstanding = () => {
         if (bid !== undefined) {
             if (bid.subAccepted !== null && bid.subAccepted !== undefined){
@@ -310,13 +325,14 @@ console.log(bid)
         }
     }
 
+//This is the Main return for Details and its children
     return (
     <div className="details_Rightside_Whole_Container">
         <div className="large_Component_Detail_Card">
             <div className="large_Component_Detail_Card_Child">
                 <h4 className="Description_Banner">Description
-                    <button className="far fa-edit delete_Button" onClick={() => props.editComponent(props.displayComponent.id) }/>
-                    <button className="far fa-trash-alt delete_Button" onClick={() => props.deleteThisComponent(props.displayComponent.id) }/>
+                    <button className="far fa-edit delete_Button" onClick={() => editComponent(displayComponent.id) }/>
+                    <button className="far fa-trash-alt delete_Button" onClick={() => deleteThisComponent(displayComponent.id) }/>
                 </h4>
                 <div className="detail_Text">
                     <p className="large_Component_Description" >{displayComponent.componentDescription}</p>
@@ -382,6 +398,11 @@ console.log(bid)
             }
             {rightsideElements()}
         </div>
+        <DeleteComponentModal
+            openDeleteModal={openDeleteModal}
+            completeDelete={completeDelete}
+            cancelDelete={cancelDelete}
+        />
     </div> 
     )
 }

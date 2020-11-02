@@ -47,7 +47,7 @@ export function ProjectProvider(props) {
 
     const GetUsersProjects = (id) => {
       getToken().then((token) =>
-      fetch(`${apiUrl}/byowner/${id}`, {
+      fetch(`${apiUrl}/byowner`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`

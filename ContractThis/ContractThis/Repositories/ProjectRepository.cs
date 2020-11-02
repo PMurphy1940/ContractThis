@@ -241,6 +241,9 @@ namespace ContractThis.Repositories
                 using(var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
+                                        DELETE FROM ProjectComponent
+                                        WHERE ProjectId = @Id
+                        
                                         DELETE FROM Project
                                         WHERE Id = @Id
                                         ";
@@ -258,6 +261,12 @@ namespace ContractThis.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
+                                        DELETE FROM ProjectComponentImages
+                                        WHERE ProjectComponentId = @id
+
+                                        DELETE FROM SubContractorBid
+                                        WHERE ProjectComponentId = @id
+
                                         DELETE FROM ProjectComponent
                                         WHERE Id = @Id
                                         ";
