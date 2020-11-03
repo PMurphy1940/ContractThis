@@ -330,7 +330,40 @@ const DetailedComponentCard = (props) => {
                 <div className="detail_Text">
                     <p className="large_Component_Description" >{displayComponent.componentDescription}</p>
                 </div>
-               
+                {viewShoppingList ? 
+                <h4 className="Description_Banner">Shopping list <button className="far fa-eye-slash delete_Button" onClick={() => setViewShoppingList(!viewShoppingList) }/></h4>
+                :
+                <h4 className="Description_Banner">Shopping list <button className="far fa-eye delete_Button" onClick={() => setViewShoppingList(!viewShoppingList) }/></h4>
+                }
+                {viewShoppingList &&
+                <div className="shopping_List">
+                    <div id="materialListContainer">
+                    <Table>
+                        <thead>
+                            <tr>
+                                <th>Material</th>
+                                <th>Cost</th>
+                                <th>Quantity</th>
+                            </tr>
+                        </thead>
+                        <tbody >
+                        {materialShortList.map((material) => (
+                                <MaterialCard 
+                                    key={material.id}
+                                    material={material}/>
+                        ))}
+                        </tbody>
+                        </Table>
+                        {(materiallist.length > 3) && 
+                        <p>...more</p>
+                        }
+                    </div>
+                    <button className="materials_button" onClick={() => ShowFullShoppingList()}>
+                        View full list
+                        <img id="building_Materials_Image" src={materials} alt="building materials"/>
+                    </button>
+                </div>
+                }
                 <h4 className="Description_Banner">{displayComponent.componentName} Expeditures</h4>
                 <div className="large_Component_Below_Description">
                     <div className="budget_Materials">

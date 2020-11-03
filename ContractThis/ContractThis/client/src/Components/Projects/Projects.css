@@ -33,7 +33,7 @@ main {
 }
 
 .project_Dashboard h6 {
-    font-family: 'Fredericka the Great', cursive;
+    font-family: 'K2D', sans-serif;
     font-size: 2rem;
 }
 
@@ -119,7 +119,7 @@ main {
 .inner_Form_Box, .logout_Button, .large_Detail_Banner, .detail_Budget, .complete_Button > div,
 .detail_Banner_With_Button, .Description_Banner, .component_Budget, .totals_Div, 
 .materials_button, .Images_Banner, .shopping_List_Banner {
-    font-family: 'Oswald', sans-serif;
+    font-family: 'K2D', sans-serif;
 }
 
 .find_A_Sub_Link {
