@@ -36,15 +36,29 @@ namespace ContractThis.Controllers
         [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {
+            var activeUser = GetCurrentUserProfile();
             var singleProject = _projectRepository.GetSingleProjectById(id);
-            return singleProject == null ? NotFound() : (IActionResult)Ok(singleProject);
+            //Ensure that the current user is requesting one of their own projects
+            if(activeUser.Id == singleProject.UserProfileId)
+            {
+                return Ok(singleProject);
+            }
+            return Unauthorized();
+
         }
 
         [HttpGet("component/{id}")]
         public IActionResult GetComponent(int id)
         {
             var projectComponent = _projectRepository.GetSingleComponent(id);
-            return projectComponent == null ? NotFound() : (IActionResult)Ok(projectComponent);
+            var activeUser = GetCurrentUserProfile();
+            var singleProject = _projectRepository.GetSingleProjectById(projectComponent.ProjectId);
+            //Ensure that the current user is requesting one of their own projects
+            if (activeUser.Id == singleProject.UserProfileId)
+            {
+                return Ok(projectComponent);
+            }
+            return Unauthorized();
         }
 
         [HttpPost]
@@ -62,7 +76,7 @@ namespace ContractThis.Controllers
         {
             var currentUser = GetCurrentUserProfile();
 
-            //Verify that the PUT request is coming from either the project owner or the authorized Subcontractor
+            //Verify that the PUT request is coming from the project owner 
             if (currentUser.Id == project.UserProfileId && project.Id == id)
             {
                 _projectRepository.UpdateProject(project);
@@ -78,8 +92,8 @@ namespace ContractThis.Controllers
             var currentUser = GetCurrentUserProfile();
             var project = _projectRepository.GetSingleProjectById(component.ProjectId);
 
-            //Verify that the POST request is coming from either the project owner or the authorized Subcontractor
-            if(currentUser.Id == project.UserProfileId || currentUser.Id == component.SubcontractorId )
+            //Ensure that the POST request is coming from the project owner
+            if(currentUser.Id == project.UserProfileId)
             {
                 _projectRepository.AddComponent(component);
                 return Ok(CreatedAtAction("Get", new { id = component.Id }, component));
@@ -94,7 +108,7 @@ namespace ContractThis.Controllers
             var currentUser = GetCurrentUserProfile();
             var project = _projectRepository.GetSingleProjectById(component.ProjectId);
 
-            //Verify that the PUT request is coming from either the project owner or the authorized Subcontractor
+            //Ensure that the PUT request is coming from either the project owner or the authorized Subcontractor
             if (currentUser.Id == project.UserProfileId || currentUser.Id == component.SubcontractorId && component.ProjectId == id)
             {
                 _projectRepository.UpdateComponent(component, id);
@@ -109,18 +123,18 @@ namespace ContractThis.Controllers
 
         public IActionResult Delete(int id)
         {
-
-            _projectRepository.DeleteProject(id);
-            return NoContent();
+            //Ensure that the DELETE request is coming from the project owner
+            var currentUser = GetCurrentUserProfile();
+            var project = _projectRepository.GetSingleProjectById(id);
+            if (currentUser.Id == project.UserProfileId)
+            {
+                _projectRepository.DeleteProject(id);
+                return NoContent();
+            }
+            return Unauthorized();
         }
 
-        [HttpDelete("component/{id}")]
 
-        public IActionResult DeleteComponent(int id)
-        {
-            _projectRepository.DeleteComponent(id);
-            return NoContent();
-        }
 
         private UserProfile GetCurrentUserProfile()
         {

@@ -15,7 +15,9 @@ export function WindowStateProvider(props) {
     const [showImages, setShowImages] = useState(true);
     const [viewShoppingList, setViewShoppingList] = useState(true);
     const [showBigShoppingList, setShowBigShoppingList] = useState(false);
-    const [openDeleteModal, setOpenDeleteModal] = useState(false)
+    const [openDeleteModal, setOpenDeleteModal] = useState(false);
+    const [openDeleteProjectModal, setOpenDeleteProjectModal] = useState(false);
+
 
 
 
@@ -34,7 +36,8 @@ export function WindowStateProvider(props) {
                 showImages, setShowImages,
                 viewShoppingList, setViewShoppingList,
                 showBigShoppingList, setShowBigShoppingList,
-                openDeleteModal, setOpenDeleteModal
+                openDeleteModal, setOpenDeleteModal,
+                openDeleteProjectModal, setOpenDeleteProjectModal
             }}>
             {props.children}
         </WindowStateContext.Provider>

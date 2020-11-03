@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using ContractThis.Models;
 using ContractThis.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,13 +21,13 @@ namespace ContractThis.Controllers
             _userProfileRepository = userProfileRepository;
             
         }
-
+        [Authorize]
         [HttpGet("{firebaseUserId}")]
         public IActionResult GetUserProfile(string firebaseUserId)
         {
             return Ok(_userProfileRepository.GetByFirebaseId(firebaseUserId));
         }
-
+        [Authorize]
         [HttpGet("details/{id}")]
         public IActionResult GetById(int id)
         {
@@ -47,7 +48,7 @@ namespace ContractThis.Controllers
                 new { firebaseUserId = userProfile.FirebaseUserId },
                 userProfile);
         }
-
+        [Authorize]
         [HttpPut("{id}")]
         public IActionResult Put(int id, UserProfile userProfile)
         {

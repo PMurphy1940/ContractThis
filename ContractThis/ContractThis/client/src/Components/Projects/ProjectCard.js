@@ -16,9 +16,11 @@ const ProjectCard = (props) => {
                         <img className="project_Image" src={props.project.imageLocation} />
                     </div>
                 </button>
-                <button className="far fa-list-alt delete_Button" onClick={() => history.push("/components") }/>
-                <button className="far fa-edit delete_Button" onClick={() => props.editProject(props.project.id) }/>
-                <button className="far fa-trash-alt delete_Button" onClick={() => props.deleteThisProject(props.project.id) }/>
+                <div className="project_Card_Button_Space">
+                    <button className="far fa-list-alt delete_Button" onClick={() => props.bigDetailPage(props.project.id) }/>
+                    <button className="far fa-edit delete_Button" onClick={() => props.editProject(props.project.id) }/>
+                    <button className="far fa-trash-alt delete_Button" onClick={() => props.deleteThisProject(props.project.id) }/>
+                </div>
             </div>       
     )
 }

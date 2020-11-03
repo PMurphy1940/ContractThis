@@ -31,11 +31,11 @@ const ComponentOverview = (props) => {
     const {
         displayProject, setDisplayProject,
         GetProjectById,
-        DeleteProject,
+        update
     } = useContext(ProjectContext)
 
     const {
-        displayComponent, GetComponentById
+        displayComponent, GetComponentById, setDisplayComponent
     } = useContext(ComponentContext)
 
     const {
@@ -61,6 +61,13 @@ const ComponentOverview = (props) => {
         }
     }, [displayProject])
 
+    useEffect(() => {
+        if(displayProject!==undefined){
+            GetProjectById(displayProject.id);
+            setDisplayComponent();
+        }
+    }, [update])
+
     // set a selected component into state for display
     const selectComponentDisplay = (id) => {
         setShowBigShoppingList(false);
@@ -85,6 +92,11 @@ const ComponentOverview = (props) => {
          window.removeEventListener("resize", handleResizeWindow);
        };
      }, []);
+
+     const cancelAdd = () => {
+        setShowComponentFormActive(false);
+        setDisplayProject();
+    }
 
      let indexDelay = 1
      
@@ -157,13 +169,18 @@ const ComponentOverview = (props) => {
                         }
                         </div>
                         <div className="large_Detail_Container">
+                            {(showComponentFormActive) ? 
+                            <ComponentForm
+                                cancelAdd={cancelAdd} />
+                            :
                             <ComponentOverviewRightSide />
+                            }
                         </div>
                     </div>
                 </div>
-           
         </div>
     )
 }
 
 export default ComponentOverview
+

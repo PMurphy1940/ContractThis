@@ -1,6 +1,5 @@
 import React, { createContext, useState, useContext } from 'react';
 import { ProfileContext } from "./ProfileProvider";
-import { WindowStateContext } from "./WindowStateProvider"
 
 
 
@@ -14,10 +13,6 @@ export function SubContractorProvider(props) {
     const [subContractorTypes, setSubContractorTypes] = useState([])
     const [singleSubContractor, setSingleSubContractor] = useState([])
     const [subContractorJobs, setSubContractorJobs] = useState([])
-
-    const { setShowSearchSubs, showSearchSubs, initialBidFormActive, setInitialBidFormActive } = useContext(WindowStateContext)
-
-
 
     const RegisterSubcontractor = (subObject) => {
       debugger

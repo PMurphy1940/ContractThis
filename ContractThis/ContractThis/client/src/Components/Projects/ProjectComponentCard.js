@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom'
 import FadeIn from "../../Helpers/FadeIn"
 
 
@@ -17,7 +16,6 @@ const ProjectComponentCard = (props) => {
                         <div className="inside_Button_Container">
                             <div className="address">
                                 <p>{props.component.componentName}</p>
-
                             </div>
                         </div>
                     </button>
@@ -27,4 +25,3 @@ const ProjectComponentCard = (props) => {
 }
 
 export default ProjectComponentCard
-      // <img className="project_Image" src={props.project.imageLocation} />

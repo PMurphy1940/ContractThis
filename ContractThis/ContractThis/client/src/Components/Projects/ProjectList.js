@@ -5,16 +5,18 @@ import { ProfileContext } from "../../Providers/ProfileProvider";
 import { WindowStateContext } from "../../Providers/WindowStateProvider";
 import { ComponentContext } from "../../Providers/ComponentProvider";
 import { BidContext } from "../../Providers/BidProvider";
-import { SubContractorContext } from "../../Providers/SubContractorProvider"
+import { SubContractorContext } from "../../Providers/SubContractorProvider";
 import ProjectCard from "./ProjectCard";
 import ProjectForm from "./Forms/ProjectForm";
 import ProjectEditForm from "./Forms/ProjectEditForm";
 import ComponentAndDetails from "./SubViews/ComponentAndDetailsView";
 import LocalUserProvider from "../../Helpers/LocalUserGets";
-import SubContractorRequest from "../Subcontractor/SubContractorRequests"
+import SubContractorRequest from "../Subcontractor/SubContractorRequests";
+import DeleteProjectModal from "../Modals/DeleteProjectModal"
 import "./Projects.css";
 
 const ProjectList = () => {
+    const [projectToDelete, setProjectToDelete] = useState();
     const aUser = {
         id: LocalUserProvider.userId(),
         screenName: LocalUserProvider.userDisplayName(),
@@ -59,7 +61,8 @@ const ProjectList = () => {
         editProjectView, setEditProjectView,
         showProjectForm, setShowProjectForm,
         setShowComponentFormActive,
-        setEditFormOpen,
+        setEditFormOpen, 
+        openDeleteProjectModal, setOpenDeleteProjectModal
     } = useContext(WindowStateContext)
 
     const {
@@ -95,6 +98,7 @@ const ProjectList = () => {
             setDisplayProject(projects.find((project) => (project.id === displayProject.id)))
         }
     },[updatedProject])
+    
     //Set a selected project into state for display and place window views into their default position
     const selectDisplay = (id) => {
         setShowProjectForm(false);
@@ -127,10 +131,21 @@ const ProjectList = () => {
     }
 
     const deleteThisProject = (id) => {
-        DeleteProject(id);
+        setProjectToDelete(projects.find((project) => (project.id === id)));
+        setOpenDeleteProjectModal(true)
     }
 
-    const bigDetailPage = () => {
+    const completeDelete = () => {
+        DeleteProject(projectToDelete.id);
+        setOpenDeleteProjectModal(false)
+    }
+
+    const cancelDelete = () => {
+        setOpenDeleteProjectModal(false)
+    }
+
+    const bigDetailPage = (id) => {
+        selectDisplay(id)
         history.push("/components");
     }
 
@@ -170,8 +185,6 @@ const ProjectList = () => {
                     )
             }
     }
-
-    console.log("bids", bidRequests)
 
 //Conditional rendering for larger screen size
     if (width > breakpointWidth){
@@ -244,6 +257,13 @@ const ProjectList = () => {
                         }
                     </div>
                 </div>
+                {(projectToDelete !== undefined) && 
+                    <DeleteProjectModal 
+                        completeDelete={completeDelete}
+                        cancelDelete={cancelDelete}
+                        projectToDelete={projectToDelete}
+                        />
+                }
             </div>
          )
     }
@@ -270,6 +290,7 @@ const ProjectList = () => {
                 )}
            </div>
        </div>
+       
     )
 }
 

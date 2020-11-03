@@ -4,8 +4,10 @@ import { ProfileContext } from "../Providers/ProfileProvider";
 import Login from "./Login_Reg/Login";
 import Register from "./Login_Reg/Registration";
 import ProjectList from "./Projects/ProjectList";
-import ComponentOverview from "./ProjComponent/ComponentOverview"
-import { ComponentProvider } from "../Providers/ComponentProvider"
+import ComponentOverview from "./ProjComponent/ComponentOverview";
+import ComponentEditFormOnItsOwn from "./ProjComponent/Cards/ComponentEditFormOnItsOwn";
+import NotFound from "./NotFound";
+import { ComponentProvider } from "../Providers/ComponentProvider";
 import { Logout } from "./Login_Reg/Logout";
 import { SubContractorProvider } from "../Providers/SubContractorProvider";
 import { ProjectProvider } from "../Providers/ProjectProvider";
@@ -37,13 +39,21 @@ const ApplicationViews = () => {
                             <SubContractorProvider>
                                 <BidProvider>
                                     <ProjectList />  
-=                                </BidProvider>   
+                                </BidProvider>   
                             </SubContractorProvider>
                         </ComponentProvider>
                     </ProjectProvider>
                 </Route>
 
-                <Route path="/components">
+                <Route path="/components/edit/:Id(\d+)" >
+                    <ProjectProvider>
+                        <ComponentProvider>
+                           <ComponentEditFormOnItsOwn />         
+                        </ComponentProvider>
+                    </ProjectProvider>
+                </Route>
+
+                <Route exact path="/components">
                     <ProjectProvider>
                         <SubContractorProvider>
                             <ComponentProvider>
@@ -57,6 +67,10 @@ const ApplicationViews = () => {
 
                 <Route path="/logout">
                     <Logout />
+                </Route>
+
+                <Route path="/notfound">
+                    <NotFound />
                 </Route>
 
             </Switch>
