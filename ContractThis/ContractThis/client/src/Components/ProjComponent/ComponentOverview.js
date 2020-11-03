@@ -5,7 +5,6 @@ import { ProfileContext } from "../../Providers/ProfileProvider"
 import { WindowStateContext } from "../../Providers/WindowStateProvider"
 import { ComponentContext } from "../../Providers/ComponentProvider"
 import ComponentForm from "../Projects/Forms/ComponentForm"
-import ComponentEditForm from "../Projects/Forms/ComponentEditForm" 
 import ComponentOverviewRightSide from "./ComponentOverviewRightSide"
 import "./ProjComponent.css"
 import LocalUserProvider from "../../Helpers/LocalUserGets"
@@ -99,7 +98,7 @@ const ComponentOverview = (props) => {
 
      const cancelAdd = () => {
         setShowComponentFormActive(false);
-        setDisplayProject();
+        setDisplayComponent();
     }
 
      let indexDelay = 1
