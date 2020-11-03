@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, Redirect } from "react-router-dom";
 import { ProfileContext } from "../Providers/ProfileProvider";
 import Login from "./Login_Reg/Login";
 import Register from "./Login_Reg/Registration";
@@ -19,6 +19,15 @@ const ApplicationViews = () => {
     return (
         <main>
             <Switch>
+                <Route exact path="/">
+                {isLoggedIn ? 
+                   <Redirect to="/projects"/>
+                   :
+                   <Redirect to="/login" />}
+                </Route>
+            </Switch>
+            
+            <Switch>
                 <Route path="/login">
                     <LoginProvider>
                         <Login />
@@ -33,7 +42,8 @@ const ApplicationViews = () => {
                     </LoginProvider>
                 </Route>
 
-                <Route path="/projects">
+                <Route exact path="/projects">
+                {isLoggedIn ? 
                     <ProjectProvider>
                         <ComponentProvider>
                             <SubContractorProvider>
@@ -43,17 +53,21 @@ const ApplicationViews = () => {
                             </SubContractorProvider>
                         </ComponentProvider>
                     </ProjectProvider>
+                    : <Redirect to="/login" />}
                 </Route>
 
                 <Route path="/components/edit/:Id(\d+)" >
+                {isLoggedIn ?
                     <ProjectProvider>
                         <ComponentProvider>
                            <ComponentEditFormOnItsOwn />         
                         </ComponentProvider>
                     </ProjectProvider>
+                    : <Redirect to="/login" />}
                 </Route>
 
                 <Route exact path="/components">
+                    {isLoggedIn ?
                     <ProjectProvider>
                         <SubContractorProvider>
                             <ComponentProvider>
@@ -63,15 +77,16 @@ const ApplicationViews = () => {
                             </ComponentProvider>
                         </SubContractorProvider>
                     </ProjectProvider>
+                    : <Redirect to="/login" />}
                 </Route>
 
                 <Route path="/logout">
                     <Logout />
                 </Route>
 
-                <Route path="/notfound">
-                    <NotFound />
-                </Route>
+                {isLoggedIn ? 
+                <Route component={NotFound} />
+                : <Redirect to="/login" />}
 
             </Switch>
         </main>

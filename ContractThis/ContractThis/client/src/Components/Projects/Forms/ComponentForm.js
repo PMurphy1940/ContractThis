@@ -29,6 +29,7 @@ const ComponentForm = (props) => {
         setSaveButton(true);
         setComNameReq(false);
         setComDescReq(false);
+        setBadNumbers(false);
       };
 
     const SaveNewComponent = () => {

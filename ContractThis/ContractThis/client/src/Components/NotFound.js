@@ -9,7 +9,7 @@ const NotFound = () => {
     const history = useHistory()
     return (
         <>
-            <h2>Sorry, the file you requested was not found</h2>
+            <h2>Sorry, the page you requested was not found</h2>
             <Button onClick={() => history.push("/projects")}>Home</Button>
         </>
     )

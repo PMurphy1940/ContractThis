@@ -32,7 +32,7 @@ const ComponentEditForm = (props) => {
         setSaveButton(true);
         setComNameReq(false);
         setComDescReq(false);
-        setComDescReq(false);
+        setBadNumbers(false);
       };
 
     const SaveComponent = () => {
