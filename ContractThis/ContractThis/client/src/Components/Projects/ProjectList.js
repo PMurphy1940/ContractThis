@@ -62,7 +62,7 @@ const ProjectList = () => {
         showProjectForm, setShowProjectForm,
         setShowComponentFormActive,
         setEditFormOpen, 
-        openDeleteProjectModal, setOpenDeleteProjectModal
+        setOpenDeleteProjectModal
     } = useContext(WindowStateContext)
 
     const {
@@ -98,7 +98,7 @@ const ProjectList = () => {
             setDisplayProject(projects.find((project) => (project.id === displayProject.id)))
         }
     },[updatedProject])
-    
+
     //Set a selected project into state for display and place window views into their default position
     const selectDisplay = (id) => {
         setShowProjectForm(false);
@@ -138,6 +138,7 @@ const ProjectList = () => {
     const completeDelete = () => {
         DeleteProject(projectToDelete.id);
         setOpenDeleteProjectModal(false)
+        setDisplayProject()
     }
 
     const cancelDelete = () => {

@@ -18,7 +18,7 @@ const ComponentAndDetails = (props) => {
         setDisplayProject    
     } = useContext(ProjectContext)
 
-    const { displayComponent, DeleteComponent } = useContext(ComponentContext);
+    const { displayComponent, setDisplayComponent, DeleteComponent } = useContext(ComponentContext);
 
     const {
         showComponentFormActive, setShowComponentFormActive,
@@ -64,6 +64,7 @@ const ComponentAndDetails = (props) => {
     const completeDelete = () => {
         DeleteComponent(props.displayComponent.id)
         setOpenDeleteModal(false)
+        setDisplayComponent();
     }
 
     const cancelDelete = () => {

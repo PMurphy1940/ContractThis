@@ -18,7 +18,9 @@ export function ProjectProvider(props) {
 // update the users project list when something has been changed, without doing a full GET of all projects
 // To reduce bandwidth usage
     useEffect(() =>{
-        UpdateProjects(displayProject)
+      if (displayProject !== undefined){
+          UpdateProjects(displayProject)
+        }
       },[displayProject])
 
     const UpdateProjects = (updatedProject) => {
