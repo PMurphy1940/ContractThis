@@ -6,7 +6,8 @@ import Register from "./Login_Reg/Registration";
 import ProjectList from "./Projects/ProjectList";
 import ComponentOverview from "./ProjComponent/ComponentOverview";
 import ComponentEditFormOnItsOwn from "./ProjComponent/Cards/ComponentEditFormOnItsOwn";
-import NotFound from "./NotFound";
+import NotFound from "./ErrorWindows/NotFound";
+import Unauthorized from "./ErrorWindows/Unauthorized"
 import { ComponentProvider } from "../Providers/ComponentProvider";
 import { Logout } from "./Login_Reg/Logout";
 import { SubContractorProvider } from "../Providers/SubContractorProvider";
@@ -83,6 +84,14 @@ const ApplicationViews = () => {
                 <Route path="/logout">
                     <Logout />
                 </Route>
+
+                <Route path="/unauthorized">
+                {isLoggedIn ? 
+                    <Unauthorized />
+                    : <Redirect to="/login" />}
+                </Route>
+
+                
 
                 {isLoggedIn ? 
                 <Route component={NotFound} />

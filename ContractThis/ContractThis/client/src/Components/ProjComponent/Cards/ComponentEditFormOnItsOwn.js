@@ -23,6 +23,9 @@ const ComponentEditFormOnItsOwn = (props) => {
         if (displayComponent !== undefined && displayComponent.title === "Not Found"){
             history.push("/notfound")
         }
+        if (displayComponent !== undefined && displayComponent.title === "Unauthorized"){
+            history.push("/Unauthorized")
+        }
     }, [displayComponent])
 
     const {

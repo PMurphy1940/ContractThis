@@ -235,7 +235,7 @@ const DetailedComponentCard = (props) => {
                     direction='right'
                     distance='600'
                     >
-                    <h4 className="shopping_List_Banner">Shopping list <button className="far fa-eye-slash delete_Button" onClick={() => closeBigShoppingList() }/></h4>
+                    <h4 className="shopping_List_Banner">Expanded Shopping list <button className="far fa-eye-slash delete_Button" onClick={() => closeBigShoppingList() }/></h4>
                     <div className="shopping_List_Expanded">
                         <div id="materialListContainer">
                         <Table>
