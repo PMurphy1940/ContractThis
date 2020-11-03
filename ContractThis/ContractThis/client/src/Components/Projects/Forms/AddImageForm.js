@@ -17,7 +17,6 @@ const AddImageForm = () => {
              ProjectComponentImageUrl: url
                  }
         AddNewImage(imageObject)
-        // console.log(imageObject)
     } 
 
     return (

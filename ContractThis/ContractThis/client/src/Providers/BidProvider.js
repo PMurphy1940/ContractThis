@@ -19,7 +19,7 @@ export function BidProvider(props) {
         fetch(`${apiUrl}/component/${id}`, {
             method: "GET",
             headers: {
-                Authorization: `Bearer ${id}`
+                Authorization: `Bearer ${token}`
             }
         }))
         .then((response) => response.json()
@@ -40,6 +40,7 @@ export function BidProvider(props) {
         .then(() => {
             setShowSearchSubs(false);
             setBidWindow(false);
+            GetBidByComponentId(bidObject.ProjectComponentId)
         })
     }
 

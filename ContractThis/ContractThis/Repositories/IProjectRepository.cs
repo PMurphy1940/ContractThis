@@ -8,7 +8,7 @@ namespace ContractThis.Repositories
         void AddComponent(ProjectComponent component);
         void AddProject(Project project);
         void DeleteComponent(int id);
-        void DeleteProject(int id);
+        void DeleteProject(Project project);
         List<Project> GetOwnerProjects(int id);
         ProjectComponent GetSingleComponent(int id);
         Project GetSingleProjectById(int id);

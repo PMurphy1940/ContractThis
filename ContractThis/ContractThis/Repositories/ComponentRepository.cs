@@ -1,11 +1,8 @@
 ﻿using ContractThis.Models;
 using ContractThis.Utilities;
 using Microsoft.Extensions.Configuration;
-using System;
 using System.Collections.Generic;
-using System.Data.Common;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace ContractThis.Repositories
 {
@@ -159,6 +156,34 @@ namespace ContractThis.Repositories
                     DbUtilities.AddParameter(cmd, "@ProjectComponentImageUrl", image.ProjectComponentImageUrl);
 
                     image.Id = (int)cmd.ExecuteScalar();
+                }
+            }
+        }
+        public Project CheckComponentProjectForDeleteAuth(int id)
+        {
+            using( var conn = Connection)
+            {
+                conn.Open();
+                using( var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                                        SELECT p.UserProfileId 
+                                        FROM ProjectComponent pc
+                                        LEFT JOIN Project p on p.Id = pc.ProjectId
+                                        WHERE pc.Id = @id
+                                        ";
+                    DbUtilities.AddParameter(cmd, "@id", id);
+
+                    var reader = cmd.ExecuteReader();
+
+                    var authcheck = new Project();
+
+                    if (reader.Read())
+                    {
+                        authcheck.UserProfileId = DbUtilities.GetInt(reader, "UserProfileId");
+                    }
+                    reader.Close();
+                    return authcheck;
                 }
             }
         }

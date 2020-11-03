@@ -1,21 +1,13 @@
 import React, { useContext } from 'react';
-import SubContractorChat from "./Chats/SubContractorChat";
-import { WindowStateContext } from "../../Providers/WindowStateProvider";
 import { ComponentContext } from "../../Providers/ComponentProvider"
-import { BidContext } from "../../Providers/BidProvider";
 import { SubContractorContext } from "../../Providers/SubContractorProvider";
-import InitialBidForm from "./Chats/InitialBidForm"
 import DetailedComponentCard from "./DetailedComponentCard"
 
 
 const ComponentOverviewRightSide = (props) => {
-    const { initialBidFormActive, setInitialBidFormActive, bidWindow, setBidWindow, 
-            showSearchSubs, setShowSearchSubs} = useContext(WindowStateContext);
 
-    const { GetSubContractorsById, singleSubContractor } = useContext(SubContractorContext);      
-    const {
-        displayComponent, setDisplayComponent
-    } = useContext(ComponentContext);
+    const { singleSubContractor } = useContext(SubContractorContext);      
+    const { displayComponent } = useContext(ComponentContext);
 
 
     return (

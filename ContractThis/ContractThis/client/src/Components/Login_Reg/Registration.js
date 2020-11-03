@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useContext } from "react";
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import { useHistory } from "react-router-dom";
 import { ProfileContext } from "../../Providers/ProfileProvider";

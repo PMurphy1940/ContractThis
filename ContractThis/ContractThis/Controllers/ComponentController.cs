@@ -43,12 +43,20 @@ namespace ContractThis.Controllers
         public IActionResult GetComponentById(int id)
         {
             var component = _componentRepository.GetComponentById(id);
+            if (component == null)
+            {
+                return NotFound();
+            }
+            //ensure the request for the component originated with its owner
+            var currentUser = GetCurrentUserProfile();
+            var project = _projectRepository.GetSingleProjectById(component.ProjectId);
 
-            if(component != null)
+            if (currentUser.Id == project.UserProfileId)
             {
                 return Ok(component);
             }
-            return NotFound();
+            return Unauthorized();
+
         }
 
         [HttpGet("images/{id}")]
@@ -95,6 +103,21 @@ namespace ContractThis.Controllers
                 return Ok();
             }
 
+            return Unauthorized();
+        }
+
+        [HttpDelete("{id}")]
+
+        public IActionResult DeleteComponent(int id)
+        {
+            //Ensure that the DELETE request is coming from the project owner
+            var currentUser = GetCurrentUserProfile();
+            var checkProject = _componentRepository.CheckComponentProjectForDeleteAuth(id);
+            if (currentUser.Id == checkProject.UserProfileId)
+            {
+                _projectRepository.DeleteComponent(id);
+                return NoContent();
+            }
             return Unauthorized();
         }
         private UserProfile GetCurrentUserProfile()

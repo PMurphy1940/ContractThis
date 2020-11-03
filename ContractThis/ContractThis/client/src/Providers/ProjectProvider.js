@@ -3,51 +3,36 @@ import { ProfileContext } from "./ProfileProvider"
 import LocalUserProvider from "../Helpers/LocalUserGets"
 import { WindowStateContext } from "../Providers/WindowStateProvider"
 
+
 export const ProjectContext = createContext()
 
 export function ProjectProvider(props) {
     const apiUrl = "/api/project";
     const { getToken } = useContext(ProfileContext)
-    const { editFormOpen,setEditFormOpen,
-            showComponentFormActive, setShowComponentFormActive,
-            showProjectForm, setShowProjectForm
-          } = useContext(WindowStateContext);
-
+    const { setShowComponentFormActive, setShowProjectForm } = useContext(WindowStateContext);
     const [projects, setProjects] = useState([]);
     const [displayProject, setDisplayProject] = useState();
-    // const [showProjectForm, setShowProjectForm] = useState(false);
-    // const [showComponentFormActive, setShowComponentFormActive] = useState(false)
     const [update, setUpdate] = useState(false);
     const [updatedProject, setUpdatedProject] = useState(false)
-    // const [editFormOpen,setEditFormOpen] = useState(false)
 
-//     useEffect(() =>{
-//       UpdateProjects(displayProject)
-//     },[displayProject])
+// update the users project list when something has been changed, without doing a full GET of all projects
+// To reduce bandwidth usage
+    useEffect(() =>{
+      if (displayProject !== undefined){
+          UpdateProjects(displayProject)
+        }
+      },[displayProject])
 
-// // update the users project list when something has been changed, without doing a full GET of all projects
-//     const UpdateProjects = (updatedProject) => {
-//       // setDisplayProject(updatedProject)
-
-//       let projectsStateChange = [...projects]
-//       let changedIndex = projects.findIndex((project) => project.id === updatedProject.id)
-//       projectsStateChange[changedIndex] = updatedProject
-//       setProjects(projectsStateChange) 
-//       return projectsStateChange
-//     }
-
-
-//Database calls//
-    // const GetUsersProjects = (id) => {
-    //     return fetch(`${apiUrl}/byowner/${id}`)
-    //     .then((response) => response.json())
-    //     .then(setProjects)
-    //     setUpdatedProject(!updatedProject)
-    // }
+    const UpdateProjects = (updatedProject) => {
+      let projectsStateChange = [...projects]
+      let changedIndex = projects.findIndex((project) => project.id === updatedProject.id)
+      projectsStateChange[changedIndex] = updatedProject
+      setProjects(projectsStateChange) 
+    }
 
     const GetUsersProjects = (id) => {
       getToken().then((token) =>
-      fetch(`${apiUrl}/byowner/${id}`, {
+      fetch(`${apiUrl}/byowner`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`
@@ -86,7 +71,7 @@ export function ProjectProvider(props) {
               GetUsersProjects(LocalUserProvider.userId())
               return response.json();
             }
-            throw new Error("Unauthorized");
+            window.alert(new Error("Unable to complete request"));
           });    
     }
 
@@ -106,7 +91,7 @@ export function ProjectProvider(props) {
               GetUsersProjects(LocalUserProvider.userId())
               return response.json();
             }
-            throw new Error("Unauthorized");
+            window.alert(new Error("Unable to complete request"));
           });   
     }
 
@@ -119,7 +104,6 @@ export function ProjectProvider(props) {
         }
       }))
       .then(() => {
-        // GetUsersProjects(LocalUserProvider.userId())
         setUpdate(!update)
       })
     }
@@ -137,9 +121,7 @@ export function ProjectProvider(props) {
         .then((response) => {
             if (response.ok) {
               setShowComponentFormActive(false);
-              setUpdate(!update)
-              // setDisplayProject(GetProjectById(componentObject.projectId))
-              // GetUsersProjects(LocalUserProvider.userId())
+              GetProjectById(componentObject.projectId)
               return response.json();
             }
             window.alert(new Error("Unable to complete request"));
@@ -158,24 +140,10 @@ export function ProjectProvider(props) {
       }))
       .then((response) => {
         if (response.ok) {
-              setUpdate(!update)
+              GetProjectById(updatedComponent.projectId)
               return response.json();
         }
         window.alert(new Error("Unable to complete request"));
-      })
-    }
-
-    const DeleteComponent = (id) => {
-      getToken().then((token) => 
-      fetch(`${apiUrl}/component/${id}`, {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      }))
-      .then(() => {
-        setUpdate(!update)
-        // GetUsersProjects(LocalUserProvider.userId())
       })
     }
 
@@ -184,8 +152,8 @@ export function ProjectProvider(props) {
         <ProjectContext.Provider
           value={{ projects, displayProject, setDisplayProject,
                     GetUsersProjects, AddNewProject, update, setUpdate,
-                    UpdateProject, DeleteProject, AddNewComponent, UpdateComponent,   
-                    DeleteComponent, updatedProject, GetProjectById }}>         
+                    UpdateProject, DeleteProject, AddNewComponent, 
+                    UpdateComponent, updatedProject, GetProjectById }}>         
              {props.children}           
         </ProjectContext.Provider>
       );

@@ -66,6 +66,7 @@ namespace ContractThis.Controllers
             return subcontractor != null ? Ok(subcontractor) : (IActionResult)NotFound();
         }
 
+        [Authorize]
         [HttpGet("jobs/{id}")]
         public IActionResult GetSubcontractorJobs(int id)
         {

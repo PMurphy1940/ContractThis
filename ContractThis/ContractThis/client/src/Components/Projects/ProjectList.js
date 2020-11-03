@@ -5,16 +5,18 @@ import { ProfileContext } from "../../Providers/ProfileProvider";
 import { WindowStateContext } from "../../Providers/WindowStateProvider";
 import { ComponentContext } from "../../Providers/ComponentProvider";
 import { BidContext } from "../../Providers/BidProvider";
-import { SubContractorContext } from "../../Providers/SubContractorProvider"
+import { SubContractorContext } from "../../Providers/SubContractorProvider";
 import ProjectCard from "./ProjectCard";
 import ProjectForm from "./Forms/ProjectForm";
 import ProjectEditForm from "./Forms/ProjectEditForm";
 import ComponentAndDetails from "./SubViews/ComponentAndDetailsView";
 import LocalUserProvider from "../../Helpers/LocalUserGets";
-import SubContractorRequest from "../Subcontractor/SubContractorRequests"
+import SubContractorRequest from "../Subcontractor/SubContractorRequests";
+import DeleteProjectModal from "../Modals/DeleteProjectModal"
 import "./Projects.css";
 
 const ProjectList = () => {
+    const [projectToDelete, setProjectToDelete] = useState();
     const aUser = {
         id: LocalUserProvider.userId(),
         screenName: LocalUserProvider.userDisplayName(),
@@ -59,11 +61,12 @@ const ProjectList = () => {
         editProjectView, setEditProjectView,
         showProjectForm, setShowProjectForm,
         setShowComponentFormActive,
-        setEditFormOpen,
+        setEditFormOpen, 
+        setOpenDeleteProjectModal
     } = useContext(WindowStateContext)
 
     const {
-        displayComponent, setDisplayComponent
+        images, setImages, displayComponent, setDisplayComponent, GetComponentById
     } = useContext(ComponentContext)
 
     const {
@@ -95,6 +98,15 @@ const ProjectList = () => {
             setDisplayProject(projects.find((project) => (project.id === displayProject.id)))
         }
     },[updatedProject])
+
+    useEffect(() => {
+        if (displayComponent !== undefined){
+            selectComponentDisplay(displayComponent.id)
+        }
+    }, [images])
+
+
+
     //Set a selected project into state for display and place window views into their default position
     const selectDisplay = (id) => {
         setShowProjectForm(false);
@@ -109,9 +121,15 @@ const ProjectList = () => {
     // set a selected component into state for display
     const selectComponentDisplay = (id) => {
         setShowComponentFormActive(false)
-        let components = [...displayProject.components]
-        setDisplayComponent(components.find((component) => (component.id === id)));
+        setDisplayComponent(GetComponentById(id))
+        // let components = [...displayProject.components]
+        // setDisplayComponent(components.find((component) => (component.id === id)));
     }
+    useEffect(()=> {
+        if (displayComponent !== undefined && displayComponent.images !== undefined){
+            setImages(displayComponent.images)
+        }
+    }, [displayComponent])
 
     const editProject = (id) => {
         setDisplayProject(projects.find((project) => (project.id === id)));
@@ -127,10 +145,26 @@ const ProjectList = () => {
     }
 
     const deleteThisProject = (id) => {
-        DeleteProject(id);
+        setProjectToDelete(projects.find((project) => (project.id === id)));
+        setEditProjectView(false);
+        setShowComponentFormActive(false);
+        setShowProjectForm(false);
+        setOpenDeleteProjectModal(true)
     }
 
-    const bigDetailPage = () => {
+    const completeDelete = () => {
+        DeleteProject(projectToDelete.id);
+        setOpenDeleteProjectModal(false);
+        setDisplayComponent();
+        setDisplayProject();
+    }
+
+    const cancelDelete = () => {
+        setOpenDeleteProjectModal(false)
+    }
+
+    const bigDetailPage = (id) => {
+        selectDisplay(id)
         history.push("/components");
     }
 
@@ -170,8 +204,6 @@ const ProjectList = () => {
                     )
             }
     }
-
-    console.log("bids", bidRequests)
 
 //Conditional rendering for larger screen size
     if (width > breakpointWidth){
@@ -244,6 +276,13 @@ const ProjectList = () => {
                         }
                     </div>
                 </div>
+                {(projectToDelete !== undefined) && 
+                    <DeleteProjectModal 
+                        completeDelete={completeDelete}
+                        cancelDelete={cancelDelete}
+                        projectToDelete={projectToDelete}
+                        />
+                }
             </div>
          )
     }
@@ -270,6 +309,7 @@ const ProjectList = () => {
                 )}
            </div>
        </div>
+       
     )
 }
 

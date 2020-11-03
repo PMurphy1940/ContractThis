@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { ProfileContext } from "./ProfileProvider"
-import LocalUserProvider from "../Helpers/LocalUserGets"
+import { ProjectContext } from "./ProjectProvider"
 import { WindowStateContext } from "../Providers/WindowStateProvider"
 
 export const ComponentContext = createContext()
@@ -12,7 +12,7 @@ export function ComponentProvider(props) {
     const [update, setUpdate] = useState(false);
     const { getToken } = useContext(ProfileContext)
     const { setAddImageWindowOpen, setShowComponentFormActive } = useContext(WindowStateContext);
-
+    const { GetProjectById, displayProject } = useContext(ProjectContext);
 
     const GetComponentImages = (id) => {
         getToken().then((token) => 
@@ -107,7 +107,8 @@ export function ComponentProvider(props) {
         }
       }))
       .then(() => {
-        setUpdate(!update)
+        GetProjectById(displayProject.id);
+        setDisplayComponent();
       })
     }
 
@@ -123,8 +124,9 @@ export function ComponentProvider(props) {
         }))
         .then((response) => {
             if (response.ok) {
-                  setUpdate(!update)
-                   ;
+              GetProjectById(completeComponent.projectId);
+              setDisplayComponent();
+                  return
             }
             window.alert(new Error("Unable to complete request"));
           })
@@ -134,7 +136,7 @@ export function ComponentProvider(props) {
     return (
         <ComponentContext.Provider
           value={{ images, displayComponent, setDisplayComponent, GetComponentImages,
-                     AddNewImage, GetComponentById, AddCompletedDateToComponent }}>         
+                     AddNewImage, GetComponentById, AddCompletedDateToComponent, DeleteComponent }}>         
              {props.children}           
         </ComponentContext.Provider>
       );

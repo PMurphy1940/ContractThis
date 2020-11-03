@@ -101,8 +101,9 @@
 
 .images_Container_Large {
     display: flex;
+    flex-wrap: wrap;
     justify-content:space-evenly;
-    min-height: 60vh;
+    /* min-height: 60vh; */
 }
 
 .Images_Banner {

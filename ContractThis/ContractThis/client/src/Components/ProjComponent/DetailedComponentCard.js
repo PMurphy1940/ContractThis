@@ -1,25 +1,25 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { ProjectContext } from "../../Providers/ProjectProvider"
-import { BidContext } from "../../Providers/BidProvider"
+import { useHistory } from 'react-router-dom'
+import { ProjectContext } from "../../Providers/ProjectProvider";
+import { BidContext } from "../../Providers/BidProvider";
 import { WindowStateContext } from "../../Providers/WindowStateProvider";
-import { ComponentContext } from "../../Providers/ComponentProvider"
+import { ComponentContext } from "../../Providers/ComponentProvider";
 import materials from "../../Images/materials.png";
 import MaterialCard from "./Cards/MaterialCard";
 import MaterialCardExpanded from "./Cards/MaterialCardExpanded";
 import InitialBidForm from "./Chats/InitialBidForm"
-
 import ImageCard from "../Projects/DetailComponents/ImageCard";
 import SearchSubcontractor from "../Subcontractor/SearchSubcontractors";
 import AddImageForm from "../Projects/Forms/AddImageForm";
+import DeleteComponentModal from "../Modals/DeleteComponentModal";
 import { Table } from "reactstrap";
 import FadeIn from "../../Helpers/FadeIn"
 import MoveWithoutFade from "../../Helpers/MoveWithoutFade"
 
-
-
 const DetailedComponentCard = (props) => {
     const { displayProject } = useContext(ProjectContext);
-    const [materialShortList, setMaterialShortList] = useState([])
+    const [materialShortList, setMaterialShortList] = useState([]);
+    const history = useHistory();
     
     //Future//For adding multiple contractors to the same component
     // const [componentContractors, setComponentContractors] = useState([])
@@ -68,12 +68,13 @@ const DetailedComponentCard = (props) => {
 /////////////////////////////
     const { setShowSearchSubs, addImageWindowOpen, setAddImageWindowOpen, 
             showImages, setShowImages, showSearchSubs, viewShoppingList, setViewShoppingList,
-            showBigShoppingList, setShowBigShoppingList, setInitialBidFormActive, initialBidFormActive } = useContext(WindowStateContext)
+            showBigShoppingList, setShowBigShoppingList, setInitialBidFormActive, initialBidFormActive,
+            openDeleteModal, setOpenDeleteModal } = useContext(WindowStateContext)
     
     const { bid, GetBidByComponentId } = useContext(BidContext);
 
-    const { displayComponent, GetComponentById, 
-        AddCompletedDateToComponent } = useContext(ComponentContext);
+    const { displayComponent, GetComponentById, images, 
+        AddCompletedDateToComponent, DeleteComponent  } = useContext(ComponentContext);
 
 //Make a short list of materials that will fit comfortably in the detail card. 
 //Full list in expanded Shopping list
@@ -83,7 +84,6 @@ const DetailedComponentCard = (props) => {
             for ( let i=0; i<3; i++){
                 if(materiallist[i] !== undefined) {
                     list.push(materiallist[i])
-                    
                 }
             } return list;
         }
@@ -92,7 +92,7 @@ const DetailedComponentCard = (props) => {
 //Refresh this component
     useEffect(()=> {
         GetBidByComponentId(displayComponent.id)
-    }, [displayComponent.id])
+    }, [displayComponent.id, images])
 
 //Date simplifier
     const dateConverter = (suppliedDate) =>{
@@ -104,7 +104,7 @@ const DetailedComponentCard = (props) => {
 //Calculate the various expeditures to be shown in the detail card
     const totalExpeditures = () => {
         if(displayComponent !== undefined && bid !== undefined){
-            if (bid.subAccepted !== undefined)
+            if (bid.subAccepted !== null && bid.subAccepted !== undefined)
                 {
                     labor = bid.fee
                     return displayComponent.materialCost + bid.fee
@@ -117,7 +117,6 @@ const DetailedComponentCard = (props) => {
     total = totalExpeditures();
 
     const budgetPercent = () => {
-        
         return Math.floor(total/displayProject.budget*100)
     }
     percent = budgetPercent();
@@ -136,7 +135,6 @@ const DetailedComponentCard = (props) => {
         setViewShoppingList(false);
         setShowImages(false);
         setShowBigShoppingList(true);
-
     }
 
     const closeBigShoppingList = () => {
@@ -156,6 +154,20 @@ const DetailedComponentCard = (props) => {
     const cancelAdd = () => {
         setInitialBidFormActive(false);
         setShowSearchSubs(false)
+    }
+
+    const deleteThisComponent = () => {
+        setOpenDeleteModal(true)
+    }
+
+    const completeDelete = () => {
+        DeleteComponent(displayComponent.id)
+        setOpenDeleteModal(false)
+    }
+
+    const cancelDelete = () => {
+        setOpenDeleteModal(false)
+
     }
 
 //gsap effect index
@@ -223,7 +235,7 @@ const DetailedComponentCard = (props) => {
                     direction='right'
                     distance='600'
                     >
-                    <h4 className="shopping_List_Banner">Shopping list <button className="far fa-eye-slash delete_Button" onClick={() => closeBigShoppingList() }/></h4>
+                    <h4 className="shopping_List_Banner">Expanded Shopping list <button className="far fa-eye-slash delete_Button" onClick={() => closeBigShoppingList() }/></h4>
                     <div className="shopping_List_Expanded">
                         <div id="materialListContainer">
                         <Table>
@@ -268,11 +280,7 @@ const DetailedComponentCard = (props) => {
         }
     }
 
-    //This determines whether to display Outstanding Bid or Accepted bid
-
-console.log(bid)
-
-
+//This determines whether to display Outstanding Bid or Accepted bid
 
     const isBidOutstanding = () => {
         if (bid !== undefined) {
@@ -310,13 +318,14 @@ console.log(bid)
         }
     }
 
+//This is the Main return for Details and its children
     return (
     <div className="details_Rightside_Whole_Container">
         <div className="large_Component_Detail_Card">
             <div className="large_Component_Detail_Card_Child">
                 <h4 className="Description_Banner">Description
-                    <button className="far fa-edit delete_Button" onClick={() => props.editComponent(props.displayComponent.id) }/>
-                    <button className="far fa-trash-alt delete_Button" onClick={() => props.deleteThisComponent(props.displayComponent.id) }/>
+                    <button className="far fa-edit delete_Button" onClick={() => history.push(`components/edit/${displayComponent.id}`) }/>
+                    <button className="far fa-trash-alt delete_Button" onClick={() => deleteThisComponent(displayComponent.id) }/>
                 </h4>
                 <div className="detail_Text">
                     <p className="large_Component_Description" >{displayComponent.componentDescription}</p>
@@ -373,7 +382,6 @@ console.log(bid)
             <div className="subcontractor_And_Bid_Container">
                 {isBidOutstanding()}
                 
-
             </div>
         </div>
         <div className="rightside_Detail_Elements">
@@ -382,6 +390,11 @@ console.log(bid)
             }
             {rightsideElements()}
         </div>
+        <DeleteComponentModal
+            openDeleteModal={openDeleteModal}
+            completeDelete={completeDelete}
+            cancelDelete={cancelDelete}
+        />
     </div> 
     )
 }

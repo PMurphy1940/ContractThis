@@ -233,18 +233,50 @@ namespace ContractThis.Repositories
             }
         }
 
-        public void DeleteProject(int id)
+        public void DeleteProject(Project project)
         {
             using( var conn = Connection)
             {
                 conn.Open();
                 using(var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"
+                    string hasComponentsToDelete = "";
+                    if (project.Components.Count > 0)
+                    {
+                        var componentBeingDeleted = project.Components;
+                        string recurrsiveDeletes = "";
+                        for (int i = 0; i<componentBeingDeleted.Count; i++)
+                        {
+                            int comId = componentBeingDeleted[i].Id;
+
+                            //Add the Sql '@' to the 'In' chain for this index of the Component List 
+                            string deleteParam = "@deleteId" + i;
+                            recurrsiveDeletes += deleteParam;
+                            //Add a comma between the statement if its not the last one in the list
+                            if (i != componentBeingDeleted.Count - 1)
+                            {
+                                recurrsiveDeletes += ", ";
+                            }
+                            //Tie this Id value to the command text as it is being built
+                            DbUtilities.AddParameter(cmd, deleteParam, comId);
+                        }
+                        hasComponentsToDelete = @"
+                                        DELETE FROM SubContractorBid
+                                        WHERE ProjectComponentId IN (  "
+                                        + recurrsiveDeletes + " ) " +
+                                       @"DELETE FROM ProjectComponentImages
+                                        WHERE ProjectComponentId IN ( "
+                                        + recurrsiveDeletes + " ) ";
+                    }
+
+                    cmd.CommandText =   hasComponentsToDelete + 
+                                       @"DELETE FROM ProjectComponent
+                                        WHERE ProjectId = @Id
+                        
                                         DELETE FROM Project
                                         WHERE Id = @Id
                                         ";
-                    DbUtilities.AddParameter(cmd, "@Id", id);
+                    DbUtilities.AddParameter(cmd, "@Id", project.Id);
 
                     cmd.ExecuteNonQuery();
                 }
@@ -258,6 +290,12 @@ namespace ContractThis.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
+                                        DELETE FROM ProjectComponentImages
+                                        WHERE ProjectComponentId = @id
+
+                                        DELETE FROM SubContractorBid
+                                        WHERE ProjectComponentId = @id
+
                                         DELETE FROM ProjectComponent
                                         WHERE Id = @Id
                                         ";

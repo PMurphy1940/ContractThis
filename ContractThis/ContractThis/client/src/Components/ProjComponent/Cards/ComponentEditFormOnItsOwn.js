@@ -1,71 +1,76 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
+import { useParams, useHistory } from 'react-router-dom'
 import { ProjectContext } from "../../../Providers/ProjectProvider"
-import FadeIn from "../../../Helpers/FadeIn"
-import { WindowStateContext } from "../../../Providers/WindowStateProvider"
+import { ComponentContext } from "../../../Providers/ComponentProvider"
 
-const ComponentEditForm = (props) => {
-
+const ComponentEditFormOnItsOwn = (props) => {
+    const { Id } = useParams();
+    const history = useHistory()
     const [saveButton, setSaveButton] = useState(false);
-    const [saveButtonClass, setSaveButtonClass] = useState("component_Save")
-    const [componentToEdit, setComponentToEdit] = useState({...props.displayComponent});
+    const [saveButtonClass, setSaveButtonClass] = useState("component_Save");
     const [comNameReq, setComNameReq] = useState(false);
     const [comDescReq, setComDescReq] = useState(false);
     const [badNumbers, setBadNumbers] = useState(false);
 
+    const { GetComponentById, displayComponent, setDisplayComponent } = useContext(ComponentContext)
+
+    useEffect(() => {
+        GetComponentById(Id)
+    }, [])
+
+    useEffect(()=> {
+
+        if (displayComponent !== undefined && displayComponent.title === "Not Found"){
+            history.push("/notfound")
+        }
+        if (displayComponent !== undefined && displayComponent.title === "Unauthorized"){
+            history.push("/Unauthorized")
+        }
+    }, [displayComponent])
 
     const {
-        showComponentFormActive, setShowComponentFormActive,
-        editFormOpen,setEditFormOpen,
-    } = useContext(WindowStateContext)
-    
-    const {
-        AddNewComponent,
-        displayProject,
         UpdateComponent
     } =useContext(ProjectContext)
 
     const handleFieldChange = (event) => {
-        const stateToChange = { ...componentToEdit };
+        const stateToChange = { ...displayComponent };
         stateToChange[event.target.id] = event.target.value;
-        setComponentToEdit(stateToChange);
-        setSaveButtonClass("project_Save_Active")
-        setSaveButton(true);
+        setDisplayComponent(stateToChange);
+        setSaveButton(true)
         setComNameReq(false);
         setComDescReq(false);
         setBadNumbers(false);
+        setSaveButtonClass("project_Save_Active")
       };
 
     const SaveComponent = () => {
         //Form validation//
-        if (componentToEdit.componentName === ""){
+        if (displayComponent.componentName === ""){
             setComNameReq(true)
             return
         }
-        if (componentToEdit.componentDescription === ""){
+        if (displayComponent.componentDescription === ""){
             setComDescReq(true)
             return
         }
-        let id = componentToEdit.id
-        componentToEdit.materialCost = parseInt(componentToEdit.materialCost)
-            //Check to see if the parseInt returned NaN//
-            if ( componentToEdit.materialCost !== Number(componentToEdit.materialCost)){
+        let id = displayComponent.id
+        displayComponent.materialCost = parseInt(displayComponent.materialCost)
+         //Check to see if the parseInt returned NaN//
+         if ( displayComponent.materialCost !== Number(displayComponent.materialCost)){
             setBadNumbers(true)
             return
         }
-        UpdateComponent(componentToEdit, id)
-        setShowComponentFormActive(false);
+        UpdateComponent(displayComponent, id);
+        history.push("/components")
      };
     return (
+        <>
+        {(displayComponent!==undefined) && 
             <div className="component_Detail_Container">
-                <FadeIn
-                    paused="true"
-                    direction='right'
-                    distance='600'
-                    >
                     <h6 className="add_Component_Banner">Edit
                         <div>
                             <button id={saveButtonClass} disabled={!saveButton} className="far fa-check-circle" onClick={() => SaveComponent() }/>
-                            <button className="fas fa-minus-circle project_Cancel" onClick={() => props.cancelAdd() }/>
+                            <button className="fas fa-minus-circle project_Cancel" onClick={() => history.goBack() }/>
                         </div>
                     </h6>
                     <fieldset className="projectForm form">
@@ -75,7 +80,7 @@ const ComponentEditForm = (props) => {
                             className="form_input"
                             innerref="componentName"
                             onChange={ (e) => handleFieldChange(e)}
-                            value={componentToEdit.componentName}
+                            value={displayComponent.componentName}
                         />
                         {(comNameReq) ? <p className="required">Component name required</p> : <p> </p>}
                         <label htmlFor="componentDescription" className="form_input">Description</label>
@@ -85,7 +90,7 @@ const ComponentEditForm = (props) => {
                             innerref="componentDescription"
                             rows="4"
                             onChange={ (e) => handleFieldChange(e)}
-                            value={componentToEdit.componentDescription}
+                            value={displayComponent.componentDescription}
                         />
                         {(comDescReq) ? <p className="required">Component description required</p> : <p> </p>}
                         <label htmlFor="materialCost" className="form_input">Material Cost</label>
@@ -94,13 +99,13 @@ const ComponentEditForm = (props) => {
                             className="form_input"
                             innerref="materialCost"
                             onChange={ (e) => handleFieldChange(e)}
-                            value={componentToEdit.materialCost}
+                            value={displayComponent.materialCost}
                         />
                         {(badNumbers) ? <p className="required">Material cost must be a number</p> : <p></p>}
                     </fieldset>
-                </FadeIn>
-            </div>
+            </div>}
+            </>
     )
 }
 
-export default ComponentEditForm
+export default ComponentEditFormOnItsOwn

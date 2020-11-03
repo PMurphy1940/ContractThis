@@ -5,7 +5,6 @@ import { ProfileContext } from "../../Providers/ProfileProvider"
 import { WindowStateContext } from "../../Providers/WindowStateProvider"
 import { ComponentContext } from "../../Providers/ComponentProvider"
 import ComponentForm from "../Projects/Forms/ComponentForm"
-import ComponentEditForm from "../Projects/Forms/ComponentEditForm" 
 import ComponentOverviewRightSide from "./ComponentOverviewRightSide"
 import "./ProjComponent.css"
 import LocalUserProvider from "../../Helpers/LocalUserGets"
@@ -31,11 +30,11 @@ const ComponentOverview = (props) => {
     const {
         displayProject, setDisplayProject,
         GetProjectById,
-        DeleteProject,
+        update
     } = useContext(ProjectContext)
 
     const {
-        displayComponent, GetComponentById
+        displayComponent, GetComponentById, setDisplayComponent, images
     } = useContext(ComponentContext)
 
     const {
@@ -61,6 +60,19 @@ const ComponentOverview = (props) => {
         }
     }, [displayProject])
 
+    useEffect(() => {
+        if(displayProject!==undefined){
+            GetProjectById(displayProject.id);
+            setDisplayComponent();
+        }
+    }, [update])
+
+    useEffect(() =>{
+        if(displayComponent!==undefined){
+            GetComponentById(displayComponent.id)
+        }
+    }, [images])
+
     // set a selected component into state for display
     const selectComponentDisplay = (id) => {
         setShowBigShoppingList(false);
@@ -68,8 +80,6 @@ const ComponentOverview = (props) => {
         setShowImages(true)
         setShowComponentFormActive(false)
         GetComponentById(id)
-        // let components = [...displayProject.components]
-        // setDisplayComponent(components.find((component) => (component.id === id)));
     }
 
      //Monitor screen width for responsive behavior
@@ -85,6 +95,11 @@ const ComponentOverview = (props) => {
          window.removeEventListener("resize", handleResizeWindow);
        };
      }, []);
+
+     const cancelAdd = () => {
+        setShowComponentFormActive(false);
+        setDisplayComponent();
+    }
 
      let indexDelay = 1
      
@@ -157,13 +172,18 @@ const ComponentOverview = (props) => {
                         }
                         </div>
                         <div className="large_Detail_Container">
+                            {(showComponentFormActive) ? 
+                            <ComponentForm
+                                cancelAdd={cancelAdd} />
+                            :
                             <ComponentOverviewRightSide />
+                            }
                         </div>
                     </div>
                 </div>
-           
         </div>
     )
 }
 
 export default ComponentOverview
+

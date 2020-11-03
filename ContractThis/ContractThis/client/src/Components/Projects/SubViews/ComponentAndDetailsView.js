@@ -2,32 +2,37 @@ import React, { useState, useEffect, useContext } from 'react';
 import { useHistory } from 'react-router-dom'
 import { ProjectContext } from "../../../Providers/ProjectProvider"
 import { WindowStateContext } from "../../../Providers/WindowStateProvider"
+import { ComponentContext } from "../../../Providers/ComponentProvider";
 import ProjectComponentCard from "../ProjectComponentCard"
 import ProjectComponentDetailCard from "../ProjectComponentDetailCard"
 import ComponentForm from "../Forms/ComponentForm"
 import ComponentEditForm from "../Forms/ComponentEditForm"
-
+import DeleteComponentModal from "../../Modals/DeleteComponentModal";
 
 const ComponentAndDetails = (props) => {
     const [activeComponents, setActiveComponents] = useState([])
 
     const {
         displayProject, 
-        DeleteComponent,
         update,
         setDisplayProject    
     } = useContext(ProjectContext)
 
+    const { displayComponent, setDisplayComponent, DeleteComponent } = useContext(ComponentContext);
+
     const {
         showComponentFormActive, setShowComponentFormActive,
-        editFormOpen,setEditFormOpen, addImageWindowOpen, setAddImageWindowOpen
+        editFormOpen,setEditFormOpen, addImageWindowOpen, setAddImageWindowOpen,
+        openDeleteModal, setOpenDeleteModal
     } = useContext(WindowStateContext)
 
     const history = useHistory();
 
     useEffect(() => {
         if(displayProject !== undefined && displayProject.components !== undefined){
-            readActiveComponents()
+            let updatedProject = {...displayProject}
+            let newComponents = updatedProject.components.filter((component) => (component.dateComplete === null))
+            setActiveComponents(newComponents)  
         }
     }, [displayProject])
 
@@ -35,14 +40,10 @@ const ComponentAndDetails = (props) => {
         setDisplayProject(displayProject)
     }, [update])
 
-    const readActiveComponents = () => {
-        setActiveComponents(displayProject.components.filter((component) => (component.dateComplete === null)))        
-    }
-
     const cancelAdd = () => {
         setShowComponentFormActive(false);
         setEditFormOpen(false)
-        props.setDisplayComponent();
+        setDisplayComponent();
     }
 
     const editComponent = () => {
@@ -50,8 +51,18 @@ const ComponentAndDetails = (props) => {
         setEditFormOpen(true)
     }
     
-    const deleteThisComponent = (id) => {
-        DeleteComponent(id)
+    const deleteThisComponent = () => {
+        setOpenDeleteModal(true)
+    }
+
+    const completeDelete = () => {
+        DeleteComponent(props.displayComponent.id)
+        setOpenDeleteModal(false)
+        setDisplayComponent();
+    }
+
+    const cancelDelete = () => {
+        setOpenDeleteModal(false)
     }
 
     const bigDetailPage = (id) => {
@@ -61,17 +72,17 @@ const ComponentAndDetails = (props) => {
     const addImage = () => {
         setAddImageWindowOpen(!addImageWindowOpen)
     }
-    
+    //This returns the Details view of the selected component, or swaps it out for the 
+    //New Component form <or> the Edit Component form
     const newOrEditForm = () => {
-
         if (!showComponentFormActive) {
             return (
                 <div className="component_Detail_Container">
                     <h6>Details</h6>
-                        {(props.displayComponent !== undefined) && 
+                        {(displayComponent !== undefined) && 
                             <ProjectComponentDetailCard 
-                                key={props.displayComponent.id}
-                                displayComponent={props.displayComponent}
+                                key={displayComponent.id}
+                                displayComponent={displayComponent}
                                 bigDetailPage={bigDetailPage}
                                 deleteThisComponent={deleteThisComponent}
                                 editComponent={editComponent}
@@ -84,9 +95,9 @@ const ComponentAndDetails = (props) => {
         else if (editFormOpen && showComponentFormActive) {
             return (
                 <ComponentEditForm
-                        cancelAdd={cancelAdd}
-                        displayComponent={props.displayComponent}
-                         />
+                    cancelAdd={cancelAdd}
+                    displayComponent={props.displayComponent}
+                        />
                 )
             }
         else if (!editFormOpen && showComponentFormActive)
@@ -94,13 +105,14 @@ const ComponentAndDetails = (props) => {
                 <ComponentForm
                     cancelAdd={cancelAdd} />
              )
-            
-
     }
 
 //Timing delay modifier for gsap effect on component cards
     let indexDelay = 1
 
+    //This is the main return for the Component List in the center of the page. It also holds the
+    //conditional for the Right Side details <or> the New/Edit form and the 
+    //Route to the confirm DELETE Modal window.
     return (
         <>
             <div className="component_List_Container">
@@ -120,8 +132,14 @@ const ComponentAndDetails = (props) => {
                 )}
             </div>
             
-                {newOrEditForm()}                                    
-            
+                {newOrEditForm()} 
+                {(displayComponent!== undefined) && 
+                    <DeleteComponentModal
+                        openDeleteModal={openDeleteModal}
+                        completeDelete={completeDelete}
+                        cancelDelete={cancelDelete}
+                        />
+                }                                   
         </>     
     )
 }
