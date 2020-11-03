@@ -7,7 +7,7 @@ import { ComponentContext } from "../..//Providers/ComponentProvider";
 const ProjectComponentDetailCard = (props) => {
 
     const { addImageWindowOpen } = useContext(WindowStateContext);
-    const { displayComponent, GetComponentById, 
+    const { images, displayComponent, GetComponentById, 
             AddCompletedDateToComponent } = useContext(ComponentContext);
 
     let indexDelay = 1
@@ -15,6 +15,7 @@ const ProjectComponentDetailCard = (props) => {
 useEffect(()=> {
     GetComponentById(displayComponent.id)
 }, [])
+
 
 const MarkComponentComplete = () => {
     AddCompletedDateToComponent(displayComponent);

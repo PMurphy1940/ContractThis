@@ -35,7 +35,7 @@ const ComponentOverview = (props) => {
     } = useContext(ProjectContext)
 
     const {
-        displayComponent, GetComponentById, setDisplayComponent
+        displayComponent, GetComponentById, setDisplayComponent, images
     } = useContext(ComponentContext)
 
     const {
@@ -68,6 +68,12 @@ const ComponentOverview = (props) => {
         }
     }, [update])
 
+    useEffect(() =>{
+        if(displayComponent!==undefined){
+            GetComponentById(displayComponent.id)
+        }
+    }, [images])
+
     // set a selected component into state for display
     const selectComponentDisplay = (id) => {
         setShowBigShoppingList(false);
@@ -75,8 +81,6 @@ const ComponentOverview = (props) => {
         setShowImages(true)
         setShowComponentFormActive(false)
         GetComponentById(id)
-        // let components = [...displayProject.components]
-        // setDisplayComponent(components.find((component) => (component.id === id)));
     }
 
      //Monitor screen width for responsive behavior

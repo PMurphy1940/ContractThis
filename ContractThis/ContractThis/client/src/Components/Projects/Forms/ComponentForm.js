@@ -5,7 +5,11 @@ import FadeIn from "../../../Helpers/FadeIn"
 const ComponentForm = (props) => {
 
     const [saveButton, setSaveButton] = useState(false);
-    const [saveButtonClass, setSaveButtonClass] = useState("component_Save")
+    const [saveButtonClass, setSaveButtonClass] = useState("component_Save");
+    const [comNameReq, setComNameReq] = useState(false);
+    const [comDescReq, setComDescReq] = useState(false);
+    const [badNumbers, setBadNumbers] = useState(false);
+
     const [componentToAdd, setComponentToAdd] = useState({ 
                                             componentName: "", 
                                             componentDescription: "", 
@@ -21,14 +25,33 @@ const ComponentForm = (props) => {
         const stateToChange = { ...componentToAdd };
         stateToChange[event.target.id] = event.target.value;
         setComponentToAdd(stateToChange);
-        setSaveButtonClass("project_Save_Active")
+        setSaveButtonClass("project_Save_Active");
         setSaveButton(true);
+        setComNameReq(false);
+        setComDescReq(false);
       };
 
     const SaveNewComponent = () => {
-        componentToAdd.materialCost = parseInt(componentToAdd.materialCost)
-        componentToAdd.projectId = displayProject.id;
-        AddNewComponent(componentToAdd)
+        //Form validation//
+        if (componentToAdd.componentName === ""){
+            setComNameReq(true)
+            return
+        }
+        if (componentToAdd.componentDescription === ""){
+            setComDescReq(true)
+            return
+        }
+        if(displayProject!==undefined){
+            componentToAdd.materialCost = parseInt(componentToAdd.materialCost)
+                    //Check to see if the parseInt returned NaN//
+            if ( componentToAdd.materialCost !== Number(componentToAdd.materialCost)){
+                setBadNumbers(true)
+                return
+            }
+            componentToAdd.projectId = displayProject.id;
+            AddNewComponent(componentToAdd)
+        }
+        else window.alert("We're Sorry, you must have a project selected.")
      };
     return (
             <div className="component_Detail_Container">
@@ -52,6 +75,7 @@ const ComponentForm = (props) => {
                             onChange={ (e) => handleFieldChange(e)}
                             value={componentToAdd.componentName}
                         />
+                        {(comNameReq) ? <p className="required">Component name required</p> : <p> </p>}
                         <label htmlFor="componentDescription" className="form_input">Description</label>
                         <textarea
                             id="componentDescription"
@@ -61,6 +85,7 @@ const ComponentForm = (props) => {
                             onChange={ (e) => handleFieldChange(e)}
                             value={componentToAdd.componentDescription}
                         />
+                        {(comDescReq) ? <p className="required">Component description required</p> : <p> </p>}
                         <label htmlFor="materialCost" className="form_input">Material Cost</label>
                         <input
                             id="materialCost"
@@ -69,6 +94,8 @@ const ComponentForm = (props) => {
                             onChange={ (e) => handleFieldChange(e)}
                             value={componentToAdd.materialCost}
                         />
+                        {(badNumbers) ? <p className="required">Material cost must be a number</p> : <p></p>}
+
                     </fieldset>
                 </FadeIn>
             </div>

@@ -7,7 +7,11 @@ const ComponentEditFormOnItsOwn = (props) => {
     const { Id } = useParams();
     const history = useHistory()
     const [saveButton, setSaveButton] = useState(false);
-    const [saveButtonClass, setSaveButtonClass] = useState("component_Save")
+    const [saveButtonClass, setSaveButtonClass] = useState("component_Save");
+    const [comNameReq, setComNameReq] = useState(false);
+    const [comDescReq, setComDescReq] = useState(false);
+    const [badNumbers, setBadNumbers] = useState(false);
+
     const { GetComponentById, displayComponent, setDisplayComponent } = useContext(ComponentContext)
 
     useEffect(() => {
@@ -30,12 +34,29 @@ const ComponentEditFormOnItsOwn = (props) => {
         stateToChange[event.target.id] = event.target.value;
         setDisplayComponent(stateToChange);
         setSaveButton(true)
+        setComNameReq(false);
+        setComDescReq(false);
+        setBadNumbers(false);
         setSaveButtonClass("project_Save_Active")
       };
 
     const SaveComponent = () => {
+        //Form validation//
+        if (displayComponent.componentName === ""){
+            setComNameReq(true)
+            return
+        }
+        if (displayComponent.componentDescription === ""){
+            setComDescReq(true)
+            return
+        }
         let id = displayComponent.id
         displayComponent.materialCost = parseInt(displayComponent.materialCost)
+         //Check to see if the parseInt returned NaN//
+         if ( displayComponent.materialCost !== Number(displayComponent.materialCost)){
+            setBadNumbers(true)
+            return
+        }
         UpdateComponent(displayComponent, id);
         history.push("/components")
      };
@@ -58,6 +79,7 @@ const ComponentEditFormOnItsOwn = (props) => {
                             onChange={ (e) => handleFieldChange(e)}
                             value={displayComponent.componentName}
                         />
+                        {(comNameReq) ? <p className="required">Component name required</p> : <p> </p>}
                         <label htmlFor="componentDescription" className="form_input">Description</label>
                         <textarea
                             id="componentDescription"
@@ -67,6 +89,7 @@ const ComponentEditFormOnItsOwn = (props) => {
                             onChange={ (e) => handleFieldChange(e)}
                             value={displayComponent.componentDescription}
                         />
+                        {(comDescReq) ? <p className="required">Component description required</p> : <p> </p>}
                         <label htmlFor="materialCost" className="form_input">Material Cost</label>
                         <input
                             id="materialCost"
@@ -75,6 +98,7 @@ const ComponentEditFormOnItsOwn = (props) => {
                             onChange={ (e) => handleFieldChange(e)}
                             value={displayComponent.materialCost}
                         />
+                        {(badNumbers) ? <p className="required">Material cost must be a number</p> : <p></p>}
                     </fieldset>
             </div>}
             </>

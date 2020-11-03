@@ -40,16 +40,10 @@ const ComponentAndDetails = (props) => {
         setDisplayProject(displayProject)
     }, [update])
 
-    const readActiveComponents = () => {
-        let updatedProject = {...displayProject}
-        let newComponents = updatedProject.components.filter((component) => (component.dateComplete === null))
-        setActiveComponents(newComponents)        
-    }
-
     const cancelAdd = () => {
         setShowComponentFormActive(false);
         setEditFormOpen(false)
-        props.setDisplayComponent();
+        setDisplayComponent();
     }
 
     const editComponent = () => {

@@ -66,7 +66,7 @@ const ProjectList = () => {
     } = useContext(WindowStateContext)
 
     const {
-        displayComponent, setDisplayComponent
+        images, setImages, displayComponent, setDisplayComponent, GetComponentById
     } = useContext(ComponentContext)
 
     const {
@@ -99,6 +99,14 @@ const ProjectList = () => {
         }
     },[updatedProject])
 
+    useEffect(() => {
+        if (displayComponent !== undefined){
+            selectComponentDisplay(displayComponent.id)
+        }
+    }, [images])
+
+
+
     //Set a selected project into state for display and place window views into their default position
     const selectDisplay = (id) => {
         setShowProjectForm(false);
@@ -113,9 +121,15 @@ const ProjectList = () => {
     // set a selected component into state for display
     const selectComponentDisplay = (id) => {
         setShowComponentFormActive(false)
-        let components = [...displayProject.components]
-        setDisplayComponent(components.find((component) => (component.id === id)));
+        setDisplayComponent(GetComponentById(id))
+        // let components = [...displayProject.components]
+        // setDisplayComponent(components.find((component) => (component.id === id)));
     }
+    useEffect(()=> {
+        if (displayComponent !== undefined && displayComponent.images !== undefined){
+            setImages(displayComponent.images)
+        }
+    }, [displayComponent])
 
     const editProject = (id) => {
         setDisplayProject(projects.find((project) => (project.id === id)));
@@ -132,13 +146,17 @@ const ProjectList = () => {
 
     const deleteThisProject = (id) => {
         setProjectToDelete(projects.find((project) => (project.id === id)));
+        setEditProjectView(false);
+        setShowComponentFormActive(false);
+        setShowProjectForm(false);
         setOpenDeleteProjectModal(true)
     }
 
     const completeDelete = () => {
         DeleteProject(projectToDelete.id);
-        setOpenDeleteProjectModal(false)
-        setDisplayProject()
+        setOpenDeleteProjectModal(false);
+        setDisplayComponent();
+        setDisplayProject();
     }
 
     const cancelDelete = () => {

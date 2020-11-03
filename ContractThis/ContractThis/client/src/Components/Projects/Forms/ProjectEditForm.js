@@ -5,6 +5,10 @@ import FadeIn from "../../../Helpers/FadeIn"
 const ProjectEditForm = (props) => {
     const [saveButton, setSaveButton] = useState(false);
     const [saveButtonClass, setSaveButtonClass] = useState("project_Save")
+    const [projNameReq, setProjNameReq] = useState(false);
+    const [projDescReq, setProjDescReq] = useState(false);
+    const [badNumbers, setBadNumbers] = useState(false);
+
     const [projectToEdit, setProjectToEdit] = useState({...props.displayProject})
 
     const {
@@ -17,10 +21,27 @@ const ProjectEditForm = (props) => {
         setProjectToEdit(stateToChange);
         setSaveButtonClass("project_Save_Active")
         setSaveButton(true);
+        setProjNameReq(false);
+        setProjDescReq(false);
+        setBadNumbers(false);
       };
 
     const SaveEditedProject = () => {
+                //Form validation//
+                if (projectToEdit.projectName === ""){
+                    setProjNameReq(true)
+                    return
+                }
+                if (projectToEdit.projectDescription === ""){
+                    setProjDescReq(true)
+                    return
+                }
         projectToEdit.budget = parseInt(projectToEdit.budget)
+                //Check to see if the parseInt returned NaN//
+                if ( projectToEdit.budget !== Number(projectToEdit.budget)){
+                    setBadNumbers(true)
+                    return
+                }
         UpdateProject(projectToEdit)
      };
 
@@ -47,6 +68,7 @@ const ProjectEditForm = (props) => {
                                     onChange={ (e) => handleFieldChange(e)}
                                     value={projectToEdit.projectName}
                                 />
+                                {(projNameReq) ? <p className="required">Project name required</p> : <p> </p>}
                                 <label htmlFor="locationName" className="form_input">Location Name</label>
                                 <input
                                     id="locationName"
@@ -72,6 +94,7 @@ const ProjectEditForm = (props) => {
                                     onChange={ (e) => handleFieldChange(e)}
                                     value={projectToEdit.projectDescription}
                                 />
+                                {(projDescReq) ? <p className="required">Project description required</p> : <p> </p>}
                                 <label htmlFor="budget" className="form_input">budget</label>
                                 <input
                                     id="budget"
@@ -80,6 +103,7 @@ const ProjectEditForm = (props) => {
                                     onChange={ (e) => handleFieldChange(e)}
                                     value={projectToEdit.budget}
                                 />
+                                {(badNumbers) ? <p className="required">Budget must be a number</p> : <p></p>}
                                 <label htmlFor="imageLocation" className="form_input">Image Location</label>
                                 <input
                                     id="imageLocation"

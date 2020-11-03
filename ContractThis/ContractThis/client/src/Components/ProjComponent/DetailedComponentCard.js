@@ -73,7 +73,7 @@ const DetailedComponentCard = (props) => {
     
     const { bid, GetBidByComponentId } = useContext(BidContext);
 
-    const { displayComponent, GetComponentById, 
+    const { displayComponent, GetComponentById, images, 
         AddCompletedDateToComponent, DeleteComponent  } = useContext(ComponentContext);
 
 //Make a short list of materials that will fit comfortably in the detail card. 
@@ -84,7 +84,6 @@ const DetailedComponentCard = (props) => {
             for ( let i=0; i<3; i++){
                 if(materiallist[i] !== undefined) {
                     list.push(materiallist[i])
-                    
                 }
             } return list;
         }
@@ -93,7 +92,7 @@ const DetailedComponentCard = (props) => {
 //Refresh this component
     useEffect(()=> {
         GetBidByComponentId(displayComponent.id)
-    }, [displayComponent.id])
+    }, [displayComponent.id, images])
 
 //Date simplifier
     const dateConverter = (suppliedDate) =>{
@@ -105,7 +104,7 @@ const DetailedComponentCard = (props) => {
 //Calculate the various expeditures to be shown in the detail card
     const totalExpeditures = () => {
         if(displayComponent !== undefined && bid !== undefined){
-            if (bid.subAccepted !== null)
+            if (bid.subAccepted !== null && bid.subAccepted !== undefined)
                 {
                     labor = bid.fee
                     return displayComponent.materialCost + bid.fee

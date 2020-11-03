@@ -240,30 +240,36 @@ namespace ContractThis.Repositories
                 conn.Open();
                 using(var cmd = conn.CreateCommand())
                 {
-                    var componentBeingDeleted = project.Components;
-                    string recurrsiveDeletes = "";
-                    for (int i = 0; i<componentBeingDeleted.Count; i++)
+                    string hasComponentsToDelete = "";
+                    if (project.Components.Count > 0)
                     {
-                        int comId = componentBeingDeleted[i].Id;
-
-                        //Add the Sql '@' to the 'In' chain for this index of the Component List 
-                        string deleteParam = "@deleteId" + i;
-                        recurrsiveDeletes += deleteParam;
-                        //Add a comma between the statement if its not the last one in the list
-                        if (i != componentBeingDeleted.Count - 1)
+                        var componentBeingDeleted = project.Components;
+                        string recurrsiveDeletes = "";
+                        for (int i = 0; i<componentBeingDeleted.Count; i++)
                         {
-                            recurrsiveDeletes += ", ";
+                            int comId = componentBeingDeleted[i].Id;
+
+                            //Add the Sql '@' to the 'In' chain for this index of the Component List 
+                            string deleteParam = "@deleteId" + i;
+                            recurrsiveDeletes += deleteParam;
+                            //Add a comma between the statement if its not the last one in the list
+                            if (i != componentBeingDeleted.Count - 1)
+                            {
+                                recurrsiveDeletes += ", ";
+                            }
+                            //Tie this Id value to the command text as it is being built
+                            DbUtilities.AddParameter(cmd, deleteParam, comId);
                         }
-                        //Tie this Id value to the command text as it is being built
-                        DbUtilities.AddParameter(cmd, deleteParam, comId);
-                    }
-                    cmd.CommandText = @"
+                        hasComponentsToDelete = @"
                                         DELETE FROM SubContractorBid
-                                        WHERE ProjectComponentId IN ( " 
+                                        WHERE ProjectComponentId IN (  "
                                         + recurrsiveDeletes + " ) " +
                                        @"DELETE FROM ProjectComponentImages
                                         WHERE ProjectComponentId IN ( "
-                                        + recurrsiveDeletes + " ) " +  
+                                        + recurrsiveDeletes + " ) ";
+                    }
+
+                    cmd.CommandText =   hasComponentsToDelete + 
                                        @"DELETE FROM ProjectComponent
                                         WHERE ProjectId = @Id
                         

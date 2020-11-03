@@ -1,5 +1,4 @@
 import React, { useContext } from 'react';
-import { WindowStateContext } from "../../Providers/WindowStateProvider";
 import { ComponentContext } from "../../Providers/ComponentProvider"
 import { SubContractorContext } from "../../Providers/SubContractorProvider";
 import DetailedComponentCard from "./DetailedComponentCard"

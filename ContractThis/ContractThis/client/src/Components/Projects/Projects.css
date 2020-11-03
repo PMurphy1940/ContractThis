@@ -106,7 +106,7 @@ main {
 }
 
 .detail_Banner, .detail_Budget, .large_Detail_Banner, .detail_Banner_With_Button,
-.Description_Banner, .Images_Banner, .images_Container_Large, .shopping_List_Banner, .business_Link_Button {
+.Description_Banner, .Images_Banner, .large_Component_Detail_Images_Card, .shopping_List_Banner, .business_Link_Button {
     background-color: rgba(211, 211, 211, 0.211);
 }
 
@@ -301,4 +301,9 @@ main {
 .business_Project_Banner_Container {
     display: flex;
     flex-direction: row;
+}
+
+.required {
+    color:red;
+    font-size: .7rem;
 }
