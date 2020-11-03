@@ -128,7 +128,7 @@ namespace ContractThis.Controllers
             var project = _projectRepository.GetSingleProjectById(id);
             if (currentUser.Id == project.UserProfileId)
             {
-                _projectRepository.DeleteProject(id);
+                _projectRepository.DeleteProject(project);
                 return NoContent();
             }
             return Unauthorized();
