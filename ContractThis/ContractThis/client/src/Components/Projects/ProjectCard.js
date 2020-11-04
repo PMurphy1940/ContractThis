@@ -1,10 +1,14 @@
-import React from 'react';
-import { useHistory } from 'react-router-dom'
-
+import React, { useEffect, useState } from 'react';
+import ImageChecker from "../../Helpers/ImageUrlChecker"
 
 
 const ProjectCard = (props) => {
-    const history = useHistory();
+    const [image, setImage] = useState(props.project.imageLocation)
+    
+useEffect(() => {
+    setImage(ImageChecker.convertPath(props.project.imageLocation))
+}, [])
+
     return (
             <div className="project_Card">
                 <button className="project_Link_Button" onClick={ () => props.selectDisplay(props.project.id) }>
@@ -13,7 +17,7 @@ const ProjectCard = (props) => {
                             <p>{props.project.projectName}</p>
                             <p>{props.project.locationAddress}</p>
                         </div>
-                        <img className="project_Image" src={props.project.imageLocation} />
+                        <img className="project_Image" src={image} />
                     </div>
                 </button>
                 <div className="project_Card_Button_Space">

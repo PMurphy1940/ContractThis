@@ -14,6 +14,7 @@ import { SubContractorProvider } from "../Providers/SubContractorProvider";
 import { ProjectProvider } from "../Providers/ProjectProvider";
 import { LoginProvider } from "../Providers/LoginStateProvider";
 import { BidProvider } from "../Providers/BidProvider";
+import { ImageProvider } from "../Providers/ImageProvider";
 
 const ApplicationViews = () => {
     const { isLoggedIn } = useContext(ProfileContext);
@@ -46,13 +47,15 @@ const ApplicationViews = () => {
                 <Route exact path="/projects">
                 {isLoggedIn ? 
                     <ProjectProvider>
-                        <ComponentProvider>
-                            <SubContractorProvider>
-                                <BidProvider>
-                                    <ProjectList />  
-                                </BidProvider>   
-                            </SubContractorProvider>
-                        </ComponentProvider>
+                        <ImageProvider>
+                            <ComponentProvider>
+                                <SubContractorProvider>
+                                    <BidProvider>
+                                        <ProjectList />  
+                                    </BidProvider>   
+                                </SubContractorProvider>
+                            </ComponentProvider>
+                        </ImageProvider>
                     </ProjectProvider>
                     : <Redirect to="/login" />}
                 </Route>
@@ -70,13 +73,15 @@ const ApplicationViews = () => {
                 <Route exact path="/components">
                     {isLoggedIn ?
                     <ProjectProvider>
-                        <SubContractorProvider>
-                            <ComponentProvider>
-                                <BidProvider>
-                                    <ComponentOverview/>    
-                                </BidProvider>
-                            </ComponentProvider>
-                        </SubContractorProvider>
+                        <ImageProvider>
+                            <SubContractorProvider>
+                                <ComponentProvider>
+                                    <BidProvider>
+                                        <ComponentOverview/>    
+                                    </BidProvider>
+                                </ComponentProvider>
+                            </SubContractorProvider>
+                        </ImageProvider>
                     </ProjectProvider>
                     : <Redirect to="/login" />}
                 </Route>

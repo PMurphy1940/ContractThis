@@ -57,10 +57,10 @@ namespace ContractThis.Repositories
         //This method nests the list of components in the project
         public Project GetSingleProjectById(int id)
         {
-            using( var conn = Connection)
+            using (var conn = Connection)
             {
                 conn.Open();
-                using( var cmd = conn.CreateCommand())
+                using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = "Select "
                                         + ProjectSqlCommandText + ", "
@@ -90,12 +90,12 @@ namespace ContractThis.Repositories
 
                     reader.Close();
                     return aProject;
-                }       
+                }
             }
         }
-        public ProjectComponent GetSingleComponent (int id)
+        public ProjectComponent GetSingleComponent(int id)
         {
-            using( var conn = Connection)
+            using (var conn = Connection)
             {
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
@@ -107,7 +107,7 @@ namespace ContractThis.Repositories
                     DbUtilities.AddParameter(cmd, "@Id", id);
 
                     var reader = cmd.ExecuteReader();
-                    
+
                     ProjectComponent component = null;
                     if (reader.Read())
                     {
@@ -121,10 +121,10 @@ namespace ContractThis.Repositories
         }
         public void AddProject(Project project)
         {
-            using( var conn = Connection)
+            using (var conn = Connection)
             {
                 conn.Open();
-                using(var cmd = conn.CreateCommand())
+                using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
                                         INSERT INTO Project (UserProfileId, 
@@ -153,10 +153,10 @@ namespace ContractThis.Repositories
 
         public void UpdateProject(Project project)
         {
-            using( var conn = Connection)
+            using (var conn = Connection)
             {
                 conn.Open();
-                using( var cmd = conn.CreateCommand())
+                using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
                                         UPDATE Project
@@ -186,7 +186,7 @@ namespace ContractThis.Repositories
             using (var conn = Connection)
             {
                 conn.Open();
-                using(var cmd = conn.CreateCommand())
+                using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
                                         INSERT INTO ProjectComponent (Name, 
@@ -208,10 +208,10 @@ namespace ContractThis.Repositories
 
         public void UpdateComponent(ProjectComponent component, int id)
         {
-            using( var conn = Connection)
+            using (var conn = Connection)
             {
                 conn.Open();
-                using( var cmd = conn.CreateCommand())
+                using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
                                         UPDATE ProjectComponent 
@@ -235,17 +235,17 @@ namespace ContractThis.Repositories
 
         public void DeleteProject(Project project)
         {
-            using( var conn = Connection)
+            using (var conn = Connection)
             {
                 conn.Open();
-                using(var cmd = conn.CreateCommand())
+                using (var cmd = conn.CreateCommand())
                 {
                     string hasComponentsToDelete = "";
                     if (project.Components.Count > 0)
                     {
                         var componentBeingDeleted = project.Components;
                         string recurrsiveDeletes = "";
-                        for (int i = 0; i<componentBeingDeleted.Count; i++)
+                        for (int i = 0; i < componentBeingDeleted.Count; i++)
                         {
                             int comId = componentBeingDeleted[i].Id;
 
@@ -269,7 +269,7 @@ namespace ContractThis.Repositories
                                         + recurrsiveDeletes + " ) ";
                     }
 
-                    cmd.CommandText =   hasComponentsToDelete + 
+                    cmd.CommandText = hasComponentsToDelete +
                                        @"DELETE FROM ProjectComponent
                                         WHERE ProjectId = @Id
                         
