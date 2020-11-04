@@ -27,7 +27,8 @@ namespace ContractThis
             services.AddTransient<IComponentRepository, ComponentRepository>();
             services.AddTransient<IChatRepository, ChatRepository>();
             services.AddTransient<IBidRepository, BidRepository>();
-            services.AddTransient<IComponentRepository, ComponentRepository>();
+            services.AddTransient<IMaterialRepository, MaterialRepository>();
+
 
             var firebaseProjectId = Configuration.GetValue<string>("FirebaseProjectId");
             var googleTokenUrl = $"https://securetoken.google.com/{firebaseProjectId}";

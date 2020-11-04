@@ -9,10 +9,10 @@ const SubContractorSearchResultCard = (props) => {
     }
 
     return (
-        <div className="project_Component_Detail_Card">
-                <h4 className="detail_Banner">{props.sub.subcontractorBusinessName}</h4>
+        <div className="searchSubs_Detail_Card">
+                <h7 className="search_Result_Card_Banner">{props.sub.subcontractorBusinessName}</h7>
                 <div className="detail_Text">
-                    <p className="detail_Description" >{props.sub.subcontractorBusinessName}</p>
+                    <p className="detail_Description" >{props.sub.businessStatement}</p>
                 </div>
                 <div className="search_Subs">
                     <button id="contact_Sub"className="far fa-comments " onClick={() => contactThisContractor() }/>

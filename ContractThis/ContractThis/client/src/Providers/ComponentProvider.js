@@ -129,14 +129,34 @@ export function ComponentProvider(props) {
                   return
             }
             window.alert(new Error("Unable to complete request"));
-          })
+      })
+    }
+
+    const AddNewMaterial = (materialObject) => {
+      getToken().then((token) =>
+      fetch(`api/material/`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(materialObject)
+      }))
+      .then((response) => {
+        if (response.ok) {
+          GetComponentById(materialObject.projectComponentId);
+              return
+        }
+        window.alert(new Error("Unable to complete request"));
+      })
     }
 
 
     return (
         <ComponentContext.Provider
           value={{ images, displayComponent, setDisplayComponent, GetComponentImages,
-                     AddNewImage, GetComponentById, AddCompletedDateToComponent, DeleteComponent }}>         
+                     AddNewImage, GetComponentById, AddCompletedDateToComponent, DeleteComponent,
+                     AddNewMaterial }}>         
              {props.children}           
         </ComponentContext.Provider>
       );

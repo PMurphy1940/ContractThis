@@ -66,12 +66,12 @@ const SearchSubcontractor = (props) => {
 
     const SubCheckboxElement = (props) => {
         return (
-            <div className="form-check" key={props.type.id}>
+            <div className="form-check grid" key={props.type.id}>
                 <input className="form-check-input" type="checkbox" value={props.type.id} id={props.type.id} checked={props.type.isSelected} onChange={props.handleFieldChange}/>
                 <label className="form-check-label" htmlFor={props.type.id}>
                 {props.type.specialty}
-            </label>
-        </div>
+                </label>
+            </div>
         )
     }
 
@@ -94,13 +94,13 @@ const SearchSubcontractor = (props) => {
             distance='1000'
             >
             <div className="large_Component_Detail_Images_Card">
-                <h4 className="Images_Banner">Search for Subcontractors
+                <h4 className="Images_Banner">Search Subcontractors
                     <button className="fas fa-minus-circle project_Cancel" onClick={() => props.cancelSearch() }/>
                 </h4>
-                <div className="images_Container_Large">
-                    <div>
+                <div className="search_Container_Large">
+                    <div className="search_LeftAndRight">
                         <div className="search_Top">
-                            <form>
+                            <form classname="search_Checkboxes">
                                 {subContractorTypes.map((type) => 
                                     <SubCheckboxElement
                                     key={type.id}

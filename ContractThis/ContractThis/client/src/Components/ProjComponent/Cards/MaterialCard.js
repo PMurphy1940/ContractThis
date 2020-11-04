@@ -5,12 +5,12 @@ const MaterialCard = (props) => {
     return (
         <tr>
             <th scope="row">
-                {props.material.material}
+                {props.material.materialName}
             </th>
             <td>
-                {props.material.cost}
+                ${props.material.cost}
             </td>
-            <td>{props.material.quantity}</td>
+            <td>{props.material.quantityRequired}</td>
         </tr>
     )
 }

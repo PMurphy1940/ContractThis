@@ -122,24 +122,26 @@ const ComponentAndDetails = (props) => {
                         onClick={() => {setShowComponentFormActive(!showComponentFormActive)}}
                 >+</button>
             </h6>
-                {(displayProject !== undefined && displayProject.components !== undefined) && activeComponents.map((component) =>
-                    <ProjectComponentCard 
-                        key={component.id}
-                        component={component}
-                        selectComponentDisplay={props.selectComponentDisplay}
-                        indexDelay={indexDelay++}
-                    />
-                )}
+                <div className="project_Component_Card">
+                    {(displayProject !== undefined && displayProject.components !== undefined) && activeComponents.map((component) =>
+                            <ProjectComponentCard 
+                                key={component.id}
+                                component={component}
+                                selectComponentDisplay={props.selectComponentDisplay}
+                                indexDelay={indexDelay++}
+                            />
+                        )}
+                </div>
             </div>
             
                 {newOrEditForm()} 
-                {(displayComponent!== undefined) && 
+                 {openDeleteModal &&
                     <DeleteComponentModal
                         openDeleteModal={openDeleteModal}
                         completeDelete={completeDelete}
                         cancelDelete={cancelDelete}
                         />
-                }                                   
+                 }                    
         </>     
     )
 }

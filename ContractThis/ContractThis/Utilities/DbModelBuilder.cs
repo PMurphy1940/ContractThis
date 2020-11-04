@@ -118,6 +118,7 @@ namespace ContractThis.Utilities
                 Id = DbUtilities.GetInt(reader, "SubId"),
                 UserProfileId = DbUtilities.GetInt(reader, "UserProfileId"),
                 SubcontractorBusinessName = DbUtilities.GetString(reader, "SubContractorBusinessName"),
+                BusinessStatement = DbUtilities.GetString(reader, "BusinessStatement"),
                 SubContractorImageLocation = DbUtilities.GetString(reader, "SubContractorImageUrl"),
             };
 
@@ -174,10 +175,10 @@ namespace ContractThis.Utilities
                 Id = DbUtilities.GetInt(reader, "MaterialId"),
                 ProjectComponentId = DbUtilities.GetInt(reader, "ComponentMaterialId"),
                 MaterialName = DbUtilities.GetString(reader, "MaterialName"),
-                Cost = DbUtilities.GetInt(reader, "Cost"),
-                QuantityOnHand = DbUtilities.GetInt(reader, "QuantityOnHand"),
-                QuantityRequired = DbUtilities.GetInt(reader, "QuantityOnRequired"),
-                QuantityUsed = DbUtilities.GetInt(reader, "QuantityUsed"),
+                Cost = DbUtilities.GetDouble(reader, "Cost"),
+                QuantityOnHand = DbUtilities.GetNullableInt(reader, "QuantityOnHand"),
+                QuantityRequired = DbUtilities.GetNullableInt(reader, "QuantityRequired"),
+                QuantityUsed = DbUtilities.GetNullableInt(reader, "QuantityUsed"),
                 Notes = DbUtilities.GetString(reader, "Notes"),
             };
 

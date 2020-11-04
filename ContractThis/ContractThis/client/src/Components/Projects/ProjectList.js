@@ -13,6 +13,7 @@ import ComponentAndDetails from "./SubViews/ComponentAndDetailsView";
 import LocalUserProvider from "../../Helpers/LocalUserGets";
 import SubContractorRequest from "../Subcontractor/SubContractorRequests";
 import DeleteProjectModal from "../Modals/DeleteProjectModal"
+import ImageChecker from "../../Helpers/ImageUrlChecker"
 import "./Projects.css";
 
 const ProjectList = () => {
@@ -24,6 +25,12 @@ const ProjectList = () => {
         isSubcontractor: LocalUserProvider.isSubcontractor()
 
     }
+
+    const [image, setImage] = useState()
+    
+    useEffect(() => {
+        setImage(ImageChecker.convertPath(aUser.imageLocation))
+    }, [])
 
     const history = useHistory();
 
@@ -105,8 +112,6 @@ const ProjectList = () => {
         }
     }, [images])
 
-
-
     //Set a selected project into state for display and place window views into their default position
     const selectDisplay = (id) => {
         setShowProjectForm(false);
@@ -125,6 +130,7 @@ const ProjectList = () => {
         // let components = [...displayProject.components]
         // setDisplayComponent(components.find((component) => (component.id === id)));
     }
+ 
     useEffect(()=> {
         if (displayComponent !== undefined && displayComponent.images !== undefined){
             setImages(displayComponent.images)
@@ -214,7 +220,7 @@ const ProjectList = () => {
                         {(aUser !== undefined) &&
                         <>
                         <p className="userName">{aUser.screenName}</p>
-                        <img className="user_Image"src={aUser.imageLocation} alt="user"/>
+                        <img className="user_Image"src={image} alt="user"/>
                         </>
                         }
                         <button className="logout_Button" onClick={() => LogOutUser()} >logout</button>

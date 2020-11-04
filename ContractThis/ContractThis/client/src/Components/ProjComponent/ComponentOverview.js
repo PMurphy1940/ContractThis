@@ -9,11 +9,15 @@ import ComponentOverviewRightSide from "./ComponentOverviewRightSide"
 import "./ProjComponent.css"
 import LocalUserProvider from "../../Helpers/LocalUserGets"
 import ProjectComponentCard from "../Projects/ProjectComponentCard"
+import ImageChecker from "../../Helpers/ImageUrlChecker"
+
 
 const ComponentOverview = (props) => {
     const [inactive, setInactive] = useState(false);
     const [activeComponents, setActiveComponents] = useState([]);
     const [inactiveComponents, setInactiveComponents] = useState([]);
+    const [image, setImage] = useState();
+    const [projectImage, setProjectImage] = useState()
 
 
     const history = useHistory()
@@ -21,6 +25,14 @@ const ComponentOverview = (props) => {
         screenName: LocalUserProvider.userDisplayName(),
         imageLocation: LocalUserProvider.userImageLoc()
     }
+
+    
+    useEffect(() => {
+        setImage(ImageChecker.convertPath(aUser.imageLocation))
+        if(displayProject !== undefined){
+            setProjectImage(ImageChecker.convertPath(displayProject.imageLocation))
+        }
+    }, [])
 
     const {
         showComponentFormActive, setShowComponentFormActive, setShowImages,
@@ -114,13 +126,13 @@ const ComponentOverview = (props) => {
                             <p>{displayProject.projectName}</p>
                             <p>{displayProject.locationAddress}</p>
                         </div>
-                        <img className="project_Image" src={displayProject.imageLocation} />
+                        <img className="project_Image" src={projectImage} />
                     </>
                         }
                     </div>
 
                     <p className="userName">{aUser.screenName}</p>
-                    <img className="user_Image"src={aUser.imageLocation} alt="user"/>
+                    <img className="user_Image"src={image} alt="user"/>
 
                     <button className="logout_Button" onClick={() => LogOutUser()} >logout</button>
                 </div>

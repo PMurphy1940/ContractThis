@@ -7,8 +7,10 @@ import { ComponentContext } from "../../Providers/ComponentProvider";
 import materials from "../../Images/materials.png";
 import MaterialCard from "./Cards/MaterialCard";
 import MaterialCardExpanded from "./Cards/MaterialCardExpanded";
+import AddMaterial from "../Materials/AddMaterial"
 import InitialBidForm from "./Chats/InitialBidForm"
 import ImageCard from "../Projects/DetailComponents/ImageCard";
+import StaticImageCard from "../Projects/DetailComponents/StaticImageCard";
 import SearchSubcontractor from "../Subcontractor/SearchSubcontractors";
 import AddImageForm from "../Projects/Forms/AddImageForm";
 import DeleteComponentModal from "../Modals/DeleteComponentModal";
@@ -19,7 +21,9 @@ import MoveWithoutFade from "../../Helpers/MoveWithoutFade"
 const DetailedComponentCard = (props) => {
     const { displayProject } = useContext(ProjectContext);
     const [materialShortList, setMaterialShortList] = useState([]);
+    const [materialList, setMaterialList] = useState([])
     const history = useHistory();
+    
     
     //Future//For adding multiple contractors to the same component
     // const [componentContractors, setComponentContractors] = useState([])
@@ -27,54 +31,22 @@ const DetailedComponentCard = (props) => {
     let labor = 0;
     let percent = 0;
 
-//////Dummy Material List//////
- const materiallist = [
-        {
-        id: 1,
-        material: "2x4",
-        cost: 4.15,
-        quantity: 10,
-        description: "8 foot lengths"
-        },
-        {
-        id: 2,
-        material: "2x6",
-        cost: 5.15,
-        quantity: 10,
-        description: "8 foot lengths"
-       },
-       {
-        id: 3,
-        material: "Deck screws-",
-        cost: 8.19,
-        quantity: 1,
-        description: "Box of 100"
-       },
-       {
-        id: 4,
-        material: "Primer",
-        cost: 14.78,
-        quantity: 1,
-        description: "Killz works great"
-       },
-       {
-        id: 5,
-        material: "White caulk",
-        cost: 3.85,
-        quantity: 5,
-        description: "Exterior, NOT silicon! Look for the DAP 430"
-       }
-]
-/////////////////////////////
-    const { setShowSearchSubs, addImageWindowOpen, setAddImageWindowOpen, 
-            showImages, setShowImages, showSearchSubs, viewShoppingList, setViewShoppingList,
-            showBigShoppingList, setShowBigShoppingList, setInitialBidFormActive, initialBidFormActive,
-            openDeleteModal, setOpenDeleteModal, setOpenAddMaterialModal } = useContext(WindowStateContext)
     
-    const { bid, GetBidByComponentId } = useContext(BidContext);
-
-    const { displayComponent, GetComponentById, images, 
-        AddCompletedDateToComponent, DeleteComponent  } = useContext(ComponentContext);
+    const { setShowSearchSubs, addImageWindowOpen, setAddImageWindowOpen, 
+        showImages, setShowImages, showSearchSubs, viewShoppingList, setViewShoppingList,
+        showBigShoppingList, setShowBigShoppingList, setInitialBidFormActive, initialBidFormActive,
+        openDeleteModal, setOpenDeleteModal, setOpenAddMaterialModal } = useContext(WindowStateContext)
+        
+        const { bid, GetBidByComponentId } = useContext(BidContext);
+        
+        const { displayComponent, GetComponentById, images, 
+            AddCompletedDateToComponent, DeleteComponent  } = useContext(ComponentContext);
+            
+    useEffect(() => {
+        if (displayComponent.componentMaterials !== undefined){
+            setMaterialList(displayComponent.componentMaterials)
+        }
+    }, [displayComponent])
 
 //Make a short list of materials that will fit comfortably in the detail card. 
 //Full list in expanded Shopping list
@@ -82,13 +54,13 @@ const DetailedComponentCard = (props) => {
         const shortlist = () => { 
             let list = []
             for ( let i=0; i<3; i++){
-                if(materiallist[i] !== undefined) {
-                    list.push(materiallist[i])
+                if(materialList[i] !== undefined) {
+                    list.push(materialList[i])
                 }
             } return list;
         }
         setMaterialShortList(shortlist);
-    }, [])
+    }, [materialList])
 //Refresh this component
     useEffect(()=> {
         GetBidByComponentId(displayComponent.id)
@@ -167,7 +139,10 @@ const DetailedComponentCard = (props) => {
 
     const cancelDelete = () => {
         setOpenDeleteModal(false)
+    }
 
+    const cancelAddMaterial = () => {
+        setOpenAddMaterialModal(false)
     }
 
 //gsap effect index
@@ -193,9 +168,9 @@ const DetailedComponentCard = (props) => {
                             :
                             <>
                             {(displayComponent !== undefined && displayComponent.componentImages !== null) && displayComponent.componentImages.map((image) =>
-                            <div>
-                                <img className="component_Image" src={image.projectComponentImageUrl} key={image.id} />
-                            </div>
+                            <StaticImageCard
+                                image={image}
+                                key={image.id}                                /> 
                             )}
                             </> 
                         }
@@ -235,20 +210,23 @@ const DetailedComponentCard = (props) => {
                     direction='right'
                     distance='600'
                     >
-                    <h4 className="shopping_List_Banner">ExpandedShopping list <button className="far fa-eye-slash delete_Button" onClick={() => closeBigShoppingList() }/></h4>
+                    <h4 className="shopping_List_Banner">ExpandedShopping list 
+                        <button className="fas fa-cart-plus delete_Button" onClick={() => setOpenAddMaterialModal(true) }/>
+                        <button className="far fa-eye-slash delete_Button" onClick={() => closeBigShoppingList() }/>
+                    </h4>
                     <div className="shopping_List_Expanded">
                         <div id="materialListContainer">
                         <Table>
                             <thead>
                                 <tr>
                                     <th>Material</th>
-                                    <th>Cost</th>
+                                    <th>Unit Cost</th>
                                     <th>Quantity</th>
                                     <th>Notes</th>
                                 </tr>
                             </thead>
                             <tbody >
-                            {materiallist.map((material) => (
+                            {materialList.map((material) => (
                                     <MaterialCardExpanded 
                                         key={material.id}
                                         material={material}/>
@@ -318,6 +296,7 @@ const DetailedComponentCard = (props) => {
         }
     }
 
+console.log(displayComponent)
 //This is the Main return for Details and its children
     return (
     <div className="details_Rightside_Whole_Container">
@@ -331,9 +310,15 @@ const DetailedComponentCard = (props) => {
                     <p className="large_Component_Description" >{displayComponent.componentDescription}</p>
                 </div>
                 {viewShoppingList ? 
-                <h4 className="Description_Banner">Shopping list <button className="far fa-eye-slash delete_Button" onClick={() => setViewShoppingList(!viewShoppingList) }/></h4>
+                <h4 className="Description_Banner">Shopping list 
+                <button className="fas fa-cart-plus delete_Button" onClick={() => setOpenAddMaterialModal(true) }/>
+                <button className="far fa-eye-slash delete_Button" onClick={() => setViewShoppingList(!viewShoppingList) }/>
+                </h4>
+             
                 :
-                <h4 className="Description_Banner">Shopping list <button className="far fa-eye delete_Button" onClick={() => setViewShoppingList(!viewShoppingList) }/></h4>
+                <h4 className="Description_Banner">Shopping list 
+                <button className="fas fa-cart-plus delete_Button" onClick={() => setOpenAddMaterialModal(true) }/>
+                <button className="far fa-eye delete_Button" onClick={() => setViewShoppingList(!viewShoppingList) }/></h4>
                 }
                 {viewShoppingList &&
                 <div className="shopping_List">
@@ -354,7 +339,7 @@ const DetailedComponentCard = (props) => {
                         ))}
                         </tbody>
                         </Table>
-                        {(materiallist.length > 3) && 
+                        {(materialList.length > 3) && 
                         <p>...more</p>
                         }
                     </div>
@@ -395,6 +380,8 @@ const DetailedComponentCard = (props) => {
             completeDelete={completeDelete}
             cancelDelete={cancelDelete}
         />
+        <AddMaterial
+            cancelAddMaterial={cancelAddMaterial} />
     </div> 
     )
 }

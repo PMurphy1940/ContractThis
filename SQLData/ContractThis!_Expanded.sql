@@ -117,12 +117,12 @@ GO
 CREATE TABLE [ComponentMaterial] (
 	[Id] integer PRIMARY KEY IDENTITY,
 	[ProjectComponentId] integer, 
-	[MaterialName] nvarchar(25),
-	[Cost] integer,
+	[MaterialName] nvarchar(25) NOT NULL,
+	[Cost] float NOT NULL,
 	[QuantityOnHand] integer,
 	[QuantityRequired] integer,
 	[QuantityUsed] integer,
-	[Notes] nvarchar(25)
+	[Notes] nvarchar(255)
 )
 GO
 

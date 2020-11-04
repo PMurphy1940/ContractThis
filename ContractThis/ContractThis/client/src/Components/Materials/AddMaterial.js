@@ -8,9 +8,9 @@ const AddMaterial = (props) => {
     const [saveButton, setSaveButton] = useState(false);
     const [badCost, setBadCost] = useState(false);
     const [badQuantity, setBadQuantity] = useState(false);
-    const { openAddMaterialModal } = useContext(WindowStateContext);
-    const { displayComponent } = useContext(ComponentContext);
-    const [material, setMaterial] = useState({
+    const { openAddMaterialModal, setOpenAddMaterialModal } = useContext(WindowStateContext);
+    const { displayComponent, AddNewMaterial } = useContext(ComponentContext);
+    const [material, setMaterial] = useState({  projectComponentId: displayComponent.id,
                                                 materialName: "",
                                                 cost: 0,
                                                 quantityRequired: 0,
@@ -21,24 +21,37 @@ const AddMaterial = (props) => {
         const stateToChange = { ...material };
         stateToChange[event.target.id] = event.target.value;
         setMaterial(stateToChange);
-        setSaveButtonClass("project_Save_Active");
-        setBadCost(true);
+        setBadCost(false);
         setBadQuantity(false);
         setBadName(false);
         };
 
-    const SaveNewComponent = () => {
+    const SaveNewMaterial = () => {
         //Form validation//
     
-        if(displayProject!==undefined){
-            material.cost = parseInt(material.cost)
+        if(displayComponent!==undefined){
+            material.cost = parseFloat(material.cost)
                     //Check to see if the parseInt returned NaN//
             if ( material.cost !== Number(material.cost)){
                 setBadCost(true)
                 return
             }
-            componentToAdd.projectId = displayProject.id;
-            AddNewComponent(componentToAdd)
+
+            material.quantityRequired = parseInt(material.quantityRequired)
+            //Check to see if the parseInt returned NaN//
+            if ( material.quantityRequired !== Number(material.quantityRequired)){
+                setBadQuantity(true)
+                return
+            }
+
+            AddNewMaterial(material)
+            setMaterial({   projectComponentId: displayComponent.id,
+                            materialName: "",
+                            cost: 0,
+                            quantityRequired: 0,
+                            notes: ""
+            })
+            setOpenAddMaterialModal(false)
         }
         else window.alert("We're Sorry, you must have a project selected.")                                        
     }
@@ -88,8 +101,8 @@ const AddMaterial = (props) => {
                     </fieldset>
           </ModalBody>
           <ModalFooter>
-          <Button color="primary" onClick={() => props.cancelAdd()}>Cancel</Button>{' '}
-          <Button color="primary" disabled={saveButton} onClick={() => props.addMaterial()}>Add</Button>{' '}
+          <Button color="primary" onClick={() => props.cancelAddMaterial()}>Cancel</Button>{' '}
+          <Button color="primary" disabled={saveButton} onClick={() => SaveNewMaterial()}>Add</Button>{' '}
           </ModalFooter>
       </Modal>
     </div>

@@ -9,6 +9,7 @@ useEffect(() => {
     setImage(ImageChecker.convertPath(props.project.imageLocation))
 }, [])
 
+
     return (
             <div className="project_Card">
                 <button className="project_Link_Button" onClick={ () => props.selectDisplay(props.project.id) }>

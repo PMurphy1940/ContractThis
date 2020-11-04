@@ -9,15 +9,17 @@ namespace ContractThis.Models
     public class ComponentMaterial
     {
         public int Id { get; set; }
+        [Required]
         public int ProjectComponentId { get; set; }
 
         [Required]
         [MaxLength(25)]
         public string MaterialName { get; set; }
         public string Notes { get; set; }
-        public int QuantityOnHand { get; set; }
-        public int QuantityRequired { get; set; }
-        public int QuantityUsed { get; set; }
+        public int? QuantityOnHand { get; set; }
+        public int? QuantityRequired { get; set; }
+        public int? QuantityUsed { get; set; }
+        [Required]
         public double Cost { get; set; }
     }
 }

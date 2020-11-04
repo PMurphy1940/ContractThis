@@ -175,7 +175,7 @@ namespace ContractThis.Repositories
                     }
 
                     cmd.CommandText = @"
-                                        SELECT sc.Id AS SubId, sc.SubContractorBusinessName, sc.SubContractorImageUrl
+                                        SELECT sc.Id AS SubId, sc.SubContractorBusinessName, sc.SubContractorImageUrl, sc.BusinessStatement
                                         FROM SubContractor sc
                                         LEFT JOIN SubContractorJobType jt ON jt.SubContractorId = sc.Id
                                         LEFT JOIN SubContractorType st ON jt.SubContractorTypeId = st.Id
@@ -193,6 +193,7 @@ namespace ContractThis.Repositories
                         {
                             Id = DbUtilities.GetInt(reader, "SubId"),
                             SubcontractorBusinessName = DbUtilities.GetString(reader, "SubContractorBusinessName"),
+                            BusinessStatement = DbUtilities.GetString(reader, "BusinessStatement"),
                             SubContractorImageLocation = DbUtilities.GetString(reader, "SubContractorImageUrl")
                         };
                         subsOfType.Add(sub);

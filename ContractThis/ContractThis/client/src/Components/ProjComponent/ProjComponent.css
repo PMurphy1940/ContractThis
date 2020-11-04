@@ -34,15 +34,39 @@
     margin-top: 1rem;
 }
 
+.search_Container_Large{
+    border:lightgray 1px solid;
+    margin: .5rem;
+    display:flex;
+    justify-content: space-between;
+}
+.search_LeftAndRight{
+    width: 100%;
+    display:flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.search_Top {
+    min-width:45%;
+    border:lightgray 1px solid;
+}
+
 .search_Subs{
     display: flex;
     justify-content: center;
     align-items: center;
 }
-.search_Results {
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
+
+.search_Result_Card_Banner{
+    min-width:4rem;
+    text-align: center;
+}
+
+.searchSubs_Detail_Card{
+    width:75%;
+    margin: 1rem;
+    padding:.5rem;
+    border:lightgray 1px solid;
 }
 
 .initialChat_Form{

@@ -13,7 +13,7 @@ export function WindowStateProvider(props) {
     const [initialBidFormActive, setInitialBidFormActive] =useState(false);
     const [addImageWindowOpen, setAddImageWindowOpen] = useState(false);
     const [showImages, setShowImages] = useState(true);
-    const [viewShoppingList, setViewShoppingList] = useState(true);
+    const [viewShoppingList, setViewShoppingList] = useState(false);
     const [showBigShoppingList, setShowBigShoppingList] = useState(false);
     const [openDeleteModal, setOpenDeleteModal] = useState(false);
     const [openDeleteProjectModal, setOpenDeleteProjectModal] = useState(false);

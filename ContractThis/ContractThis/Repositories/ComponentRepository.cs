@@ -75,13 +75,26 @@ namespace ContractThis.Repositories
                             component.ComponentImages = new List<ProjectComponentImages>();
                             component.componentMaterials = new List<ComponentMaterial>();
                         }
+
+                        //Check to see if there is an image on this read row, and if there is, only add it if it is unique
                         if (DbUtilities.IsNotDbNull(reader, "PCImageId"))
                         {
-                            component.ComponentImages.Add(DbModelBuilder.BuildComponentImageModel(reader));
+                            var imageId = DbUtilities.GetInt(reader, "PCImageId");
+                            var existingImage = component.ComponentImages.FirstOrDefault(p => p.Id == imageId);
+                            if (existingImage == null)
+                            {
+                                component.ComponentImages.Add(DbModelBuilder.BuildComponentImageModel(reader));
+                            }
                         }
+                        //Check to see if there is a material on this read row, and if there is, only add it if it is unique
                         if (DbUtilities.IsNotDbNull(reader, "MaterialId"))
                         {
-                            component.componentMaterials.Add(DbModelBuilder.BuildComponentMaterialModel(reader));
+                            var materialId = DbUtilities.GetInt(reader, "MaterialId");
+                            var existingMaterial = component.componentMaterials.FirstOrDefault(p => p.Id == materialId);
+                            if (existingMaterial == null)
+                            {
+                                component.componentMaterials.Add(DbModelBuilder.BuildComponentMaterialModel(reader));
+                            }
                         }
 
                     }

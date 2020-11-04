@@ -35,7 +35,7 @@ namespace ContractThis.Controllers
             var currentUser = GetCurrentUserProfile();
             int? subContractorId = null;
             var checkProject = _componentRepository.CheckComponentProjectForAuth(material.ProjectComponentId);
-            if (checkProject.Components[0] != null)
+            if (checkProject.Components.Count > 0)
             {
                 subContractorId = checkProject.Components[0].SubcontractorId;
             }
