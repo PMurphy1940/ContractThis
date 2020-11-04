@@ -1,16 +1,21 @@
-import React, { useState, useContext } from 'react';
-import { ProjectContext } from "../../../Providers/ProjectProvider"
-import FadeIn from "../../../Helpers/FadeIn"
+import React, { useState, useContext, useRef } from 'react';
+import { ProjectContext } from "../../../Providers/ProjectProvider";
+import FadeIn from "../../../Helpers/FadeIn";
+import { Form, FormGroup, Label, Input, InputGroup, InputGroupAddon, InputGroupText, Alert } from "reactstrap";
+import { ImageContext } from "../../../Providers/ImageProvider";
 
 const ProjectEditForm = (props) => {
+    const [projectStartName] = useState(props.displayProject.projectName)
     const [saveButton, setSaveButton] = useState(false);
     const [saveButtonClass, setSaveButtonClass] = useState("project_Save")
     const [projNameReq, setProjNameReq] = useState(false);
     const [projDescReq, setProjDescReq] = useState(false);
     const [badNumbers, setBadNumbers] = useState(false);
-
+    const [imagePreview, setImagePreview] = useState(null);
+    const { uploadImage } = useContext(ImageContext);
     const [projectToEdit, setProjectToEdit] = useState({...props.displayProject})
-
+    const imageUrl = useRef();
+    
     const {
         UpdateProject
     } =useContext(ProjectContext)
@@ -26,23 +31,67 @@ const ProjectEditForm = (props) => {
         setBadNumbers(false);
       };
 
-    const SaveEditedProject = () => {
-                //Form validation//
-                if (projectToEdit.projectName === ""){
-                    setProjNameReq(true)
-                    return
-                }
-                if (projectToEdit.projectDescription === ""){
-                    setProjDescReq(true)
-                    return
-                }
+    const previewImage = evt => {
+        if (evt.target.files.length) {
+            setImagePreview(URL.createObjectURL(evt.target.files[0]));
+        }
+    };
+
+    const previewImageUrl = evt => {
+        if (evt.target.value.length) {
+            setImagePreview(evt.target.value);
+        }
+    }
+
+    const SaveNewProject = () => {
+        //Form validation//
+        if (projectToEdit.projectName === ""){
+            setProjNameReq(true)
+            return
+        }
+        if (projectToEdit.projectDescription === ""){
+            setProjDescReq(true)
+            return
+        }
+
         projectToEdit.budget = parseInt(projectToEdit.budget)
-                //Check to see if the parseInt returned NaN//
-                if ( projectToEdit.budget !== Number(projectToEdit.budget)){
-                    setBadNumbers(true)
-                    return
-                }
-        UpdateProject(projectToEdit)
+        //Check to see if the parseInt returned NaN//
+        if ( projectToEdit.budget !== Number(projectToEdit.budget)){
+            setBadNumbers(true)
+            return
+        }
+
+        const file = document.querySelector('input[type="file"]').files[0];
+
+        if (file !== undefined) {
+            const fileName = file.name.split('.');
+
+            const availFileTypes = [
+                'png', 'PNG', 'bmp','BMP', 'jpeg', 'JPEG', 
+                 'jpg', 'JPG', 'gif', 'GIF'
+            ];
+
+            if (!availFileTypes.includes(fileName[1])) {
+                alert(`Sorry, file type ${fileName[1]} is not supported. Accepted Image File Types: .png, .gif, .jpg, .jpeg, and .bmp`);
+                return;
+            }
+            else {
+                //Append the end of the filename to reduce the chance of duplicates being in the database
+                let appendKey = `${new Date().getTime()}`;
+                appendKey = appendKey.slice(-6);
+                const newImageName = `${fileName[0]}${appendKey}.${fileName[1]}`;
+
+                const formData = new FormData();
+                formData.append('file', file, newImageName);
+
+                uploadImage(formData, newImageName);
+                projectToEdit.imageLocation = newImageName;
+            }
+        }
+        else if (file === undefined && imageUrl.value !== "") {
+            projectToEdit.imageLocation = imageUrl.value;
+        }
+        UpdateProject(projectToEdit);
      };
 
     return (
@@ -53,13 +102,14 @@ const ProjectEditForm = (props) => {
                         direction='right'
                         distance='600'
                             >
-                        <h6 className="add_Project_Banner">Edit Project
+                        <h6 className="add_Project_Banner">Edit Project -- {projectStartName}
                             <div>
-                                <button id={saveButtonClass} disabled={!saveButton} className="far fa-check-circle" onClick={() => SaveEditedProject() }/>
+                                <button id={saveButtonClass} disabled={!saveButton} className="far fa-check-circle" onClick={() => SaveNewProject() }/>
                                 <button className="fas fa-minus-circle project_Cancel" onClick={() => props.cancelAdd() }/>
                             </div>
                         </h6>
-                            <fieldset className="projectForm form">
+                        <fieldset className="projectForm form">
+                            <div className="project_Form_Left_Side">
                                 <label htmlFor="projectName" className="form_input">Project Name</label>
                                 <input
                                     id="projectName"
@@ -94,7 +144,7 @@ const ProjectEditForm = (props) => {
                                     onChange={ (e) => handleFieldChange(e)}
                                     value={projectToEdit.projectDescription}
                                 />
-                                {(projDescReq) ? <p className="required">Project description required</p> : <p> </p>}
+                                {(projDescReq) ? <p className="required">Project description required</p> : <p></p>}
                                 <label htmlFor="budget" className="form_input">budget</label>
                                 <input
                                     id="budget"
@@ -104,16 +154,44 @@ const ProjectEditForm = (props) => {
                                     value={projectToEdit.budget}
                                 />
                                 {(badNumbers) ? <p className="required">Budget must be a number</p> : <p></p>}
-                                <label htmlFor="imageLocation" className="form_input">Image Location</label>
-                                <input
-                                    id="imageLocation"
-                                    className="form_input"
-                                    innerref="imageLocation"
-                                    onChange={ (e) => handleFieldChange(e)}
-                                    value={projectToEdit.imageLocation}
-                                />
+                                
+                            </div>
+                            <Form>
+                            <div className="project_Form_Right_Side">
+                            <FormGroup>
+                                <Label for="imageUpload">Upload an Image</Label>
+                                <Input
+                                    type="file"
+                                    name="file"
+                                    id="imageUpload"
+                                    onChange={previewImage}
+                                    onClick={() => imageUrl.current.value = ""} />
+                                <InputGroup className="mt-2">
+                                    <InputGroupAddon addonType="prepend">
+                                        <InputGroupText>OR</InputGroupText>
+                                    </InputGroupAddon>
 
-                            </fieldset>
+                                    <Input
+                                        type="text"
+                                        name="imageUrl"
+                                        id="imageUrl"
+                                        innerRef={imageUrl}
+                                        placeholder="Input an Image URL"
+                                        onChange={previewImageUrl}
+
+                                    />
+                                </InputGroup>
+                            </FormGroup>
+                            <FormGroup>
+                                {
+                                    imagePreview === null ?
+                                        <Alert color="light">No image provided.</Alert>
+                                        : <img src={imagePreview} alt="preview" className="img-thumbnail" />
+                                }
+                            </FormGroup>
+                            </div>
+                            </Form>
+                        </fieldset>
                     </FadeIn>
                 </div>
         </>

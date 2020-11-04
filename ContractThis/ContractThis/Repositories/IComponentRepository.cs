@@ -7,7 +7,7 @@ namespace ContractThis.Repositories
     {
         void AddCompleteDateToComponent(ProjectComponent component);
         void AddComponentImage(ProjectComponentImages image);
-        Project CheckComponentProjectForDeleteAuth(int id);
+        Project CheckComponentProjectForAuth(int id);
         List<ProjectComponent> GetAllByProject(int id);
         ProjectComponent GetComponentById(int id);
         List<ProjectComponentImages> GetComponentImages(int id);

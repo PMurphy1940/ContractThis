@@ -67,7 +67,7 @@ const ComponentForm = (props) => {
                             <button className="fas fa-minus-circle project_Cancel" onClick={() => props.cancelAdd() }/>
                         </div>
                     </h6>
-                    <fieldset className="projectForm form">
+                    <fieldset className="componentForm form">
                         <label htmlFor="componentName" className="form_input">New Component Name</label>
                         <input
                             id="componentName"

@@ -105,7 +105,6 @@ const ComponentOverview = (props) => {
      
     return (
         <div className="big_Project_Board">
-            
                 <div className="top_Space">
                     <div className="little_Project_Card">
                         {(displayProject === undefined) ? history.push("/projects")

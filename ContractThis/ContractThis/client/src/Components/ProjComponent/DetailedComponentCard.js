@@ -69,7 +69,7 @@ const DetailedComponentCard = (props) => {
     const { setShowSearchSubs, addImageWindowOpen, setAddImageWindowOpen, 
             showImages, setShowImages, showSearchSubs, viewShoppingList, setViewShoppingList,
             showBigShoppingList, setShowBigShoppingList, setInitialBidFormActive, initialBidFormActive,
-            openDeleteModal, setOpenDeleteModal } = useContext(WindowStateContext)
+            openDeleteModal, setOpenDeleteModal, setOpenAddMaterialModal } = useContext(WindowStateContext)
     
     const { bid, GetBidByComponentId } = useContext(BidContext);
 

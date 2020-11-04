@@ -15,7 +15,7 @@ namespace ContractThis.Controllers
         private readonly IComponentRepository _componentRepository;
         private readonly IUserProfileRepository _userProfileRepository;
         private readonly IProjectRepository _projectRepository;
-        private readonly ISubcontractorRepository _SubcontractorRepository;
+        private readonly ISubcontractorRepository _subcontractorRepository;
 
         public ComponentController(IComponentRepository componentRepository, 
                                     IUserProfileRepository userProfileRepository, 
@@ -25,7 +25,7 @@ namespace ContractThis.Controllers
             _componentRepository = componentRepository;
             _userProfileRepository = userProfileRepository;
             _projectRepository = projectRepository;
-            _SubcontractorRepository = subcontractorRepository;
+            _subcontractorRepository = subcontractorRepository;
         }
 
         [HttpGet("{id}")]
@@ -112,7 +112,7 @@ namespace ContractThis.Controllers
         {
             //Ensure that the DELETE request is coming from the project owner
             var currentUser = GetCurrentUserProfile();
-            var checkProject = _componentRepository.CheckComponentProjectForDeleteAuth(id);
+            var checkProject = _componentRepository.CheckComponentProjectForAuth(id);
             if (currentUser.Id == checkProject.UserProfileId)
             {
                 _projectRepository.DeleteComponent(id);

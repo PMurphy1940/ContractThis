@@ -161,5 +161,27 @@ namespace ContractThis.Utilities
 
             return image;
         }
+
+        /// <summary>
+        /// Builds an instance of a SubContractorJob ('Is a' ProjectComponent) from a Sql Data Reader object
+        /// </summary>
+        /// <param name="reader"></param>
+        /// <returns>Instance of a <strong>SubContractorJob</strong></returns>
+        public static ComponentMaterial BuildComponentMaterialModel(SqlDataReader reader)
+        {
+            var material = new ComponentMaterial()
+            {
+                Id = DbUtilities.GetInt(reader, "MaterialId"),
+                ProjectComponentId = DbUtilities.GetInt(reader, "ComponentMaterialId"),
+                MaterialName = DbUtilities.GetString(reader, "MaterialName"),
+                Cost = DbUtilities.GetInt(reader, "Cost"),
+                QuantityOnHand = DbUtilities.GetInt(reader, "QuantityOnHand"),
+                QuantityRequired = DbUtilities.GetInt(reader, "QuantityOnRequired"),
+                QuantityUsed = DbUtilities.GetInt(reader, "QuantityUsed"),
+                Notes = DbUtilities.GetString(reader, "Notes"),
+            };
+
+            return material;
+        }
     }
 }

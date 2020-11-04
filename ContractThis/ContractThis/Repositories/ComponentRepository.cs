@@ -56,8 +56,10 @@ namespace ContractThis.Repositories
                 {
                     cmd.CommandText = @"SELECT 
                                           pci.ProjectComponentImageUrl, pci.Id AS PCImageId, "
-                                        + ProjectComponentSqlCommandText +
+                                        + ProjectComponentSqlCommandText + ", " 
+                                        +  ComponentMaterialSqlCommandText +
                                         @" FROM ProjectComponent pc
+                                        LEFT JOIN ComponentMaterial m ON m.ProjectComponentId = pc.Id
                                         LEFT JOIN ProjectComponentImages pci ON pci.ProjectComponentId = pc.Id
                                         WHERE pc.Id = @id";
                     DbUtilities.AddParameter(cmd, "@id", id);
@@ -71,12 +73,17 @@ namespace ContractThis.Repositories
                         {
                             component = DbModelBuilder.BuildProjectComponentModel(reader);
                             component.ComponentImages = new List<ProjectComponentImages>();
+                            component.componentMaterials = new List<ComponentMaterial>();
                         }
                         if (DbUtilities.IsNotDbNull(reader, "PCImageId"))
                         {
                             component.ComponentImages.Add(DbModelBuilder.BuildComponentImageModel(reader));
                         }
-                        
+                        if (DbUtilities.IsNotDbNull(reader, "MaterialId"))
+                        {
+                            component.componentMaterials.Add(DbModelBuilder.BuildComponentMaterialModel(reader));
+                        }
+
                     }
                     reader.Close();
                     return component;
@@ -159,7 +166,7 @@ namespace ContractThis.Repositories
                 }
             }
         }
-        public Project CheckComponentProjectForDeleteAuth(int id)
+        public Project CheckComponentProjectForAuth(int id)
         {
             using( var conn = Connection)
             {
@@ -167,7 +174,7 @@ namespace ContractThis.Repositories
                 using( var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                                        SELECT p.UserProfileId 
+                                        SELECT p.UserProfileId, pc.SubContractorId
                                         FROM ProjectComponent pc
                                         LEFT JOIN Project p on p.Id = pc.ProjectId
                                         WHERE pc.Id = @id
@@ -181,6 +188,16 @@ namespace ContractThis.Repositories
                     if (reader.Read())
                     {
                         authcheck.UserProfileId = DbUtilities.GetInt(reader, "UserProfileId");
+                        authcheck.Components = new List<ProjectComponent>();
+                        if (DbUtilities.IsNotDbNull(reader, "SubContractorId"))
+                        {
+                            var subId = new ProjectComponent();
+                            {
+                                subId.SubcontractorId = DbUtilities.GetInt(reader, "SubContractorId");
+                            }
+
+                            authcheck.Components.Add(subId);
+                        }
                     }
                     reader.Close();
                     return authcheck;

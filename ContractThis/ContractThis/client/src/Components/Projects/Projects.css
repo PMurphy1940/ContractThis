@@ -261,6 +261,12 @@ main {
 .project_Add_New_Form{
     width: 62.5%;
 }
+.componentForm {
+    display:flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    width: 100%;
+}
 
 .projectForm {
     display:flex;

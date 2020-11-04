@@ -19,5 +19,6 @@ namespace ContractThis.Models
         public DateTime? DateComplete { get; set; }
         public double MaterialCost { get; set; }
         public List<ProjectComponentImages> ComponentImages { get; set; }
+        public List<ComponentMaterial> componentMaterials { get; set; }
     }
 }

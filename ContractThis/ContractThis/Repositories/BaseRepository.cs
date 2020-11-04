@@ -99,5 +99,30 @@ namespace ContractThis.Repositories
                                                              pc.DateComplete AS PCDateComplete,
                                                              pc.MaterialCost
                                                             ";
+
+        /// <summary>
+        /// Generate the Sql command text to retrieve ComponentMaterial (m) 
+        /// information keyed in a way to populate the reader build methods.
+        /// </summary>
+        /// <returns>
+        /// m.Id AS MaterialId, <br/>
+        /// m.ProjectComponentId, <br/>
+        /// m.MaterialName, <br/>
+        /// m.Cost, <br/>
+        /// m.QuantityOnHand, <br/>
+        /// m.QuantityRequired, <br/>
+        /// m.QuantityUsed, <br/>
+        /// m.Notes
+        /// </returns>
+        protected static string ComponentMaterialSqlCommandText => @"
+                                                             m.Id AS MaterialId,
+                                                             m.ProjectComponentId AS ComponentMaterialId,
+                                                             m.MaterialName,
+                                                             m.Cost,
+                                                             m.QuantityOnHand,
+                                                             m.QuantityRequired,
+                                                             m.QuantityUsed,
+                                                             m.Notes
+                                                            ";
     }
 }

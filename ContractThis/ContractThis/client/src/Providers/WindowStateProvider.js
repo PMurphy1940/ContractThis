@@ -10,13 +10,14 @@ export function WindowStateProvider(props) {
     const [addCompActive, setAddCompActive] = useState(false);
     const [editProjectView, setEditProjectView] = useState(false);
     const [bidWindow, setBidWindow] = useState(false);
-    const [initialBidFormActive, setInitialBidFormActive] =useState(false)
+    const [initialBidFormActive, setInitialBidFormActive] =useState(false);
     const [addImageWindowOpen, setAddImageWindowOpen] = useState(false);
     const [showImages, setShowImages] = useState(true);
     const [viewShoppingList, setViewShoppingList] = useState(true);
     const [showBigShoppingList, setShowBigShoppingList] = useState(false);
     const [openDeleteModal, setOpenDeleteModal] = useState(false);
     const [openDeleteProjectModal, setOpenDeleteProjectModal] = useState(false);
+    const [openAddMaterialModal, setOpenAddMaterialModal] = useState(false);
 
 
 
@@ -37,7 +38,8 @@ export function WindowStateProvider(props) {
                 viewShoppingList, setViewShoppingList,
                 showBigShoppingList, setShowBigShoppingList,
                 openDeleteModal, setOpenDeleteModal,
-                openDeleteProjectModal, setOpenDeleteProjectModal
+                openDeleteProjectModal, setOpenDeleteProjectModal,
+                openAddMaterialModal, setOpenAddMaterialModal
             }}>
             {props.children}
         </WindowStateContext.Provider>
