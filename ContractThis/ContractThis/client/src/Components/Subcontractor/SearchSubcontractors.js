@@ -94,6 +94,7 @@ const SearchSubcontractor = (props) => {
             distance='1000'
             >
             <div className="large_Component_Detail_Images_Card">
+                
                 <h4 className="Images_Banner">Search Subcontractors
                     <button className="fas fa-minus-circle project_Cancel" onClick={() => props.cancelSearch() }/>
                 </h4>

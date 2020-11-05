@@ -1,19 +1,19 @@
 .outer_Container_Reg_Form {
-    width:50%;
+    width:40%;
     margin:auto;
+    margin-top:2rem;
 }
 
 .reg_And_Sub_Container{
     display:flex;
     margin-left: 10vw;
-    
 }
 
 .sub_Side_Popout{
     overflow-y: hidden;
-    margin-top:50vh;
+    margin-top:42vh;
     min-width: 15rem;
-    max-height: 20rem;
+    max-height: 22rem;
     border: 1px lightgray solid;
     z-index: -1;
 }
@@ -28,6 +28,5 @@
     z-index: 2;
     min-width: 20rem;
     border: 1px lightgray solid;
-    /* padding: 2rem; */
     justify-content: center;
 }

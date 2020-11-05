@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 import { ProfileContext } from "../../Providers/ProfileProvider";
 import { LoginContext } from "../../Providers/LoginStateProvider"
 import { SubContractorContext } from "../../Providers/SubContractorProvider"
@@ -92,6 +92,9 @@ return (
                 </fieldset>
               </Form>
             </div>
+            <em>
+              <Link to="/login">Return to login</Link>
+            </em>
           </div>
           
             {isSubcontractor && 

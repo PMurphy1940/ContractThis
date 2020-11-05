@@ -12,8 +12,9 @@ export function LoginProvider(props) {
     const [password, setPassword] = useState();
     const [confirmPassword, setConfirmPassword] = useState();
     const [isSubcontractor, setIsSubcontractor] = useState(false);
-    const [subcontractorBusinessName, setSubcontractorBusinessName] = useState()
-    const [subcontractorImageUrl, setSubcontractorImageUrl] = useState()
+    const [subcontractorBusinessName, setSubcontractorBusinessName] = useState();
+    const [subcontractorImageUrl, setSubcontractorImageUrl] = useState();
+    const [businessStatement, setBusinessStatement] =useState();
 
 
     return (

@@ -6,7 +6,7 @@ import FadeIn from "../../Helpers/FadeIn"
 const SubcontractorForm = () => {
 
     const { screenName, subcontractorBusinessName, setSubcontractorBusinessName,
-            subcontractorImageUrl, setSubcontractorImageUrl} =useContext(LoginContext)
+            subcontractorImageUrl, setSubcontractorImageUrl, setBusinessStatement} =useContext(LoginContext)
 
     return (
         <FadeIn
@@ -20,6 +20,10 @@ const SubcontractorForm = () => {
                             <FormGroup>
                                 <Label htmlFor="subcontractorBusinessName">Business Name</Label>
                                 <Input id="subcontractorBusinessName" type="text" placeholder={screenName} onChange={e => setSubcontractorBusinessName(e.target.value)} />
+                            </FormGroup>
+                            <FormGroup>
+                                <Label htmlFor="businessStatement">Business Statement</Label>
+                                <Input type="textarea"  id="businessStatement" onChange={e => setBusinessStatement(e.target.value)} />
                             </FormGroup>
                             <FormGroup>
                                 <Label htmlFor="subcontractorImageUrl">Logo</Label>

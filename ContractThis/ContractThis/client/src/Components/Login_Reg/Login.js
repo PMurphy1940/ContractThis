@@ -17,24 +17,32 @@ const Login = () => {
   };
 
     return (
-        <Form onSubmit={loginSubmit}>
-        <fieldset>
-          <FormGroup>
-            <Label for="email">Email</Label>
-            <Input id="email" type="text" onChange={e => setEmail(e.target.value)} />
-          </FormGroup>
-          <FormGroup>
-            <Label for="password">Password</Label>
-            <Input id="password" type="password" onChange={e => setPassword(e.target.value)} />
-          </FormGroup>
-          <FormGroup>
-            <Button>Login</Button>
-          </FormGroup>
-          <em>
-            New to ContractThis? <Link to="/register">Register Here</Link>
-          </em>
-        </fieldset>
-      </Form>
+      <div className="outer_Container_Reg_Form">
+        <div className="reg_And_Sub_Container">
+          <div className="registration_Form">
+            <div className="inner_Form_Box">
+              <Form onSubmit={loginSubmit}>
+                <fieldset>
+                  <FormGroup>
+                    <Label for="email">Email</Label>
+                    <Input id="email" type="text" onChange={e => setEmail(e.target.value)} />
+                  </FormGroup>
+                  <FormGroup>
+                    <Label for="password">Password</Label>
+                    <Input id="password" type="password" onChange={e => setPassword(e.target.value)} />
+                  </FormGroup>
+                  <FormGroup>
+                    <Button>Login</Button>
+                  </FormGroup>
+                  <em>
+                    New to ContractThis? <Link to="/register">Register Here</Link>
+                  </em>
+                </fieldset>
+              </Form>
+            </div>
+          </div>
+        </div>
+      </div>
     )
 }
 
